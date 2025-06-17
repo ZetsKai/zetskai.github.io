@@ -1,0 +1,17 @@
+:root {
+    --light-background: #e8e8e8;
+    --light-surface: #ffffff;
+    --light-inset-surface: #f4f4f4;
+    --light-border: #dadada;
+    --light-icon: #a0a0a0;
+    --light-text: #1b1b1b;
+    --light-inset-text: #888888;
+
+    --dark-background: #121212;
+    --dark-surface: #1b1b1b;
+    --dark-inset-surface: #272727;
+    --dark-border: #060606;
+    --dark-icon: #aaaaaa;
+    --dark-text: #f0f0f0;
+    --dark-inset-text: #c8c8c8;
+}
