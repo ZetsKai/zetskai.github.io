@@ -5,7 +5,7 @@
     background-color: var(--light-surface);
     padding: var(--spacing-lg);
     padding-bottom: 34px;
-    border: 1px solid var(--light-border);
+    border-top: 1px solid var(--light-border);
 }
 
 .footer__icon {
