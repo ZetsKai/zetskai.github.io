@@ -1,3 +1,30 @@
 .header {
-    border-bottom-style: solid;
+    display: flex;
+    background-color: var(--light-inset-surface);
+    border-bottom: 1px solid var(--light-border);
+    /* border-bottom-style: solid; */
+}
+
+.header__tab {
+    display: flex;
+    flex-basis: 100%;
+    flex-grow: 1;
+    justify-content: center;
+    align-items: center;
+    padding: var(--spacing-lg);
+    padding-top: 34.5px;
+}
+
+.header__icon {
+    height: var(--icon-xl);
+    width: auto;
+    color: var(--light-icon);
+}
+
+.header__tab--selected {
+    background-color: var(--light-surface);
+
+    .header__icon {
+        color: var(--light-text);
+    }
 }
