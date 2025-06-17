@@ -1,0 +1,25 @@
+@import url("/assets/style/fills.css");
+@import url("/assets/style/size.css");
+@import url("/assets/style/theme.css");
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+html, body {
+    height: 100%;
+}
+
+html {
+    background-color: var(--light-background);
+    color: var(--light-text);
+    padding: var(--spacing-xl);
+}
+
+.surface {
+    background-color: var(--light-surface);
+    border: 1px solid var(--light-border);
+    padding: var(--spacing-lg);
+}
