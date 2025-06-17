@@ -25,6 +25,6 @@
     background-color: var(--light-surface);
 
     .header__icon {
-        color: var(--light-text);
+        color: var(--fill-accent-brand);
     }
 }
