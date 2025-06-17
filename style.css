@@ -1,6 +1,7 @@
 @import url("/assets/style/fills.css");
 @import url("/assets/style/size.css");
 @import url("/assets/style/theme.css");
+@import url("/layout/layout.css");
 
 * {
     padding: 0;
@@ -15,12 +16,16 @@ html, body {
 html {
     background-color: var(--light-background);
     color: var(--light-text);
+}
+
+main {
+    overflow-y: scroll;
     padding: var(--spacing-xl);
 }
 
 .surface {
     padding: var(--spacing-lg);
-    border: 1px solid var(--light-border);
-    border-radius: 8px;
+    border-width: 1px;
+    border-color: var(--light-border);
     background-color: var(--light-surface);
 }
