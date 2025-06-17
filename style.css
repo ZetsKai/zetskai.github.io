@@ -19,7 +19,8 @@ html {
 }
 
 .surface {
-    background-color: var(--light-surface);
-    border: 1px solid var(--light-border);
     padding: var(--spacing-lg);
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    background-color: var(--light-surface);
 }
