@@ -1,8 +1,11 @@
 .footer {
     display: flex;
     justify-content: space-around;
-    padding-bottom: 84px;
     border-top-style: solid;
+    background-color: var(--light-surface);
+    padding: var(--spacing-lg);
+    padding-bottom: 34px;
+    border: 1px solid var(--light-border);
 }
 
 .footer__icon {
