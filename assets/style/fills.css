@@ -1,0 +1,13 @@
+:root {
+    --fill-accent-brand: #ED5F8A;
+    --fill-accent-blue: #25477B;
+    --fill-accent-orange: #A44837;
+    --fill-accent-green: #005A37;
+    --fill-accent-neuter: #303030;
+
+    --fill-safe: #5BD838;
+    --fill-questionable: #F0BB2B;
+    --fill-explicit: #E71C1C;
+
+    --fill-heart: #DE3D3D;
+}
