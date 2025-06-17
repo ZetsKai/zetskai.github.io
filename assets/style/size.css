@@ -1,0 +1,16 @@
+:root {
+    --spacing-sm: 4px;
+    --spacing-md: 8px;
+    --spacing-lg: 12px;
+    --spacing-xl: 16px;
+
+    --text-sm: 10px;
+    --text-md: 16px;
+    --text-lg: 24px;
+    --text-xl: 32px;
+
+    --icon-sm: 8px;
+    --icon-md: 16px;
+    --icon-lg: 24px;
+    --icon-xl: 32px;
+}
