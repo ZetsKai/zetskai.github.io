@@ -1,7 +1,7 @@
 .footer {
     display: flex;
     justify-content: space-around;
-    padding-bottom: 32px;
+    padding-bottom: 44px;
     border-top-style: solid;
 }
 
