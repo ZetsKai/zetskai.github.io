@@ -1,3 +1,15 @@
-.header {
+.footer {
+    display: flex;
+    justify-content: space-around;
     border-top-style: solid;
+}
+
+.footer__icon {
+    height: 32px;
+    width: auto;
+    color: var(--light-icon);
+}
+
+.footer__icon--selected {
+    color: var(--fill-accent-brand);
 }
