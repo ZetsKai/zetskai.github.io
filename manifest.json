@@ -1,6 +1,6 @@
 {
-    "short_name": "Foxden",
-    "name": "Foxden, the cute e621 client",
+    "short_name": "Foxhole",
+    "name": "Foxhole, the cute e621 client",
     "icons": [
         {
             "src": "./assets/icons/foxden-icon-192.png",
