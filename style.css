@@ -2,6 +2,7 @@
 @import url("/assets/style/size.css");
 @import url("/assets/style/theme.css");
 @import url("/layout/layout.css");
+@import url("/pages/pages.css");
 
 * {
     padding: 0;
@@ -29,8 +30,12 @@ main {
     gap: var(--spacing-xl);
     flex-basis: 100%;
     flex-grow: 1;
-    overflow-y: scroll;
     padding: var(--spacing-xl);
+}
+
+#root {
+    height: 100%;
+    overflow-y: scroll;
 }
 
 .surface {
@@ -58,4 +63,10 @@ main {
     flex-basis: auto;
     border: 1px solid var(--light-border);
     border-radius: 8px;
+}
+
+button {
+    position: absolute;
+    left: 5%;
+    top: 15%;
 }
