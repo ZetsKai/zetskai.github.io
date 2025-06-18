@@ -1,16 +1,50 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Settings</title>
-    <link rel="stylesheet" href="/style.css">
-    <link rel="manifest" href="/manifest.json">
-</head>
-<body>
-    <header class="surface">hi</header>
-    <main>
-        <h1>Settings</h1>
-    </main>
-</body>
-</html>
+.profile, .appearance, .tools {
+    background-color: var(--light-surface);
+    border-radius: 8px;
+    border: 1px solid var(--light-border);
+    overflow: hidden;
+}
+
+.profile {
+}
+
+.profile__user, .option {
+    padding: var(--spacing-lg);
+}
+
+.profile__user {
+    display: flex;
+    align-items: center;
+    border-bottom: 1px solid var(--light-border);
+}
+
+.profile__pfp {
+    height: 64px;
+    width: auto;
+}
+
+.profile__username {
+    font-size: 24px;
+}
+
+.profile__arrow {
+    height: 32px;
+    width: auto;
+    margin-left: auto;
+    color: var(--light-icon);
+}
+
+.option {
+    display: flex;
+    align-items: center;
+    gap: var(--spacing-md);
+
+    &:hover {
+        background-color: var(--light-inset-surface);
+    }
+}
+
+.option__arrow {
+    margin-left: auto;
+    color: var(--light-icon);
+}
