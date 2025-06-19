@@ -1,9 +1,6 @@
-.search {
-}
+@import url("./components/post-tabs/posts-tabs.css");
 
-.search__column {
-    flex-basis: 50%;
-}
+.search__column { flex-basis: 50%; }
 
 .search__image {
     width: 100%;
