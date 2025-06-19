@@ -1,0 +1,8 @@
+.in-development__elem {
+    flex-direction: column;
+    background-color: red;
+    color: white;
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    padding: var(--spacing-lg);
+}
