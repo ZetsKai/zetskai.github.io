@@ -1,0 +1,19 @@
+.surface { background-color: var(--light-surface); }
+.inset { background-color: var(--light-inset-surface); }
+.border { border: 1px solid var(--light-border); }
+.rounded { border-radius: 8px; }
+.padding { padding: var(--spacing-lg); }
+
+.page-elem {
+    background-color: var(--light-background);
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    padding: var(--spacing-lg);
+}
+
+.page-inset {
+    background-color: var(--light-inset-surface);
+    border: 1px solid var(--light-border);
+    border-radius: 8px;
+    padding: var(--spacing-md);
+}
