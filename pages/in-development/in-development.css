@@ -1,5 +1,11 @@
-.in-development__elem {
+.in-development {
     flex-direction: column;
+}
+
+.in-development__elem {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
     background-color: red;
     color: white;
     border: 1px solid var(--light-border);
