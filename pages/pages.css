@@ -1,1 +1,8 @@
+@import url("./search/search.css");
 @import url("./settings/settings.css");
+
+.page {
+    display: flex;
+    gap: var(--spacing-xl);
+    padding: var(--spacing-xl);
+}
