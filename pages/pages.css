@@ -1,7 +1,6 @@
 @import url("./search/search.css");
 @import url("./settings/settings.css");
 @import url("./in-development/in-development.css");
-@import url("./not-found/not-found.css");
 
 .page {
     display: flex;
