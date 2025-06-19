@@ -1,3 +1,5 @@
+.settings { flex-direction: column; }
+
 .profile, .appearance, .tools {
     background-color: var(--light-surface);
     border-radius: 8px;
