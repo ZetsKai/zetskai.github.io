@@ -1,8 +1,11 @@
+import { defineCustomElement } from "./utils/defineCustomElement.js";
 import { router, goToPage } from "./router.js";
 import { handleClick, setSelectedBtn } from "./layout/footer/footer.js";
+import './pages/search/search.js';
 
 const footerBtns = document.querySelectorAll('.footer__btn');
 const initialPage = footerBtns[0].href;
+
 
 footerBtns.forEach(btn => btn.addEventListener('click', (e) => router(handleClick(e))));
 
