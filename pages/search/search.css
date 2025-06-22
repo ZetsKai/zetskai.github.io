@@ -1,5 +1,15 @@
 @import url("./components/posts-tabs/posts-tabs.css");
 
+
+.search__subpage {
+    display: none;
+    gap: var(--spacing-xl);
+}
+
+.search__subpage--selected {
+    display: flex;
+}
+
 .search__column { flex-basis: 50%; }
 
 .search__image {
@@ -12,5 +22,3 @@
         margin-bottom: var(--spacing-xl);
     }
 }
-
-/* tf why is this not committing */
