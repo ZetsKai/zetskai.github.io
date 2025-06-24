@@ -3,11 +3,11 @@ import './layout/layoutExporter.js'
 import './pages/search/search.js';
 
 const footer = document.querySelector('page-switcher');
-const initialPage = footer.getBtn(0).href
+let initialPage = footer.shadowRoot.querySelector(`#search`);
 
-window.history.replaceState({ page: initialPage, btn: footer.getBtn(0).id }, null, '');
+window.history.replaceState({ page: initialPage.href, btn: initialPage.id }, null, '');
 Router.goToPage(initialPage);
-footer.selectBtn(footer.getBtn(0).id)
+footer.selectBtn(initialPage.id);
 
 window.addEventListener('popstate', (e) => {
     Router.goToPage(e.state.page);
