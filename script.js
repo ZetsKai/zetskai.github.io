@@ -1,5 +1,6 @@
-import { Router } from "./router.js";
-import './layout/layoutExporter.js'
+import { Router } from './router.js';
+import { MenuHeader } from './layout/menuHeader.js';
+import { Footer } from './layout/footer.js'
 import './pages/search/search.js';
 
 const footer = document.querySelector('page-switcher');
