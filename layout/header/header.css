@@ -1,8 +1,0 @@
-.header {
-    padding: var(--spacing-lg);
-    background-color: var(--light-surface);
-}
-
-.header__title {
-    text-align: center;
-}
