@@ -1,17 +1,16 @@
 @import url("/assets/style/fills.css");
 @import url("/assets/style/size.css");
 @import url("/assets/style/theme.css");
-@import url("/layout/layout.css");
 @import url("/pages/pages.css");
 
 * {
-    padding: 0;
-    margin: 0;
     box-sizing: border-box;
 }
 
 html, body {
     height: 100%;
+    padding: 0;
+    margin: 0;
 }
 
 html {
