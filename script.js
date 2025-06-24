@@ -1,20 +1,17 @@
-import { defineCustomElement } from "./utils/defineCustomElement.js";
-import { router, goToPage } from "./router.js";
-import { handleClick, setSelectedBtn } from "./layout/footer/footer.js";
+import { Router } from "./router.js";
+import './layout/layoutExporter.js'
 import './pages/search/search.js';
 
-const footerBtns = document.querySelectorAll('.footer__btn');
-const initialPage = footerBtns[0].href;
+const footer = document.querySelector('page-switcher');
+const initialPage = footer.getBtn(0).href
 
-
-footerBtns.forEach(btn => btn.addEventListener('click', (e) => router(handleClick(e))));
-
-// if (window.history.state.count != undefined) window.history.go(window.history.state.count);
-
-window.history.replaceState({page: initialPage, btn: footerBtns[0].id, count: 0}, null, '');
-goToPage(initialPage);
+window.history.replaceState({ page: initialPage, btn: footer.getBtn(0).id }, null, '');
+Router.goToPage(initialPage);
+footer.selectBtn(footer.getBtn(0).id)
 
 window.addEventListener('popstate', (e) => {
-    goToPage(e.state.page);
-    setSelectedBtn(e.state.btn);
+    Router.goToPage(e.state.page);
+    footer.selectBtn(e.state.btn)
 });
+
+document.addEventListener('switch-page', Router.getRoute);
