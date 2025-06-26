@@ -1,12 +1,9 @@
 import { defineCustomElement } from "../utils/defineCustomElement.js";
+import { hostResets } from "../assets/style/hostResets.js"
 
 const style = /*css*/`
     :host {
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
+        ${hostResets}
 
         position: relative;
         display: flex;
@@ -17,20 +14,22 @@ const style = /*css*/`
         border-bottom: solid 1px var(--light-border);
     }
 
-    ::slotted(.button__icon) {
+    ::slotted(.button) {
         position: absolute;
-        top: 0;
         left: 0;
         height: 32px;
         width: auto;
         color: var(--light-icon);
     }
+    ::slotted(:hover) {
+        color: black;
+    }
 `;
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <slot class="button" name="button"></slot>
-    <slot class="title" name="title"><span>Menu Title</span></slot>
+    <slot name="button"></slot>
+    <slot name="title"><span class="title">Menu Title</span></slot>
 
     <style>${style}</style>
 `;
