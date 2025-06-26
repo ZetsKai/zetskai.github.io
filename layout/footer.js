@@ -1,13 +1,10 @@
+import { hostResets } from "../assets/style/hostResets.js";
 import { defineCustomElement } from "../utils/defineCustomElement.js";
 
 const style = /*css*/`
-    :host {
-        * {
-            padding: 0;
-            margin: 0;
-            box-sizing: border-box;
-        }
+    ${hostResets}
 
+    :host {
         display: flex;
         justify-content: center;
         padding: var(--spacing-lg);
@@ -23,7 +20,7 @@ const style = /*css*/`
         flex-grow: 1;
         color: var(--light-icon);
 
-        &[data-selected] { color: var(--fill-accent-brand) !important; }
+        &[data-selected] { color: var(--fill-accent-brand); }
     }
 
     .icon {
