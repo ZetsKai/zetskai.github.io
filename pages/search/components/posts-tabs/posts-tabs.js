@@ -1,4 +1,4 @@
-import { defineCustomElement } from "../../../../utils/defineCustomElement.js";
+import { defineCustomElement } from "../../../utils/defineCustomElement.js";
 
 const style = /*css*/`
 	:host * {
@@ -13,7 +13,7 @@ const style = /*css*/`
 		margin: 100px !important;
 		
 		background-color: var(--light-inset-surface);
-		border-bottom: 1px solid var(--light-border);
+		// border-bottom: 1px solid var(--light-border);
 		box-sizing: border-box;
 	}
 
