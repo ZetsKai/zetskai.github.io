@@ -2,8 +2,9 @@ import { defineCustomElement } from "../utils/defineCustomElement.js";
 import { hostResets } from "../assets/style/hostResets.js"
 
 const style = /*css*/`
+    ${hostResets}
+
     :host {
-        ${hostResets}
 
         position: relative;
         display: flex;
