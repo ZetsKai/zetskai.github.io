@@ -1,20 +1,13 @@
+import { hostResets } from "../../../assets/style/hostResets.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
 
 const style = /*css*/`
-	:host * {
-		margin: 0;
-		padding: 0;
-		box-sizing: border-box;
-	}
+	${hostResets}
+
 	:host {
 		display: flex;
-
-		// ! - The light dom's global css' resets are leaking into here!
-		margin: 100px !important;
-		
 		background-color: var(--light-inset-surface);
-		// border-bottom: 1px solid var(--light-border);
-		box-sizing: border-box;
+		border-bottom: 1px solid var(--light-border);
 	}
 
 	.tab {
