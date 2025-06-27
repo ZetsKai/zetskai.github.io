@@ -58,6 +58,10 @@ export class Gallery extends HTMLElement {
     
         // const posts = fetch();
         const posts = [
+            'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg',
+            'https://static1.e926.net/data/8d/eb/8deb2ae9fe81f9f6383a24c591bdd3be.png',
+            'https://static1.e926.net/data/22/f6/22f6672e35a8aab9f4dc0140f46f9b96.jpg',
+            'https://static1.e926.net/data/8b/a7/8ba7610b0a2b91d91aebf4a55e131aa7.png',
             'https://static1.e926.net/data/ab/b7/abb730ed9734e6ec1c08c6d90be59be4.jpg',
             'https://static1.e926.net/data/e2/d3/e2d3892a36c9bc4e2e8e44720b07ee48.png',
             'https://static1.e926.net/data/c0/fa/c0fa5293f1d1440c2d3f2c3e027d3c36.jpg',
