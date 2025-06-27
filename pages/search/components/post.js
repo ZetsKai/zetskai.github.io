@@ -39,8 +39,9 @@ const style = /*css*/`
         padding: var(--spacing-sm);
         font-size: 12px;
         border-radius: 0 8px 0 0;
-        background-color: rgba(0 0 0 / 0.5);
+        background-color: rgba(0 0 0 / 0.65);
         color: white;
+        backdrop-filter: blur(0.5px);
     }
 
     .stats[data-rating]::after {
