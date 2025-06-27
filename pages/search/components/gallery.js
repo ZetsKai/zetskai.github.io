@@ -6,21 +6,28 @@ const style = /*css*/`
     ${hostResets}
 
     :host {
+        --gap: var(--spacing-lg);
+
         display: none;
     }
 
     :host(.search__subpage--selected) {
         display: flex;
-        gap: var(--spacing-xl);
+        gap: var(--gap);
     }
 
-    .column { flex-basis: 50%; }
+    ::slotted(.column) {
+        display: flex;
+        flex-direction: column;
+        flex-basis: 100%;
+        grow: 1;
+        gap: var(--gap);
+    }
 `;
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <div class="column"></div>
-    <div class="column"></div>
+    <slot></slot>
 
     <style>${style}</style>
 `;
@@ -39,17 +46,16 @@ export class Gallery extends HTMLElement {
     connectedCallback() {
         
         if (this.#loaded) return
-        console.log(this.#loaded);
         this.getImages();
         this.#loaded = true;
-        console.log(this.#loaded);
     }
 
     disconnectedCallback() {}
 
     async getImages() {
-        const columns = this.shadowRoot.querySelectorAll('.column');
-
+        const columns = this.shadowRoot.querySelector('slot').assignedElements();
+        if (columns.length === 0) return;
+    
         // const posts = fetch();
         const posts = [
             'https://static1.e926.net/data/ab/b7/abb730ed9734e6ec1c08c6d90be59be4.jpg',
@@ -65,7 +71,11 @@ export class Gallery extends HTMLElement {
             const postComp = document.createElement('post-image');
             postComp.assignImage(post);
             columns[flag].appendChild(postComp);
-            flag ^=  1;
+
+            if (flag >= (columns.length - 1))
+                flag = 0;
+            else
+                flag++;
         });
     }
 }
