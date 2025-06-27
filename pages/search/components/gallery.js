@@ -76,10 +76,8 @@ export class Gallery extends HTMLElement {
             postComp.assignImage(post);
             columns[flag].appendChild(postComp);
 
-            if (flag >= (columns.length - 1))
-                flag = 0;
-            else
-                flag++;
+            if (flag >= (columns.length - 1)) flag = 0;
+            else flag++;
         });
     }
 }
