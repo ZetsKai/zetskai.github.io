@@ -14,10 +14,6 @@ const style = /*css*/`
         border-radius: 8px;
     }
 
-    :host(:not(:last-of-type)) {
-        margin-bottom: var(--spacing-xl);
-    }
-
     :host-context(.column) {
         width: 100%;
     }
