@@ -8,7 +8,7 @@
 }
 
 html, body, div, main, article, section, aside, footer, nav,
-h1, h2, h3, h4, h5, h6, p, a, span, button,
+h1, h2, h3, h4, h5, h6, p, a, span, button, input,
 img, video {
     padding: 0;
     margin: 0;
@@ -20,14 +20,13 @@ html, body {
 }
 
 html {
-    background-color: var(--light-background);
-    color: var(--light-text);
+    background-color: var(--background);
+    color: var(--text);
 }
 
 body {
     display: flex;
     flex-direction: column;
-    /* overflow: hidden; */
 }
 
 #root {
