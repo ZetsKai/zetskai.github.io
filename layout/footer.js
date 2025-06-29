@@ -7,10 +7,11 @@ const style = /*css*/`
     :host {
         display: flex;
         justify-content: center;
+        flex-shrink: 0;
         padding: var(--spacing-lg);
         padding-bottom: calc(var(--spacing-lg) + 13px);
-        background-color: var(--light-surface);
-        border-top: 1px solid var(--light-border);
+        background-color: var(--surface);
+        border-top: 1px solid var(--border);
     }
 
     .btn {
@@ -18,7 +19,7 @@ const style = /*css*/`
         justify-content: center;
         flex-basis: 100%;
         flex-grow: 1;
-        color: var(--light-icon);
+        color: var(--icon);
 
         &[data-selected] { color: var(--fill-accent-brand); }
     }
