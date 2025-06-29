@@ -10,7 +10,7 @@ const style = /*css*/`
         overflow: hidden;
         width: 100%;
         background-color: green;
-        border: 1px solid var(--light-border);
+        border: 1px solid var(--border);
         border-radius: 8px;
     }
 
