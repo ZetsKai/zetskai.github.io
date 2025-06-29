@@ -1,7 +1,7 @@
 .settings {
     width: 100%;
     height: 100%;
-    overflow-x: scroll;
+    overflow: hidden;
 }
 
 .settings__section {
@@ -18,7 +18,8 @@
 .settings__card {
     overflow: hidden;
     flex-shrink: 0;
+    padding: var(--spacing-lg);
     border-radius: 8px;
-    background-color: var(--light-surface);
-    border: 1px solid var(--light-border);
+    background-color: var(--surface);
+    border: 1px solid var(--border);
 }
