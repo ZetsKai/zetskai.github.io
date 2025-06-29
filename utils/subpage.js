@@ -5,14 +5,30 @@ export const popHistory = () => subpages.pop();
 
 export function moveSubpageIntoView(subpageId) {
     const subpage = document.querySelector(`#${subpageId}.subpage`);
-    console.log(subpage);
     if (subpage == undefined) return;
 
+    
+    subpage.classList.add('subpage--visible')
+    const location = subpage.getBoundingClientRect().left;
     const page = document.querySelector('.page');
 
-    subpage.classList.add('subpage--visible')
-    page.scrollTo({
-        left: subpage.getBoundingClientRect().left,
+    page.scrollBy({
+        left: location,
         behavior: 'smooth'
     });
+}
+
+export function hideSubpage() {
+    const subpages = document.querySelectorAll('.subpage--visible');
+    if (subpages.length <= 1) return;
+    
+    const page = document.querySelector('.page');
+    const lastSubpage = subpages[subpages.length - 2];
+
+    page.scrollBy({
+        left: lastSubpage.getBoundingClientRect().left,
+        behavior: 'smooth'
+    })
+
+    setTimeout(() => subpages[subpages.length - 1].classList.remove('subpage--visible'), 500);
 }
