@@ -1,9 +1,8 @@
 import { Router } from './utils/router.js';
 import { MenuHeader } from './layout/menuHeader.js';
 import { Footer } from './layout/footer.js'
-import './pages/search/search.js';
 import { OptionButton } from './pages/settings/components/optionButton.js';
-import { Theme } from './pages/settings/components/theme.js';
+import { appendToRoot } from './pages/root.js';
 
 const footer = document.querySelector('page-switcher');
 let initialPage = footer.shadowRoot.querySelector(`#search`);
