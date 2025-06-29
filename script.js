@@ -3,6 +3,7 @@ import { MenuHeader } from './layout/menuHeader.js';
 import { Footer } from './layout/footer.js'
 import './pages/search/search.js';
 import { OptionButton } from './pages/settings/components/optionButton.js';
+import { Theme } from './pages/settings/components/theme.js';
 
 const footer = document.querySelector('page-switcher');
 let initialPage = footer.shadowRoot.querySelector(`#search`);
