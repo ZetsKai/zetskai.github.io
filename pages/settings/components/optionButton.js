@@ -14,16 +14,16 @@ const style = /*css*/`
     }
     
     :host(:hover) {
-        background-color: var(--light-inset-surface);
+        background-color: var(--inset-surface);
     }
 
     ::slotted(.menu-btn), .menu-btn {
         margin-left: auto;
-        color: var(--light-icon);
+        color: var(--icon);
     }
 
     :host(.option-button--profile) {
-        border-bottom: 1px solid var(--light-border);
+        border-bottom: 1px solid var(--border);
 
         ::slotted(.icon), .icon {
             height: 64px;
