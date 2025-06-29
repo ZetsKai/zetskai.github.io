@@ -2,7 +2,7 @@ import { hostResets } from "../../../assets/style/hostResets.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
 
 const style = /*css*/`
-    // ${hostResets}
+    ${hostResets}
 
     :host {
         display: block;
