@@ -5,5 +5,16 @@
 .page {
     display: flex;
     gap: var(--spacing-xl);
-    padding: var(--spacing-xl);
+    /* padding: var(--spacing-xl); */
+}
+
+.subpage {
+    display: none;
+    flex-direction: column;
+    min-width: 100%;
+    min-height: 100%;
+}
+
+.subpage--visible {
+    display: flex;
 }
