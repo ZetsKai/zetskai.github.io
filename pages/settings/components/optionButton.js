@@ -1,5 +1,6 @@
 import { hostResets } from "../../../assets/style/hostResets.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
+import { moveSubpageIntoView } from "../../../utils/subpage.js";
 
 const style = /*css*/`
     ${hostResets}
@@ -7,6 +8,7 @@ const style = /*css*/`
     :host {
         display: flex;
         align-items: center;
+        flex-shrink: 0;
         padding: var(--spacing-lg);
         gap: var(--spacing-lg);
     }
@@ -66,7 +68,12 @@ export class OptionButton extends HTMLElement {
         this.shadowRoot.append(template.content.cloneNode(true));
     }
 
-    connectedCallback() {}
+    connectedCallback() {
+        const attr = this.getAttribute('fh-to');
+        if (attr !== null)
+            this.addEventListener('click', () => moveSubpageIntoView(attr));
+    }
+
     disconnectedCallback() {}
 }
 defineCustomElement('option-button', OptionButton);
