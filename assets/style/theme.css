@@ -15,3 +15,47 @@
     --dark-text: #f0f0f0;
     --dark-inset-text: #c8c8c8;
 }
+
+@media screen and (prefers-color-scheme: light) {
+    :root {
+        --background: var(--light-background);
+        --surface: var(--light-surface);
+        --inset-surface: var(--light-inset-surface);
+        --border: var(--light-border);
+        --icon: var(--light-icon);
+        --text: var(--light-text);
+        --inset-text: var(--light-inset-text);
+    }
+}
+
+@media screen and (prefers-color-scheme: dark) {
+    :root {
+        --background: var(--dark-background);
+        --surface: var(--dark-surface);
+        --inset-surface: var(--dark-inset-surface);
+        --border: var(--dark-border);
+        --icon: var(--dark-icon);
+        --text: var(--dark-text);
+        --inset-text: var(--dark-inset-text);
+    }
+}
+
+html[data-mode="light"] {
+    --background: var(--light-background) !important;
+    --surface: var(--light-surface) !important;
+    --inset-surface: var(--light-inset-surface) !important;
+    --border: var(--light-border) !important;
+    --icon: var(--light-icon) !important;
+    --text: var(--light-text) !important;
+    --inset-text: var(--light-inset-text) !important;
+}
+
+html[data-mode="dark"] {
+    --background: var(--dark-background) !important;
+    --surface: var(--dark-surface) !important;
+    --inset-surface: var(--dark-inset-surface) !important;
+    --border: var(--dark-border) !important;
+    --icon: var(--dark-icon) !important;
+    --text: var(--dark-text) !important;
+    --inset-text: var(--dark-inset-text) !important;
+}
