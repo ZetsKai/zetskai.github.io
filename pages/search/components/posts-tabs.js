@@ -6,8 +6,8 @@ const style = /*css*/`
 
 	:host {
 		display: flex;
-		background-color: var(--light-inset-surface);
-		border-bottom: 1px solid var(--light-border);
+		background-color: var(--inset-surface);
+		border-bottom: 1px solid var(--border);
 	}
 
 	.tab {
@@ -22,11 +22,11 @@ const style = /*css*/`
 	.tab__icon {
 		height: 32px;
 		width: auto;
-		color: var(--light-icon);
+		color: var(--icon);
 	}
 
 	.tab--selected {
-		background-color: var(--light-surface);
+		background-color: var(--surface);
 
 		.tab__icon {
 			color: var(--fill-accent-brand);
