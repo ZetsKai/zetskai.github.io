@@ -112,7 +112,8 @@ export class Post extends HTMLElement {
     
     connectedCallback() {
         const heartBtn = this.shadowRoot.querySelector('.heart-btn');
-        heartBtn.addEventListener('click', this.handleFavorite);        
+        heartBtn.addEventListener('click', this.handleFavorite);
+        this.shadowRoot.addEventListener('click', this.openInFullView);
     }
     
     async assignImage(imgData) {
@@ -126,6 +127,10 @@ export class Post extends HTMLElement {
 
     handleFavorite(e) {
         console.log(e);
+    }
+
+    openInFullView() {
+        document.querySelector('.image-view').style.display = 'flex';
     }
 }
 defineCustomElement('post-image', Post);
