@@ -7,15 +7,135 @@
     <link rel="stylesheet" href="/style.css">
     <link rel="manifest" href="/manifest.json">
 </head>
-<body id="search">
-	<posts-tabs role="menubar"></posts-tabs>
-    <main class="search page" role="menu">
-        <post-gallery class="search__subpage general search__subpage--selected">
-            <div class="column"></div>
-            <div class="column"></div>
-            <div class="column"></div>
-        </post-gallery>
-        <post-gallery class="search__subpage favorites"></post-gallery>
-    </main>
+<body id="search" class="search">
+    <article class="search__page page">
+        <section class="image-view">
+            <div class="image-view__header">
+                <button class="image-view__exit">EXIT</button>
+            </div>
+            <div class="image-view__container">
+                <img class="image-view__image" src="https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg" alt="" />
+                <div class="image-view__buttons">
+                    <div class="image-view__likes">
+                        <button class="image-view__btn">
+                            <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                                <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                <path d="M12.87 3.51c-.35-.63-1.39-.63-1.74 0l-9 16c-.17.31-.17.69 0 1s.51.5.86.5h18c.36 0 .68-.19.86-.5s.18-.69 0-1z"></path>
+                            </svg>
+                        </button>
+                        <div class="image-view__counter">99999+</div>
+                        <button class="image-view__btn">
+                            <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                                <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                                <path d="M12.87 3.51c-.35-.63-1.39-.63-1.74 0l-9 16c-.17.31-.17.69 0 1s.51.5.86.5h18c.36 0 .68-.19.86-.5s.18-.69 0-1z"></path>
+                            </svg>
+                        </button>
+                    </div>
+                    <button class="image-view__fav">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                            <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                            <path d="M11.29 20.69c.2.2.45.29.71.29s.51-.1.71-.29l7.5-7.5c2.35-2.35 2.35-6.05 0-8.41-2.29-2.29-5.84-2.35-8.21-.2-2.36-2.15-5.91-2.09-8.21.2-2.35 2.36-2.35 6.06 0 8.41z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+            <nav class="image-view__submenu">
+                <nav class="quick-actions">
+                    <button class="quick-actions__btn">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                            <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                            <path d="M9.88 18.36a3 3 0 0 1-4.24 0 3 3 0 0 1 0-4.24l2.83-2.83-1.41-1.41-2.83 2.83a5.003 5.003 0 0 0 0 7.07c.98.97 2.25 1.46 3.54 1.46s2.56-.49 3.54-1.46l2.83-2.83-1.41-1.41-2.83 2.83ZM12.71 4.22 9.88 7.05l1.41 1.41 2.83-2.83a3 3 0 0 1 4.24 0 3 3 0 0 1 0 4.24l-2.83 2.83 1.41 1.41 2.83-2.83a5.003 5.003 0 0 0 0-7.07 5.003 5.003 0 0 0-7.07 0Z"></path><path d="m16.95 8.46-.71-.7-.7-.71-4.25 4.24-4.24 4.25.71.7.7.71 4.25-4.24z"></path>
+                        </svg>
+                        <p class="quick-actions__title">URL</p>
+                    </button>
+                    <button class="quick-actions__btn quick-actions__btn--download">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                            <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                            <path d="M5 21h14c1.1 0 2-.9 2-2V8c0-.27-.11-.52-.29-.71l-4-4A1 1 0 0 0 16 3H5c-1.1 0-2 .9-2 2v14c0 1.1.9 2 2 2M7 5h4v2h2V5h2v4H7zm0 8c0-.55.45-1 1-1h8c.55 0 1 .45 1 1v6H7z"></path>
+                        </svg>
+                        <a class="quick-actions__title" href="https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg" download="foxcrow-test.jpg">Save</a>
+                    </button>
+                    <button class="quick-actions__btn">
+                        <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                            <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                            <path d="M5 15.64c2-.87 4.28-.76 6.18.33 1.37.78 2.89 1.18 4.42 1.18 1.12 0 2.24-.21 3.32-.64l1.45-.58A1 1 0 0 0 21 15V4c0-.33-.17-.64-.44-.83a1 1 0 0 0-.93-.1l-1.45.58c-1.97.79-4.16.63-6-.42A8.9 8.9 0 0 0 3.77 3l-.21.1a1 1 0 0 0-.55.89v18h2v-6.36Z"></path>
+                        </svg>
+                        <p class="quick-actions__title">Report</p>
+                    </button>
+                </nav>
+                <div class="expander">Description</div>
+                <div class="expander">Comments</div>
+            </nav>
+        </section>
+        <posts-tabs class="search__topbar" role="menubar"></posts-tabs>
+        <main class="search__gallery" role="menu">
+            <post-gallery class="search__subpage general search__subpage--selected">
+                <div class="column"></div>
+                <div class="column"></div>
+                <div class="column"></div>
+            </post-gallery>
+            <post-gallery class="search__subpage favorites"></post-gallery>
+        </main>
+    </article>
+    <div class="search-area">
+        <div class="search-area__shadow"></div>
+        <div class="search-area__wrapper">
+            <div class="search-suggestions">
+                <p class="search-suggestions__title">Suggestions</p>
+                <div class="search-suggestions__item">Animal</div>
+                <div class="search-suggestions__item">Anthro</div>
+                <div class="search-suggestions__item">Ball</div>
+                <div class="search-suggestions__item">Car</div>
+                <div class="search-suggestions__item">Dragon</div>
+            </div>
+            <div class="search-options">
+                <div class="search-options__section">
+                    <div class="search-options__title">Sort By</div>
+                    <select name="filter-by" class="search-options__dropdown">
+                        <option value="data">Date</option>
+                        <option value="score">Score</option>
+                        <option value="favorites">Favorites</option>
+                    </select>
+                    <mode-switch>
+                        <button class="mode-switch__button mode-switch__button--selected">Newest</button>
+                        <button class="mode-switch__button">Oldest</button>
+                    </mode-switch>
+                </div>
+                <div class="search-options__section">
+                    <div class="search-options__title">Ratings</div>
+                    <div class="search-options__buttons">
+                        <div class="button button--disabled">Safe</div>
+                        <div class="button button--disabled">Questionable</div>
+                        <div class="button button--disabled">Explicit</div>
+                    </div>
+                </div>
+                <div class="search-options__section">
+                    <div class="search-options__title">Enable Blacklist</div>
+                    <div class="search-options__buttons">
+                        <div class="button button--disabled">Blacklist</div>
+                    </div>
+                </div>
+                <div class="search-options__confirmation">
+                    <div class="button">Cancel</div>
+                    <div class="button button--highlight">Apply</div>
+                </div>
+            </div>
+            <nav class="search-area__bar">
+                <input class="search-area__searchbox" placeholder="Search with Tags" type="search" name="search">
+                <button class="search-area__filter-button">
+                    <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                        <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                        <path d="m20,2H4c-.55,0-1,.45-1,1v2c0,.24.09.48.25.66l6.75,7.72v7.62c0,.4.24.77.62.92.12.05.25.08.38.08.26,0,.52-.1.71-.29l2-2c.19-.19.29-.44.29-.71v-5.62l6.75-7.72c.16-.18.25-.42.25-.66v-2c0-.55-.45-1-1-1Z"></path>
+                    </svg>
+                </button>
+                <button class="search-area__button button button--highlight">
+                    <svg class="button__icon" xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
+                        <!--Boxicons v3.0 https://boxicons.com | License  https://docs.boxicons.com/free-->
+                        <path d="m18,10c0-4.41-3.59-8-8-8S2,5.59,2,10s3.59,8,8,8c1.85,0,3.54-.63,4.9-1.69l5.1,5.1,1.41-1.41-5.1-5.1c1.05-1.36,1.69-3.05,1.69-4.9Zm-14,0c0-3.31,2.69-6,6-6s6,2.69,6,6-2.69,6-6,6-6-2.69-6-6Z"></path>
+                    </svg>
+                </button>
+            </nav>
+        </div>
+    </div>
 </body>
 </html>
