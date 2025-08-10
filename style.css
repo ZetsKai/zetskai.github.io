@@ -1,15 +1,24 @@
 @import url("/assets/style/fills.css");
 @import url("/assets/style/size.css");
 @import url("/assets/style/theme.css");
+@import url("/assets/style/utils.css");
 @import url("/pages/pages.css");
 
 *, *::before, *::after {
     box-sizing: border-box;
 }
 
+/**
+  * ! - For some fucking reason this thing has more specificity than selecting a class,
+  * So for example, if I select a button with a .button class inside my web components,
+  * I wont be able to adjust their paddign because this thing right here just overrides it.
+  * ::slotted(.button) gets overriden by this thing in this global style.css file!
+  * Weirdly enough, if I put button { padding: 0; } inside the web component itself,
+  * it actually doesn't have more specificity than ::slotted(.button), no matter where I put it.
+***/
 html, body, div, main, article, section, aside, footer, nav,
 h1, h2, h3, h4, h5, h6, p, a, span, button, input,
-img, video {
+img, video, svg {
     padding: 0;
     margin: 0;
 }
@@ -30,7 +39,55 @@ body {
 }
 
 #root {
+    overflow: hidden;
     flex-basis: 100%;
     flex-grow: 1;
+}
+
+.page, main {
     overflow: hidden;
+}
+
+.page {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    border-bottom: 1px solid orangered;
+}
+
+.subpage {
+    display: none;
+    flex-direction: column;
+    height: 100%;
+}
+
+.subpage--visible {
+    display: flex;
+}
+
+.subpage__elem {
+    display: flex;
+    flex-direction: column;
+    gap: var(--spacing-lg);
+}
+
+.images {
+    display: none;
+    grid-template-columns: 1fr 1fr;
+    gap: 8px;
+    width: 100%;
+    margin-top: 100px;
+    background-color: red;
+}
+
+.images__img {
+    --img-url: attr(imagen)
+    /* position: relative; */
+    border: 1px solid black;
+    aspect-ratio: 1/1;
+    background: gray url("https://static1.e621.net/data/7b/b1/7bb152e233fe534a6a15b47e49507d32.jpg") center/contain no-repeat;
+}
+
+body {
+    position: relative;
 }
