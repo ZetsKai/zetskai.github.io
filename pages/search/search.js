@@ -38,27 +38,31 @@ setTimeout(function() {
 	});
 
 	imageViewContainer.addEventListener('touchend', (e) => {
-		if (scrollThreshold >= 50) submenu.style.height = '44%';
+		if (scrollThreshold >= 25) submenu.style.height = '44%';
 		else submenu.style.height = '0%';
 
 		scrollThreshold = 0;
 	});
 
-	const downloadButton = document.querySelector('.quick-actions__btn--download');
-	downloadButton.addEventListener('click', async (e) => {
-		const shareData = {
-			title: 'testo',
-			text: 'pingo',
-			url: 'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg'
-		}
+	async function downloadImage() {
+		const src = 'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg';
+ 		const image = await fetch(src);
+ 		const imageBlog = await image.blob();
+ 		const imageURL = URL.createObjectURL(imageBlog);
 
-		try {
-			await navigator.share(shareData);
-		}
-		catch (err) {
-			console.log(err);
-		}
-	})
+		const link = document.createElement('a')
+ 		link.href = imageURL
+ 		link.download = 'foxcrow-test.jpg'
+ 		document.body.appendChild(link)
+ 		link.click()
+ 		document.body.removeChild(link)
+	}
+
+	const downloadButton = document.querySelector('.quick-actions__btn--download');
+	downloadButton.addEventListener('click', (e) => {
+		console.log('downloading?');
+		downloadImage();
+	});
 }, 2000);
 
 document.addEventListener('switch-subpage', switchSubpage);
