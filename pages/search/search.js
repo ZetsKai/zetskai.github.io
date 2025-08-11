@@ -33,13 +33,17 @@ setTimeout(function() {
 			scrollThreshold -= 1;
 		}
 
-		console.log(scrollThreshold);
 		screenScrollAmount = touchScreenY;
 	});
 
 	imageViewContainer.addEventListener('touchend', (e) => {
+		console.log(scrollThreshold);
+
 		if (scrollThreshold >= 25) submenu.style.height = '44%';
-		else submenu.style.height = '0%';
+		else if (scrollThreshold <= 0 || scrollThreshold < 25) {
+			submenu.style.height = '0%';
+			console.log('minus');	
+		}
 
 		scrollThreshold = 0;
 	});
