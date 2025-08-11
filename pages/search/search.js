@@ -45,6 +45,20 @@ setTimeout(function() {
 	});
 
 	const downloadButton = document.querySelector('.quick-actions__btn--download');
+	downloadButton.addEventListener('click', async (e) => {
+		const shareData = {
+			title: 'testo',
+			text: 'pingo',
+			url: 'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg'
+		}
+
+		try {
+			await navigator.share(shareData);
+		}
+		catch (err) {
+			console.log(err);
+		}
+	})
 }, 2000);
 
 document.addEventListener('switch-subpage', switchSubpage);
