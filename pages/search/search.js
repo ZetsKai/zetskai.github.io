@@ -6,7 +6,6 @@ import { Gallery } from "./components/gallery.js";
 function switchSubpage(subpageSwitchEvent) {
 	const subpageName = subpageSwitchEvent.detail;
 	const subpage = document.querySelector(`.${subpageName}:not(.search__subpage--selected)`);
-	
 	const selectedSubpage = document.querySelector('.search__subpage--selected');
 	
 	selectedSubpage.classList.remove('search__subpage--selected');
@@ -16,25 +15,33 @@ function switchSubpage(subpageSwitchEvent) {
 setTimeout(function() {
 	const imageViewContainer = document.querySelector('.image-view__container');
 	const submenu = document.querySelector('.image-view__submenu');
-	let amount = 0;
+	let screenScrollAmount = 0;
+	let scrollThreshold = 0;
 
 	document.querySelector('.image-view__exit').addEventListener('click', () => document.querySelector('.image-view').style.display = 'none');
 
-	console.log(submenu.getBoundingClientRect().height);
-
 	imageViewContainer.addEventListener('touchmove', (e) => {
-		const tempAmount = e.touches[0].screenY;
+		const touchScreenY = e.targetTouches[0].screenY;
 		const currentSubmenuHeight = submenu.getBoundingClientRect().height;
 
-		if (amount >= tempAmount) {
-			console.log('up');
-			submenu.style.height = `${currentSubmenuHeight + 12}px`
-		};
-		if (amount <= tempAmount) {
-			console.log('down');
-			submenu.style.height = `${currentSubmenuHeight - 12}px`
+		if (screenScrollAmount >= touchScreenY) {
+			submenu.style.height = `${currentSubmenuHeight + 1}px`;
+			scrollThreshold += 1;
 		}
-		amount = tempAmount;
+		if (screenScrollAmount <= touchScreenY) {
+			submenu.style.height = `${currentSubmenuHeight - 1}px`;
+			scrollThreshold -= 1;
+		}
+
+		console.log(scrollThreshold);
+		screenScrollAmount = touchScreenY;
+	});
+
+	imageViewContainer.addEventListener('touchend', (e) => {
+		if (scrollThreshold >= 50) submenu.style.height = '44%';
+		else submenu.style.height = '0%';
+
+		scrollThreshold = 0;
 	});
 
 	const downloadButton = document.querySelector('.quick-actions__btn--download');
