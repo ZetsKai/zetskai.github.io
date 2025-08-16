@@ -24,11 +24,7 @@ setTimeout(function() {
 
 	document.querySelector('.image-view__exit').addEventListener('click', () => document.querySelector('.image-view').style.display = 'none');
 
-	imageViewContainer.addEventListener('touchstart', (e) => {
-		// firstTouchPosY = e.touches[0].screenY;
-	})
-
-	imageViewContainer.addEventListener('touchmove', (e) => {
+	imageViewContainer.addEventListener('touchmov', (e) => {
 		const currentFingerPosY = e.touches[0].screenY;
 		const currentSubmenuHeight = submenu.getBoundingClientRect().height;
 		const calculation = oldFingerPosY - (currentFingerPosY);
@@ -38,7 +34,7 @@ setTimeout(function() {
 		requestAnimationFrame(changeHeight);
 	}, { passive: true });
 
-	imageViewContainer.addEventListener('touchend', () => {
+	imageViewContainer.addEventListener('touchen', () => {
 		const currentSubmenuHeight = submenu.getBoundingClientRect().height;
 		const heightPercent = window.innerHeight * 0.25;
 		
