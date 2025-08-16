@@ -15,37 +15,35 @@ function switchSubpage(subpageSwitchEvent) {
 setTimeout(function() {
 	const imageViewContainer = document.querySelector('.image-view__container');
 	const submenu = document.querySelector('.image-view__submenu');
-	let screenScrollAmount = 0;
-	let scrollThreshold = 0;
+	let oldFingerPosY = 0;
+	let newHeight = 0;
+
+	async function changeHeight() {
+		submenu.style.height = newHeight;
+	}
 
 	document.querySelector('.image-view__exit').addEventListener('click', () => document.querySelector('.image-view').style.display = 'none');
 
+	imageViewContainer.addEventListener('touchstart', (e) => {
+		// firstTouchPosY = e.touches[0].screenY;
+	})
+
 	imageViewContainer.addEventListener('touchmove', (e) => {
-		const touchScreenY = e.targetTouches[0].screenY;
+		const currentFingerPosY = e.touches[0].screenY;
 		const currentSubmenuHeight = submenu.getBoundingClientRect().height;
+		const calculation = oldFingerPosY - (currentFingerPosY);
 
-		if (screenScrollAmount >= touchScreenY) {
-			submenu.style.height = `${currentSubmenuHeight + 1}px`;
-			scrollThreshold += 1;
-		}
-		if (screenScrollAmount <= touchScreenY) {
-			submenu.style.height = `${currentSubmenuHeight - 1}px`;
-			scrollThreshold -= 1;
-		}
+		newHeight = `${currentSubmenuHeight + calculation}px`;
+		oldFingerPosY = currentFingerPosY;
+		requestAnimationFrame(changeHeight);
+	}, { passive: true });
 
-		screenScrollAmount = touchScreenY;
-	});
-
-	imageViewContainer.addEventListener('touchend', (e) => {
-		console.log(scrollThreshold);
-
-		if (scrollThreshold >= 25) submenu.style.height = '44%';
-		else if (scrollThreshold <= 0 || scrollThreshold < 25) {
-			submenu.style.height = '0%';
-			console.log('minus');	
-		}
-
-		scrollThreshold = 0;
+	imageViewContainer.addEventListener('touchend', () => {
+		const currentSubmenuHeight = submenu.getBoundingClientRect().height;
+		const heightPercent = window.innerHeight * 0.25;
+		
+		if (currentSubmenuHeight > heightPercent) submenu.style.height = '44%';
+		else if (currentSubmenuHeight <= heightPercent) submenu.style.height = '0%';
 	});
 
 	async function downloadImage() {
