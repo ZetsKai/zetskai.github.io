@@ -1,5 +1,6 @@
 import { hostResets } from "../../../assets/style/hostResets.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
+import { requestPosts } from "../../../utils/requestPosts.js";
 import { Post } from "./post.js";
 
 const style = /*css*/`
@@ -7,6 +8,7 @@ const style = /*css*/`
 
     :host {
         --gap: var(--spacing-lg);
+        max-width: 720px;
 
         display: none;
     }
@@ -55,9 +57,9 @@ export class Gallery extends HTMLElement {
     async getImages() {
         const columns = this.shadowRoot.querySelector('slot').assignedElements();
         if (columns.length === 0) return;
-    
-        // const posts = fetch();
-        const posts = [
+
+        // const posts = (await requestPosts()).posts;
+        const posto = [
             'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg',
             'https://static1.e926.net/data/8d/eb/8deb2ae9fe81f9f6383a24c591bdd3be.png',
             'https://static1.e926.net/data/22/f6/22f6672e35a8aab9f4dc0140f46f9b96.jpg',
@@ -67,13 +69,34 @@ export class Gallery extends HTMLElement {
             'https://static1.e926.net/data/c0/fa/c0fa5293f1d1440c2d3f2c3e027d3c36.jpg',
             'https://static1.e926.net/data/10/a5/10a562c5d6a6398716a7bcc9ada5f612.png',
             'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
+            'https://static1.e926.net/data/4a/de/4adeba19a4b8cd5608024f059ac12f88.png',
             'https://static1.e926.net/data/0f/d0/0fd077c78f42bfd26db3a9cc5397edce.png'
         ];
+        
         let flag = 0;
-
-        posts.forEach(post => {
+        posto.forEach(post => {
             const postComp = document.createElement('post-image');
             postComp.assignImage(post);
+            // postComp.assignImage(post.preview.url);
             columns[flag].appendChild(postComp);
 
             if (flag >= (columns.length - 1)) flag = 0;
