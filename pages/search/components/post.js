@@ -103,6 +103,8 @@ template.innerHTML = /*html*/`
 `;
 
 export class Post extends HTMLElement {
+    #postData;
+
     constructor() {
         super()
 
@@ -112,25 +114,29 @@ export class Post extends HTMLElement {
     
     connectedCallback() {
         const heartBtn = this.shadowRoot.querySelector('.heart-btn');
+        const imageContainer = this.shadowRoot.querySelector('.image');
+        const statsContainer = this.shadowRoot.querySelector('.stats');
+
+        imageContainer.src = this.#postData.preview.url;
+        statsContainer.setAttribute('data-rating', this.#postData.rating.toUpperCase());
+
         heartBtn.addEventListener('click', this.handleFavorite);
         this.shadowRoot.addEventListener('click', this.openInFullView);
     }
-    
-    async assignImage(imgData) {
-        const image = this.shadowRoot.querySelector('.image')
-        const stats = this.shadowRoot.querySelector('.stats');
-        const ratings = ['S', 'Q', 'E'];
 
-        stats.setAttribute('data-rating', ratings[Math.floor(Math.random() * 3)]);
-        image.src = imgData;
-    }
+    storePostData(postData) { this.#postData = postData; };
 
     handleFavorite(e) {
         console.log(e);
     }
 
     openInFullView() {
-        document.querySelector('.image-view').style.display = 'flex';
+        const fullViewEvent = new Event('full-view', {
+            bubbles: true,
+            composed: true
+        })
+
+        this.dispatchEvent(fullViewEvent);
     }
 }
 defineCustomElement('post-image', Post);
