@@ -1,0 +1,37 @@
+.credits {
+    display: flex;
+    flex-direction: column;
+}
+
+.credits__maker {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: var(--spacing-md);
+}
+
+.credits__made-by {
+    font-size: 1rem;
+}
+
+.credits__zetskai {
+    font-size: 1.5rem;
+    font-weight: bold;
+}
+
+.credits__flag-container {
+    display: flex;
+    align-items: center;
+    min-height: 0;
+    max-height: 100%;
+    aspect-ratio: 1/1;
+}
+
+.credits__flag {
+    width: 100%;
+    height: auto;
+}
+
+.credits__socials {
+    display: flex;
+    gap: var(--spacing-md);
+}
