@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Appearance Configuration</title>
+</head>
+<body>
+    <section id="appearance" class="appearance subpage settings__section">
+        <div class="settings__card">
+            <button-grid>
+                <grid-button class="selected"><p slot="title">Foxhole</p></grid-button>
+                <grid-button>
+                    <svg slot="icon" class="icon" width="33" height="33" viewBox="0 0 33 33" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <path d="M3.31989 18.8081L8.64864 9.57812H19.3068L24.6358 18.8081L19.3068 28.0381H8.64864L3.31989 18.8081Z" fill="#00549E"/>
+                        <path d="M12.2535 18.7437C12.8443 19.2812 13.5321 19.5253 14.3167 19.476C15.1013 19.4266 15.755 19.0982 16.2778 18.4907L17.7079 19.7916C16.8406 20.7996 15.749 21.3449 14.4329 21.4277C13.1168 21.5104 11.9686 21.106 10.9883 20.2142C10.0079 19.3225 9.47753 18.2 9.39703 16.8467C9.31654 15.4935 9.70994 14.313 10.5773 13.3051C11.4446 12.2972 12.5362 11.7519 13.8523 11.6691C15.1684 11.5863 16.3166 11.9908 17.2969 12.8826C18.5735 14.0561 19.0979 15.5055 18.8703 17.2307L11.505 17.6939C11.6816 18.1007 11.9311 18.4507 12.2533 18.7439L12.2535 18.7437ZM16.0316 14.3531C15.4407 13.8156 14.753 13.5716 13.9684 13.6209C13.1838 13.6702 12.5301 13.9987 12.0073 14.6062C11.7111 14.9644 11.505 15.343 11.389 15.7421L16.7799 15.4031C16.6301 15.0207 16.3807 14.6707 16.0315 14.3531L16.0316 14.3531Z" fill="#F7F7F7"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M14.0237 4.57812C14.43 3.98438 15.3987 2.45312 16.3362 2.45312C17.4925 2.45312 17.7425 5.14062 17.7737 6.82812L14.0237 4.57812Z" fill="#FDBE2F"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.1175 7.98438L13.8362 7.82812C15.3362 5.60938 15.8675 5.73438 16.0862 8.01562L17.805 8.35938C17.7946 7.84897 17.7842 7.33853 17.7737 6.82812C17.0862 6.35938 16.7112 5.95312 16.0862 5.45312C15.6487 5.07812 14.8362 4.67188 14.0237 4.57812C13.305 5.73438 12.8362 6.51562 12.1175 7.98438Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M25.555 10.4219C27.3987 10.1719 29.18 10.3594 29.18 11.5156C29.18 12.8594 26.8362 14.7969 26.3987 15.2344C25.8362 13.9531 26.0862 11.9531 25.555 10.4219Z" fill="#FDBE2F"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M22.055 11.2031L23.2112 12.3906C25.6175 12.2344 26.43 12.7656 24.6175 14.4219L25.4925 16.0156C25.8987 15.6719 26.055 15.5469 26.3987 15.2344C26.0237 14.1719 26.7112 14.0781 26.7112 12.7031C26.7112 12.1094 26.6175 11.4531 25.555 10.4219C24.6487 10.5156 23.5862 10.7031 22.055 11.2031Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M10.75 27.9219H11.25V29.8281H10.75V27.9219ZM10.75 27.2031H12.0625V29.7031C11.7188 30.8281 10.2812 30.8281 9.9375 29.7031V24.4531C10.3125 23.3281 11.7188 23.3281 12.0625 24.4531V26.6719H11.2812V24.3281H10.75V27.2031Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M12.625 25.8281H13.4375V23.4844H13.9688V26.3594H12.625V29.6719H14.75V27.5781H13.9688V28.9531H13.4375V27.0781H14.75V23.6094C14.4375 22.5156 12.9688 22.4844 12.625 23.6094V25.8281Z" fill="white"/>
+                        <path fill-rule="evenodd" clip-rule="evenodd" d="M16.6562 30.5156H15.875V24.3281H15.3438V23.6094H15.875C16.4688 23.7656 16.6562 24.2656 16.6562 24.5156V30.5156Z" fill="white"/>
+                    </svg>
+                    <p slot="title">e621</p>
+                </grid-button>
+            </button-grid>
+            <div class="modes">
+                <input type="radio" name="mode" value="auto" class="modes__btn" data-val="Auto">
+                <input type="radio" name="mode" value="light" class="modes__btn" data-val="Light">
+                <input type="radio" name="mode" value="dark" class="modes__btn" data-val="Dark">
+            </div>
+            <accent-buttons></accent-buttons>
+            <div class="divider"></div>
+            <toggle-option>Transparency</toggle-option>
+        </div>
+        <div class="settings__card">
+            <toggle-option>Roundness</toggle-option>
+        </div>
+    </section>
+</body>
+</html>
