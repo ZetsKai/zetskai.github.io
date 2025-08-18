@@ -93,8 +93,8 @@ export class PageSwitcherFooter extends HTMLElement {
             bubbles: true,
             composed: true,
             detail: {
-                btnId: btn.id,
-                route: btn.href
+                btnId: button.id,
+                route: button.href
             }
         });
         button.dispatchEvent(switchPageEvent);
