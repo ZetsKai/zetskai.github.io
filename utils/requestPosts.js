@@ -1,14 +1,49 @@
 import { getUserInfo } from "./getUserInfo.js";
 
-export async function requestPosts() {
-    // const reqUrl = `https://e621.net/posts.json?login=${username}&api_key=${apiKey}`;
-    const user = getUserInfo();
-    // const nsfw = 'e621';
-    const sfw = 'e926';
+// const sites = {
+//     e621: {
+//         specificPost:`https://e621.net/posts/${postId}.json`,
+//         posts: 'https://e621.net/posts.json?'
+//     },
+//     e926: {
+//         specificPost:`https://e926.net/posts/${postId}.json`,
+//         posts: 'https://e926.net/posts.json?'
+//     },
+//     rule34: {
+//         specificPost: 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index',
+//         posts: `${this.specificPost}&id=${postId}`
+//     }
+// }
 
-    const response = await fetch(`https://${sfw}.net/posts.json?limit=8`, {
+function setPageApi(site, postId) {
+    const sites = {
+        e621: {
+            specificPost:`https://e621.net/posts/${postId}.json`,
+            posts: 'https://e621.net/posts.json?'
+        },
+        e926: {
+            specificPost:`https://e926.net/posts/${postId}.json`,
+            posts: 'https://e926.net/posts.json?'
+        },
+        rule34: {
+            specificPost: 'https://api.rule34.xxx/index.php?page=dapi&s=post&q=index',
+            posts: `https://api.rule34.xxx/index.php?page=dapi&s=post&q=index&id=${postId}`
+        }
+    };
+
+    return sites[site];
+}
+
+
+export async function requestPosts() {
+    const user = getUserInfo();
+    // const site = setPageApi
+    const limit = 8;
+    // const reqUrl = `https://e926.net/posts.json?login=${username}&api_key=${apiKey}`;
+
+    const response = await fetch(`https://e926.net/posts.json?limit=${limit}`, {
         headers: {
-            'Authorization': 'Basic ' + btoa(`${user.username}:${user.apiKey}`),
+            // 'Authorization': 'Basic ' + btoa(`${user.username}:${user.apiKey}`),
             'User-Agent': 'Foxhole/1.0 (ZetsKai)'
         }
     })
