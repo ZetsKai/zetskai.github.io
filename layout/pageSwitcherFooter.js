@@ -21,12 +21,18 @@ const style = /*css*/`
         flex-grow: 1;
         color: var(--icon);
 
-        &[data-selected] { color: var(--fill-accent-brand); }
+        &[data-selected] { color: var(--fill-accent); }
     }
 
     .icon {
         height: 32px;
         width: auto;
+    }
+
+    :host(.hidden) {
+        height: 0;
+        padding: 0;
+        overflow: hidden;
     }
 `;
 
@@ -60,28 +66,28 @@ template.innerHTML = /*html*/`
     <style>${style}</style>
 `;
 
-export class Footer extends HTMLElement {
-    #btns;
-
+export class PageSwitcherFooter extends HTMLElement {
     constructor() {
         super();
 
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.append(template.content.cloneNode(true));
-
-        this.#btns = this.shadowRoot.querySelectorAll('.btn');
     }
 
     connectedCallback() {
-        this.#btns.forEach(btn => btn.addEventListener('click', this.handleClick.bind(this)))
+        this.shadowRoot.querySelectorAll('.btn')
+            .forEach(btn => btn.addEventListener('click', this.handleClick.bind(this)));
+
+        this.addEventListener('full-view', this.veil.bind(this));
     }
 
-    handleClick(btn_event) {
-        btn_event.preventDefault();
-        const btn = btn_event.currentTarget;
-        if (btn.dataset.selected !== undefined) return null;
+    handleClick(button_event) {
+        button_event.preventDefault();
 
-        this.selectBtn(btn.id)
+        const button = button_event.currentTarget;
+        if (button.dataset.selected !== undefined) return null;
+
+        this.selectBtn(button.id)
 
         const switchPageEvent = new CustomEvent('switch-page', {
             bubbles: true,
@@ -91,7 +97,7 @@ export class Footer extends HTMLElement {
                 route: btn.href
             }
         });
-        btn.dispatchEvent(switchPageEvent);
+        button.dispatchEvent(switchPageEvent);
     }
 
     selectBtn(btnId) {
@@ -101,6 +107,10 @@ export class Footer extends HTMLElement {
         if (selectedBtn !== null) delete selectedBtn.dataset.selected
         btn.dataset.selected = '';
     }
+
+    veil() {
+        this.classList.toggle('hidden')
+    }
 }
 
-defineCustomElement('page-switcher', Footer)
+defineCustomElement('page-switcher', PageSwitcherFooter)
