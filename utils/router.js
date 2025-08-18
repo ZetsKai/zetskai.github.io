@@ -1,4 +1,6 @@
 export class Router {
+    static #rootContainer = document.querySelector('#root');
+
     static getRoute(event) {
         if (event === null) return;
 
@@ -10,11 +12,9 @@ export class Router {
     }
 
     static goToPage(route) {
-        const rootContainer = document.querySelector('#root');
-
         fetch(route)
         .then(data => data.text())
-        .then(htmlData => rootContainer.innerHTML = htmlData)
+        .then(htmlData => this.#rootContainer.innerHTML = htmlData)
         .catch(error => console.log(error));
     }
 }
