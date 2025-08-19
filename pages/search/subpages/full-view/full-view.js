@@ -280,10 +280,9 @@ export class FullView extends HTMLElement {
 
     fullscreen() {
         this.classList.toggle('full-view--fullscreen');
-		// this.offsetHeight;
 		this.style.display = 'none';
-		// this.style.display = 'flex';
-		// this.offsetHeight;
+		this.offsetHeight;
+	    this.style.display = 'flex';
     }
 
     async downloadImage() {
