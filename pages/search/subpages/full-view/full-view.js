@@ -125,11 +125,12 @@ const style = /*css*/`
     }
 
     :host(.full-view--fullscreen) {
-        background-color: black;
+        background-color: blue;
 
         .header {
-            flex-basis: 0;
+            /* flex-basis: 0; */
             padding: 0;
+			background-color: red !important;
         }
 
         .image-container {
