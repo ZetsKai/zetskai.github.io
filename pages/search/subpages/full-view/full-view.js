@@ -135,6 +135,8 @@ const style = /*css*/`
 
         .image-container {
             padding: 0 !important;
+			-webkit-padding-start: 0 !important;
+            -webkit-padding-end: 0 !important;
         }
 
         .image-container__image {
