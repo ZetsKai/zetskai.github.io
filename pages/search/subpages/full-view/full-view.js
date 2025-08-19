@@ -134,11 +134,7 @@ const style = /*css*/`
         }
 
         .image-container {
-            padding: 0 !important;
-			-webkit-padding-start: 0 !important;
-            -webkit-padding-end: 0 !important;
-			visibility: hidden !important;
-            visibility: visible !important;
+            padding: 0;
         }
 
         .image-container__image {
@@ -283,7 +279,9 @@ export class FullView extends HTMLElement {
     }
 
     fullscreen() {
+		const container = this.shadowRoot.querySelector('.image-container');
         this.classList.toggle('full-view--fullscreen');
+		container.offsetHeight;
     }
 
     async downloadImage() {
