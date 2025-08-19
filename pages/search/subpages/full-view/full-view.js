@@ -137,6 +137,8 @@ const style = /*css*/`
             padding: 0 !important;
 			-webkit-padding-start: 0 !important;
             -webkit-padding-end: 0 !important;
+			visibility: hidden !important;
+            visibility: visible !important;
         }
 
         .image-container__image {
