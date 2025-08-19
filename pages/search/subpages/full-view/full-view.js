@@ -270,8 +270,8 @@ export class FullView extends HTMLElement {
 	    });
 
 	    this.shadowRoot.querySelector('.header__exit').addEventListener('click', () => history.back());
-        // container.addEventListener('click', this.fullscreen.bind(this));
-		container.addEventListener('click', () => requestAnimationFrame(this.fullscreen));
+        container.addEventListener('click', this.fullscreen.bind(this));
+		// container.addEventListener('click', () => requestAnimationFrame(this.fullscreen));
     }
 
     disconnectedCallback() {
@@ -279,10 +279,11 @@ export class FullView extends HTMLElement {
     }
 
     fullscreen() {
-        this.classList.toggle('full-view--fullscreen');
-		this.style.visibility = 'hidden';
-		this.offsetHeight;
-	    this.style.visibility = 'unset';
+		requestAnimationFrame(() => this.classList.toggle('full-view--fullscreen'));
+        // this.classList.toggle('full-view--fullscreen');
+		// this.style.display = 'none';
+		// this.offsetHeight;
+	    // this.style.display = 'flex';
     }
 
     async downloadImage() {
