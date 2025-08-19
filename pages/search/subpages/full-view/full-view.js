@@ -271,6 +271,7 @@ export class FullView extends HTMLElement {
 
 	    this.shadowRoot.querySelector('.header__exit').addEventListener('click', () => history.back());
         container.addEventListener('click', this.fullscreen.bind(this));
+		// container.addEventListener('click', () => requestAnimationFrame(this.fullscreem));
     }
 
     disconnectedCallback() {
