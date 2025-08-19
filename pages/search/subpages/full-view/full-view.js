@@ -134,7 +134,7 @@ const style = /*css*/`
         }
 
         .image-container {
-            padding: 0;
+            padding: 0 !important;
         }
 
         .image-container__image {
