@@ -125,12 +125,11 @@ const style = /*css*/`
     }
 
     :host(.full-view--fullscreen) {
-        background-color: blue;
+        background-color: black;
 
         .header {
-            /* flex-basis: 0; */
+            flex-basis: 0;
             padding: 0;
-			background-color: red !important;
         }
 
         .image-container {
@@ -280,9 +279,9 @@ export class FullView extends HTMLElement {
 
     fullscreen() {
         this.classList.toggle('full-view--fullscreen');
-		this.style.display = 'none';
+		this.style.visibility = 'hidden';
 		this.offsetHeight;
-	    this.style.display = 'flex';
+	    this.style.visibility = 'unset';
     }
 
     async downloadImage() {
