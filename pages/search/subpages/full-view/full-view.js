@@ -282,7 +282,8 @@ export class FullView extends HTMLElement {
         this.classList.toggle('full-view--fullscreen');
 		// this.offsetHeight;
 		this.style.display = 'none';
-		this.style.display = 'flex';
+		// this.style.display = 'flex';
+		// this.offsetHeight;
     }
 
     async downloadImage() {
