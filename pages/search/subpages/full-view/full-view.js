@@ -279,9 +279,10 @@ export class FullView extends HTMLElement {
     }
 
     fullscreen() {
-		const container = this.shadowRoot.querySelector('.image-container');
         this.classList.toggle('full-view--fullscreen');
-		container.offsetHeight;
+		// this.offsetHeight;
+		this.style.display = 'none';
+		this.style.display = 'flex';
     }
 
     async downloadImage() {
