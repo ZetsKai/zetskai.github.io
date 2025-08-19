@@ -279,11 +279,13 @@ export class FullView extends HTMLElement {
     }
 
     fullscreen() {
-		requestAnimationFrame(() => this.classList.toggle('full-view--fullscreen'));
-        // this.classList.toggle('full-view--fullscreen');
-		// this.style.display = 'none';
-		// this.offsetHeight;
-	    // this.style.display = 'flex';
+        this.classList.toggle('full-view--fullscreen');
+
+		requestAnimationFrame(() => {
+		    this.style.display = 'none';
+		    this.offsetHeight;
+	        this.style.display = 'flex';
+		}
     }
 
     async downloadImage() {
