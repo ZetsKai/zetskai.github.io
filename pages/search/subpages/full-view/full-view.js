@@ -258,7 +258,7 @@ export class FullView extends HTMLElement {
             document.addEventListener('selectstart', cancelSelect)
             oldFingerPosY = e.touches[0].screenY;
             submenu.classList.add('submenu--open');
-            container.classList.remove('full-view--fullscreen');
+            this.classList.remove('full-view--fullscreen');
         });
 
 	    container.addEventListener('touchmove', (e) => {
