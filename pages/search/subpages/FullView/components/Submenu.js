@@ -16,7 +16,7 @@ const style = /*css*/`
         overflow: hidden;
         /* transition: height 1s linear; */
     }
-    :host(submenu--open) {
+    :host(.submenu--open) {
         padding: var(--spacing-lg);
     }
 
@@ -87,10 +87,7 @@ export class Submenu extends HTMLElement {
         console.log('aight lets get it started');
 
         const downloadButton = this.shadowRoot.querySelector('.quick-actions__button--download');
-        downloadButton.addEventListener('click', (e) => {
-		    console.log('downloading?');
-		    downloadImage();
-	    });
+        downloadButton.addEventListener('click', this.downloadImage.bind(this));
     }
 
     disconnectedCallback() {}
