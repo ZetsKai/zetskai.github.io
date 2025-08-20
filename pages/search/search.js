@@ -1,7 +1,7 @@
 import { PostsTabs } from "./components/posts-tabs.js";
 import { Post } from './components/post.js';
 import { Gallery } from "./components/gallery.js";
-import { FullView } from "./subpages/full-view/full-view.js";
+import { FullView } from "./subpages/FullView/FullView.js";
 import { Router } from "../../utils/router.js";
 
 // TODO - Contain this bitchass.
@@ -18,7 +18,7 @@ function fullView() {
 	Router.getRoute({
 		detail: {
 			btnId: 'search',
-			route: '/pages/search/subpages/full-view/full-view.html'
+			route: '/pages/search/subpages/FullView/full-view.html'
 		}
 	});
 
