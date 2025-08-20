@@ -271,7 +271,6 @@ export class FullView extends HTMLElement {
 
 	    this.shadowRoot.querySelector('.header__exit').addEventListener('click', () => history.back());
         container.addEventListener('click', this.fullscreen.bind(this));
-		// container.addEventListener('click', () => requestAnimationFrame(this.fullscreen));
     }
 
     disconnectedCallback() {
@@ -279,13 +278,16 @@ export class FullView extends HTMLElement {
     }
 
     fullscreen() {
+        document.writeln(navigator.userAgent);
+        return;
+
         this.classList.toggle('full-view--fullscreen');
 
-		requestAnimationFrame(() => {
-		    this.style.display = 'none';
-		    this.offsetHeight;
-	        this.style.display = 'flex';
-		});
+        requestAnimationFrame(() => {
+            this.style.display = 'none';
+            this.offsetHeight;
+            this.style.display = 'flex';
+        })
     }
 
     async downloadImage() {
