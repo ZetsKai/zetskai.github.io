@@ -121,7 +121,7 @@ export class Post extends HTMLElement {
         statsContainer.setAttribute('data-rating', this.#postData.rating.toUpperCase());
 
         heartBtn.addEventListener('click', this.handleFavorite);
-        this.shadowRoot.addEventListener('click', this.openInFullView);
+        this.addEventListener('click', this.openInFullView);
     }
 
     storePostData(postData) { this.#postData = postData; };
@@ -131,9 +131,10 @@ export class Post extends HTMLElement {
     }
 
     openInFullView() {
-        const fullViewEvent = new Event('full-view', {
+        const fullViewEvent = new CustomEvent('full-view', {
             bubbles: true,
-            composed: true
+            composed: true,
+            detail: this.#postData
         })
 
         this.dispatchEvent(fullViewEvent);
