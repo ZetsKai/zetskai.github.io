@@ -120,6 +120,8 @@ export class Post extends HTMLElement {
 
         imageContainer.src = this.#postData.preview.url;
         statsContainer.setAttribute('data-rating', this.#postData.rating.toUpperCase());
+        statsContainer.querySelector('.stats__likes').innerHTML = this.#postData.score.total;
+        statsContainer.querySelector('.stats__comments').innerHTML = this.#postData.comment_count;
 
         heartBtn.addEventListener('click', this.handleFavorite);
         this.addEventListener('click', this.openInFullView);
