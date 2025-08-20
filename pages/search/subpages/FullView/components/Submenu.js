@@ -1,5 +1,6 @@
 import { defineCustomElement } from "../../../../../utils/defineCustomElement.js";
 import { hostResets } from "../../../../../assets/style/hostResets.js";
+import { store } from "../../../../../utils/store.js";
 const style = /*css*/`
     ${hostResets}
 
@@ -113,14 +114,15 @@ export class Submenu extends HTMLElement {
 
     async downloadImage() {
         const linkDump = this.shadowRoot.querySelector('.link-dump');
-		const src = 'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg';
+		// const src = 'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg';
+		const src = store.selectedPost.file.url;
  		const image = await fetch(src);
  		const imageBlog = await image.blob();
  		const imageURL = URL.createObjectURL(imageBlog);
 
 		const link = document.createElement('a')
  		link.href = imageURL
- 		link.download = 'foxcrow-test.jpg'
+ 		// link.download = 'foxcrow-test.jpg'
  		linkDump.appendChild(link)
  		link.click()
  		linkDump.removeChild(link)
