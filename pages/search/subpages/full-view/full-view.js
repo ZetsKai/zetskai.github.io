@@ -96,12 +96,16 @@ const style = /*css*/`
         min-height: 0;
         max-height: 44%;
         height: 0%;
-        padding: var(--spacing-lg);
+        // padding: var(--spacing-lg);
+        padding: 0;
         border-radius: 8px 8px 0 0;
         background-color: var(--surface);
         border-top: 1px solid var(--border);
         overflow: hidden;
         /* transition: height 1s linear; */
+    }
+    .submenu--open {
+        padding: var(--spacing-lg);
     }
 
     .quick-actions {
@@ -253,6 +257,8 @@ export class FullView extends HTMLElement {
         container.addEventListener('touchstart', (e) => {
             document.addEventListener('selectstart', cancelSelect)
             oldFingerPosY = e.touches[0].screenY;
+            submenu.classList.add('submenu--open');
+            container.classList.remove('full-view--fullscreen');
         });
 
 	    container.addEventListener('touchmove', (e) => {
@@ -276,6 +282,7 @@ export class FullView extends HTMLElement {
 		    else if (currentSubmenuHeight <= halfHeight) {
                 // console.log('close it!');
                 newHeight = '0%';
+                submenu.classList.remove('submenu--open');
             }
             requestAnimationFrame(changeHeight);
 
@@ -299,6 +306,9 @@ export class FullView extends HTMLElement {
 
     fullscreen() {
         this.classList.toggle('full-view--fullscreen');
+        const submenu = this.shadowRoot.querySelector('.submenu');
+        submenu.classList.remove('submenu--open');
+        submenu.style.height = '0%';
 
         const shittySafariForceRepaint = () => {
             this.style.display = 'none';
