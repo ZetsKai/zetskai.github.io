@@ -278,9 +278,6 @@ export class FullView extends HTMLElement {
     }
 
     fullscreen() {
-        document.writeln(navigator.userAgent);
-        return;
-
         this.classList.toggle('full-view--fullscreen');
 
         requestAnimationFrame(() => {
