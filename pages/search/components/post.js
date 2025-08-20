@@ -1,5 +1,6 @@
 import { hostResets } from "../../../assets/style/hostResets.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
+import { store } from "../../../utils/store.js";
 
 const style = /*css*/`
     ${hostResets}
@@ -138,6 +139,8 @@ export class Post extends HTMLElement {
         })
 
         this.dispatchEvent(fullViewEvent);
+
+        store.selectedPost = this.#postData;
     }
 }
 defineCustomElement('post-image', Post);
