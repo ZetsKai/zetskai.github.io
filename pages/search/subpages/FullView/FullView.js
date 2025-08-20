@@ -94,8 +94,8 @@ template.innerHTML = /*html*/`
             </svg>
         </button>
         <div class="header__id">
-            <span class="full-view__id-logo" style="font-weight: bolder;">ID</span>
-            <span class="full-view__id-num">99999</span>
+            <span class="header__id-logo" style="font-weight: bolder;">ID</span>
+            <span class="header__id-num">99999</span>
         </div>
         <button class="header__info-btn">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
@@ -106,7 +106,7 @@ template.innerHTML = /*html*/`
     </div>
     <div class="image-container">
         <img class="image-container__image" src="https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg" alt="" />
-        <score-fav class=".score-fav"></score-fav>
+        <score-fav class="score-fav"></score-fav>
     </div>
     <sub-menu></sub-menu>
 
@@ -131,6 +131,7 @@ export class FullView extends HTMLElement {
 
         this.#postData = store.selectedPost
         this.shadowRoot.querySelector('.image-container__image').src = store.selectedPost.file.url
+        this.shadowRoot.querySelector('.header__id-num').innerHTML = store.selectedPost.id;
 
         const cancelSelect = e => {
             e.preventDefault();
@@ -139,9 +140,8 @@ export class FullView extends HTMLElement {
 
         container.addEventListener('click', () => {
             console.log(store.loadedPosts);
-            
-            this.fullscreen.bind(this)
         });
+        container.addEventListener('click', this.fullscreen.bind(this));
 
         container.addEventListener('touchstart', (e) => {
             document.addEventListener('selectstart', cancelSelect)
