@@ -105,7 +105,7 @@ template.innerHTML = /*html*/`
     </div>
     <div class="image-container">
         <img class="image-container__image" src="https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg" alt="" />
-        <score-fav></score-fav>
+        <score-fav class=".score-fav"></score-fav>
     </div>
     <sub-menu></sub-menu>
 
@@ -113,6 +113,8 @@ template.innerHTML = /*html*/`
 `;
 
 export class FullView extends HTMLElement {
+    #submenu;
+
     constructor() {
         super();
 
@@ -122,7 +124,7 @@ export class FullView extends HTMLElement {
 
     connectedCallback() {
         const container = this.shadowRoot.querySelector('.image-container');
-	    const submenu = this.shadowRoot.querySelector('sub-menu');
+	    this.#submenu = this.shadowRoot.querySelector('sub-menu');
 	    let oldFingerPosY;
 
         const cancelSelect = e => {
@@ -135,7 +137,7 @@ export class FullView extends HTMLElement {
         container.addEventListener('touchstart', (e) => {
             document.addEventListener('selectstart', cancelSelect)
             oldFingerPosY = e.touches[0].screenY;
-            submenu.classList.add('submenu--open');
+            this.#submenu.classList.add('submenu--open');
         });
 
 	    container.addEventListener('touchmove', (e) => {
@@ -143,11 +145,11 @@ export class FullView extends HTMLElement {
 	    	const fingerPosCalculation = oldFingerPosY - (currentFingerPosY);
 
 	    	oldFingerPosY = currentFingerPosY;
-            submenu.setHeight(fingerPosCalculation);
+            this.#submenu.setHeight(fingerPosCalculation);
 	    }, { passive: true });
 
 	    container.addEventListener('touchend', () => {
-            submenu.setHeight();
+            this.#submenu.setHeight();
             document.removeEventListener('selectstart', cancelSelect);
 	    }, { passive: true });
 
@@ -160,9 +162,8 @@ export class FullView extends HTMLElement {
 
     fullscreen() {
         this.classList.toggle('full-view--fullscreen');
-        const submenu = this.shadowRoot.querySelector('.submenu');
-        submenu.classList.remove('submenu--open');
-        submenu.style.height = '0%';
+        this.#submenu.classList.remove('submenu--open');
+        this.#submenu.style.height = '0%';
 
         const shittySafariForceRepaint = () => {
             this.style.display = 'none';
