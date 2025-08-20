@@ -250,7 +250,10 @@ export class FullView extends HTMLElement {
             return false;
         }
 
-        container.addEventListener('touchstart', () => document.addEventListener('selectstart', cancelSelect));
+        container.addEventListener('touchstart', (e) => {
+            document.addEventListener('selectstart', cancelSelect)
+            oldFingerPosY = e.touches[0].screenY;
+        });
 
 	    container.addEventListener('touchmove', (e) => {
 	    	const currentFingerPosY = e.touches[0].screenY;
@@ -264,19 +267,20 @@ export class FullView extends HTMLElement {
 
 	    container.addEventListener('touchend', () => {
 		    const currentSubmenuHeight = submenu.getBoundingClientRect().height;
-		    const heightPercent = window.innerHeight * 0.16;
+		    const halfHeight = (window.innerHeight * 0.44) * 0.5;
 
-		    if (currentSubmenuHeight > heightPercent) {
-                console.log('open it!');
+		    if (currentSubmenuHeight > halfHeight) {
+                // console.log('open it!');
                 newHeight = '44%';
             }
-		    else if (currentSubmenuHeight <= heightPercent) {
-                console.log('close it!');
+		    else if (currentSubmenuHeight <= halfHeight) {
+                // console.log('close it!');
                 newHeight = '0%';
             }
             requestAnimationFrame(changeHeight);
 
             document.removeEventListener('selectstart', cancelSelect);
+            // console.log('drop');
 	    }, { passive: true });
 
     	const downloadButton = this.shadowRoot.querySelector('.quick-actions__button--download');
