@@ -245,6 +245,13 @@ export class FullView extends HTMLElement {
 
         const changeHeight = () => submenu.style.height = newHeight;
 
+        const cancelSelect = e => {
+            e.preventDefault();
+            return false;
+        }
+
+        container.addEventListener('touchstart', () => document.addEventListener('selectstart', cancelSelect));
+
 	    container.addEventListener('touchmove', (e) => {
 	    	const currentFingerPosY = e.touches[0].screenY;
 	    	const currentSubmenuHeight = submenu.getBoundingClientRect().height;
@@ -257,11 +264,20 @@ export class FullView extends HTMLElement {
 
 	    container.addEventListener('touchend', () => {
 		    const currentSubmenuHeight = submenu.getBoundingClientRect().height;
-		    const heightPercent = window.innerHeight * 0.25;
+		    const heightPercent = window.innerHeight * 0.16;
 
-		    if (currentSubmenuHeight > heightPercent) submenu.style.height = '44%';
-		    else if (currentSubmenuHeight <= heightPercent) submenu.style.height = '0%';
-	    });
+		    if (currentSubmenuHeight > heightPercent) {
+                console.log('open it!');
+                newHeight = '44%';
+            }
+		    else if (currentSubmenuHeight <= heightPercent) {
+                console.log('close it!');
+                newHeight = '0%';
+            }
+            requestAnimationFrame(changeHeight);
+
+            document.removeEventListener('selectstart', cancelSelect);
+	    }, { passive: true });
 
     	const downloadButton = this.shadowRoot.querySelector('.quick-actions__button--download');
         downloadButton.addEventListener('click', (e) => {
