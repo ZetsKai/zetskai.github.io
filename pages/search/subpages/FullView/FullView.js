@@ -1,5 +1,6 @@
 import { hostResets } from '../../../../assets/style/hostResets.js';
 import { defineCustomElement } from '../../../../utils/defineCustomElement.js';
+import { store } from '../../../../utils/store.js';
 import './components/ScoreFav.js'
 import './components/Submenu.js';
 
@@ -114,6 +115,7 @@ template.innerHTML = /*html*/`
 
 export class FullView extends HTMLElement {
     #submenu;
+    #postData
 
     constructor() {
         super();
@@ -127,12 +129,19 @@ export class FullView extends HTMLElement {
 	    this.#submenu = this.shadowRoot.querySelector('sub-menu');
 	    let oldFingerPosY;
 
+        this.#postData = store.selectedPost
+        this.shadowRoot.querySelector('.image-container__image').src = store.selectedPost.file.url
+
         const cancelSelect = e => {
             e.preventDefault();
             return false;
         }
 
-        container.addEventListener('click', this.fullscreen.bind(this));
+        container.addEventListener('click', () => {
+            console.log(store.loadedPosts);
+            
+            this.fullscreen.bind(this)
+        });
 
         container.addEventListener('touchstart', (e) => {
             document.addEventListener('selectstart', cancelSelect)
