@@ -280,23 +280,21 @@ export class FullView extends HTMLElement {
     fullscreen() {
         this.classList.toggle('full-view--fullscreen');
 
+        const shittySafariForceRepaint = () => {
+            this.style.display = 'none';
+            this.offsetHeight;
+            this.style.display = 'flex';
+        }
+
         // const chrome = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
         // const arc    = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36';
         // const edge   = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0';
         // const opera  = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0s';
         // const safari = 'Mozilla/5.0 (iPhone; CPU iPhone OS 18_5 like Mac OS X) AppleWebKit/605.1.15 (KHTML, like Gecko) Version/18.5 Mobile/15E148 Safari/604.1';
 
-        const isSafari = /iPhone/i.test(navigator.userAgent);
-        document.writeln(isSafari + '\n' + navigator.userAgent);
-        return;
+        const isSafari = /iPhone/i.test(safari);
         if (isSafari)
             requestAnimationFrame(shittySafariForceRepaint);
-
-        function shittySafariForceRepaint() {
-            this.style.display = 'none';
-            this.offsetHeight;
-            this.style.display = 'flex';
-        }
     }
 
     async downloadImage() {
