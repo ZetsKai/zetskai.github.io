@@ -14,7 +14,9 @@ function switchSubpage(subpageSwitchEvent) {
 	subpage.classList.add('search__subpage--selected');
 }
 
-function fullView() {
+function fullView(postEvent) {
+	const postData = postEvent.detail;
+
 	Router.getRoute({
 		detail: {
 			btnId: 'search',
