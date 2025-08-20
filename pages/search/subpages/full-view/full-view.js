@@ -280,11 +280,21 @@ export class FullView extends HTMLElement {
     fullscreen() {
         this.classList.toggle('full-view--fullscreen');
 
-        requestAnimationFrame(() => {
+        // const chrome = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
+        // const arc    = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36';
+        // const edge   = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0';
+        // const opera  = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36 OPR/120.0.0.0s';
+
+        const isSafari = /(^Chrome|Edg|OPR)Safari/i.test(navigator.userAgent);
+        if (isSafari)
+            requestAnimationFrame(shittySafariForceRepaint);
+
+        function shittySafariForceRepaint() {
             this.style.display = 'none';
             this.offsetHeight;
             this.style.display = 'flex';
-        })
+            document.writeln('SAFARI!\n' + navigator.userAgent);
+        }
     }
 
     async downloadImage() {
