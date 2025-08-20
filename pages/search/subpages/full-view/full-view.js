@@ -285,7 +285,7 @@ export class FullView extends HTMLElement {
 		    this.style.display = 'none';
 		    this.offsetHeight;
 	        this.style.display = 'flex';
-		}
+		});
     }
 
     async downloadImage() {
