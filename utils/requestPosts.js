@@ -1,4 +1,4 @@
-import { getUserInfo } from "./getUserInfo.js";
+// import { getUserInfo } from "./getUserInfo.js";
 
 // const sites = {
 //     e621: {
@@ -36,7 +36,7 @@ function setPageApi(site, postId) {
 
 
 export async function requestPosts() {
-    const user = getUserInfo();
+    // const user = getUserInfo();
     // const site = setPageApi
     const limit = 8;
     // const reqUrl = `https://e926.net/posts.json?login=${username}&api_key=${apiKey}`;
