@@ -85,8 +85,6 @@ export class Submenu extends HTMLElement {
     }
 
     connectedCallback() {
-        console.log('aight lets get it started');
-
         const downloadButton = this.shadowRoot.querySelector('.quick-actions__button--download');
         downloadButton.addEventListener('click', this.downloadImage.bind(this));
     }
@@ -94,14 +92,17 @@ export class Submenu extends HTMLElement {
     disconnectedCallback() {}
 
     setHeight(fingerPosCalculation) {
+        this.classList.add('submenu--open')
         const currentSubmenuHeight = this.getBoundingClientRect().height;
         let newHeight;
 
         if (fingerPosCalculation == undefined) {
             const halfHeight = (window.innerHeight * 0.44) * 0.5;
 
-            if (currentSubmenuHeight > halfHeight)
+            if (currentSubmenuHeight > halfHeight) {
                 newHeight = '44%';
+                this.classList.add('submenu--open')
+            }
 		    else if (currentSubmenuHeight <= halfHeight) {
                 newHeight = '0%';
                 this.classList.remove('submenu--open');
@@ -114,7 +115,6 @@ export class Submenu extends HTMLElement {
 
     async downloadImage() {
         const linkDump = this.shadowRoot.querySelector('.link-dump');
-		// const src = 'https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg';
 		const src = store.selectedPost.file.url;
  		const image = await fetch(src);
  		const imageBlog = await image.blob();
@@ -122,7 +122,7 @@ export class Submenu extends HTMLElement {
 
 		const link = document.createElement('a')
  		link.href = imageURL
- 		// link.download = 'foxcrow-test.jpg'
+ 		link.download = `${store.selectedPost.id}.${store.selectedPost.file.ext}`
  		linkDump.appendChild(link)
  		link.click()
  		linkDump.removeChild(link)
