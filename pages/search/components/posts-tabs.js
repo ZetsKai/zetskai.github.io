@@ -29,7 +29,7 @@ const style = /*css*/`
 		background-color: var(--surface);
 
 		.tab__icon {
-			color: var(--fill-accent-brand);
+			color: var(--fill-accent);
 		}
 	}
 `;
@@ -67,6 +67,10 @@ export class PostsTabs extends HTMLElement {
 		this.tabs.forEach(tab => tab.addEventListener('click', this.#selectTab.bind(this)));
 	}
 
+	disconnectedCallback() {
+		this.tabs.forEach(tab => tab.removeEventListener('click', this.#selectTab));
+	}
+
 	#selectTab(tabEvent) {
 		const tab = tabEvent.currentTarget;
 		if (tab.classList.contains(SELECTED_TAB_CLASSNAME)) return;
@@ -78,10 +82,6 @@ export class PostsTabs extends HTMLElement {
 		
 		const switchSubpageEvent = new CustomEvent('switch-subpage', {detail: tab.dataset.subpage, bubbles: true });
 		this.dispatchEvent(switchSubpageEvent);
-	}
-
-	disconnectedCallback() {
-		this.tabs.forEach(tab => tab.removeEventListener('click', this.#selectTab));
 	}
 }
 
