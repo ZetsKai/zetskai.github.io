@@ -33,7 +33,14 @@ template.innerHTML = /*html*/`
     <style>${style}</style>
 `;
 
+const cancelSelect = e => {
+    e.preventDefault();
+    return false;
+}
+
 export class ImageContainer extends HTMLElement {
+	#oldFingerPosY;
+
     constructor() {
         super();
 
@@ -42,53 +49,56 @@ export class ImageContainer extends HTMLElement {
     }
 
     connectedCallback() {
-	    let oldFingerPosY;
-
         this.shadowRoot.querySelector('.image').src = store.selectedPost.file.url
 
-        const cancelSelect = e => {
-            e.preventDefault();
-            return false;
-        }
-
-        this.addEventListener('click', () => {
-            const fullscreenEvent = new CustomEvent('fullscreen', {
-                bubbles: true,
-                composed: true
-            });
-            this.dispatchEvent(fullscreenEvent);
-        });
-
-        this.addEventListener('touchstart', (e) => {
-            document.addEventListener('selectstart', cancelSelect)
-            oldFingerPosY = e.touches[0].screenY;
-        });
-
-	    this.addEventListener('touchmove', (e) => {
-	    	const currentFingerPosY = e.touches[0].screenY;
-	    	const fingerPosCalculation = oldFingerPosY - (currentFingerPosY);
-
-	    	oldFingerPosY = currentFingerPosY;
-
-            const submenuMoveEvent = new CustomEvent('submenuMove', {
-                bubbles: true,
-                composed: true,
-                detail: fingerPosCalculation
-            });
-            this.dispatchEvent(submenuMoveEvent);
-	    }, { passive: true });
-
-	    this.addEventListener('touchend', () => {
-            document.removeEventListener('selectstart', cancelSelect);
-
-            const submenuDropEvent = new CustomEvent('submenuDrop', {
-                bubbles: true,
-                composed: true
-            });
-            this.dispatchEvent(submenuDropEvent);
-	    }, { passive: true });
+        this.addEventListener('click', this.#handleFingerTap);
+        this.addEventListener('touchstart', this.#handleFingerStart);
+	    this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
+	    this.addEventListener('touchend', this.#handleFingerDrop, { passive: true });
     }
 
-    disconnectedCallback() {}
+    disconnectedCallback() {
+        this.removeEventListener('click', this.#handleFingerTap);
+        this.removeEventListener('touchstart', this.#handleFingerStart);
+	    this.removeEventListener('touchmove', this.#handleFingerMove, { passive: true });
+	    this.removeEventListener('touchend', this.#handleFingerDrop, { passive: true });
+    }
+
+    #handleFingerTap() {
+        const fullscreenEvent = new CustomEvent('fullscreen', {
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(fullscreenEvent);
+    }
+
+    #handleFingerStart(e) {
+        document.addEventListener('selectstart', cancelSelect)
+        this.#oldFingerPosY = e.touches[0].screenY;
+    }
+
+    #handleFingerMove(e) {
+        const currentFingerPosY = e.touches[0].screenY;
+	    const fingerPosCalculation = this.#oldFingerPosY - (currentFingerPosY);
+
+	    this.#oldFingerPosY = currentFingerPosY;
+
+        const submenuMoveEvent = new CustomEvent('submenuMove', {
+            bubbles: true,
+            composed: true,
+            detail: fingerPosCalculation
+        });
+        this.dispatchEvent(submenuMoveEvent)
+    }
+
+    #handleFingerDrop() {
+        document.removeEventListener('selectstart', cancelSelect);
+
+        const submenuDropEvent = new CustomEvent('submenuDrop', {
+            bubbles: true,
+            composed: true
+        });
+        this.dispatchEvent(submenuDropEvent);
+    }
 }
 defineCustomElement('image-container', ImageContainer);
