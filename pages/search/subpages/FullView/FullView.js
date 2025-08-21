@@ -109,25 +109,20 @@ export class FullView extends HTMLElement {
         this.#postData = store.selectedPost
         this.shadowRoot.querySelector('.header__id-num').innerHTML = this.#postData.id;
         
-        this.addEventListener('fullscreen', this.fullscreen.bind(this));
-
-        this.addEventListener('submenuMove', (e) => {
-            const fingerPosCalculation = e.detail;
-            this.#submenu.setHeight(fingerPosCalculation);
-        });
-
-        this.addEventListener('submenuDrop', () => {
-            this.#submenu.setHeight();
-        });
+        this.addEventListener('fullscreen', this.#fullscreen.bind(this));
+        this.addEventListener('submenuMove', this.#handleSubmemuHeight);
+        this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
 
 	    this.shadowRoot.querySelector('.header__exit').addEventListener('click', () => history.back());
     }
 
     disconnectedCallback() {
-        console.log('bye <full-view!/>');
+        this.removeEventListener('fullscreen', this.#fullscreen.bind(this));
+        this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
+        this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
     }
 
-    fullscreen() {
+    #fullscreen() {
         this.classList.toggle('full-view--fullscreen');
         this.#submenu.classList.remove('submenu--open');
         this.#submenu.style.height = '0%';
@@ -148,5 +143,9 @@ export class FullView extends HTMLElement {
         if (isSafari)
             requestAnimationFrame(shittySafariForceRepaint);
     }
+
+    #handleSubmemuHeight(fingerPostCalculationInEventDetail) { this.#submenu.setHeight(fingerPostCalculationInEventDetail.detail); };
+    #handleSubmenuDrop() { this.#submenu.setHeight(); };
+
 }
 defineCustomElement('full-view', FullView);
