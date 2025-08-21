@@ -89,7 +89,10 @@ export class Submenu extends HTMLElement {
         downloadButton.addEventListener('click', this.downloadImage.bind(this));
     }
 
-    disconnectedCallback() {}
+    disconnectedCallback() {
+        const downloadButton = this.shadowRoot.querySelector('.quick-actions__button--download');
+        downloadButton.removeEventListener('click', this.downloadImage.bind(this));
+    }
 
     setHeight(fingerPosCalculation) {
         this.classList.add('submenu--open')
