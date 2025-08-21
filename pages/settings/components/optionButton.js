@@ -74,6 +74,10 @@ export class OptionButton extends HTMLElement {
             this.addEventListener('click', () => moveSubpageIntoView(attr));
     }
 
-    disconnectedCallback() {}
+    disconnectedCallback() {
+        const attr = this.getAttribute('fh-to');
+        if (attr !== null)
+            this.removeEventListener('click', () => moveSubpageIntoView(attr));
+    }
 }
 defineCustomElement('option-button', OptionButton);
