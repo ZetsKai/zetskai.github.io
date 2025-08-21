@@ -1,7 +1,7 @@
 import { hostResets } from '../../../../assets/style/hostResets.js';
 import { defineCustomElement } from '../../../../utils/defineCustomElement.js';
 import { store } from '../../../../utils/store.js';
-import './components/ScoreFav.js'
+import './components/ImageContainer.js';
 import './components/Submenu.js';
 
 const style = /*css*/`
@@ -37,24 +37,6 @@ const style = /*css*/`
     .header__id {
         min-width: 0;
         flex-shrink: 1;
-    }
-    
-    .image-container {
-        display: flex;
-        position: relative;
-        justify-content: center;
-        align-items: center;
-        min-height: 0;
-        flex-basis: 100%;
-        flex-grow: 1;
-        padding: var(--spacing-xl);
-    }
-
-    .image-container__image {
-        max-width: 100%;
-        max-height: 100%;
-        border-radius: 8px;
-        border: 1px solid var(--border);
     }
 
     :host(.full-view--fullscreen) {
@@ -104,10 +86,7 @@ template.innerHTML = /*html*/`
             </svg>
         </button>
     </div>
-    <div class="image-container">
-        <img class="image-container__image" src="https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg" alt="" />
-        <score-fav class="score-fav"></score-fav>
-    </div>
+    <image-container class="image-container"></image-container>
     <sub-menu></sub-menu>
 
     <style>${style}</style>
@@ -125,42 +104,21 @@ export class FullView extends HTMLElement {
     }
 
     connectedCallback() {
-        const container = this.shadowRoot.querySelector('.image-container');
 	    this.#submenu = this.shadowRoot.querySelector('sub-menu');
-	    let oldFingerPosY;
-
+        
         this.#postData = store.selectedPost
-        this.shadowRoot.querySelector('.image-container__image').src = store.selectedPost.file.url
-        this.shadowRoot.querySelector('.header__id-num').innerHTML = store.selectedPost.id;
+        this.shadowRoot.querySelector('.header__id-num').innerHTML = this.#postData.id;
+        
+        this.addEventListener('fullscreen', this.fullscreen.bind(this));
 
-        const cancelSelect = e => {
-            e.preventDefault();
-            return false;
-        }
-
-        container.addEventListener('click', () => {
-            console.log(store.loadedPosts);
-        });
-        container.addEventListener('click', this.fullscreen.bind(this));
-
-        container.addEventListener('touchstart', (e) => {
-            document.addEventListener('selectstart', cancelSelect)
-            oldFingerPosY = e.touches[0].screenY;
-            this.#submenu.classList.add('submenu--open');
-        });
-
-	    container.addEventListener('touchmove', (e) => {
-	    	const currentFingerPosY = e.touches[0].screenY;
-	    	const fingerPosCalculation = oldFingerPosY - (currentFingerPosY);
-
-	    	oldFingerPosY = currentFingerPosY;
+        this.addEventListener('submenuMove', (e) => {
+            const fingerPosCalculation = e.detail;
             this.#submenu.setHeight(fingerPosCalculation);
-	    }, { passive: true });
+        });
 
-	    container.addEventListener('touchend', () => {
+        this.addEventListener('submenuDrop', () => {
             this.#submenu.setHeight();
-            document.removeEventListener('selectstart', cancelSelect);
-	    }, { passive: true });
+        });
 
 	    this.shadowRoot.querySelector('.header__exit').addEventListener('click', () => history.back());
     }
