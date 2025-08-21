@@ -127,6 +127,8 @@ export class Post extends HTMLElement {
         this.addEventListener('click', this.openInFullView);
     }
 
+    disconnectedCallback() { this.removeEventListener('click', this.openInFullView); };
+
     storePostData(postData) { this.#postData = postData; };
 
     handleFavorite(e) {
