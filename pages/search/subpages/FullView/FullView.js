@@ -113,13 +113,15 @@ export class FullView extends HTMLElement {
         this.addEventListener('submenuMove', this.#handleSubmemuHeight);
         this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
 
-	    this.shadowRoot.querySelector('.header__exit').addEventListener('click', () => history.back());
+	    this.shadowRoot.querySelector('.header__exit').addEventListener('click', this.#closeFullView);
     }
 
     disconnectedCallback() {
         this.removeEventListener('fullscreen', this.#fullscreen.bind(this));
         this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
         this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
+
+	    this.shadowRoot.querySelector('.header__exit').removeEventListener('click', this.#closeFullView);
     }
 
     #fullscreen() {
@@ -146,6 +148,7 @@ export class FullView extends HTMLElement {
 
     #handleSubmemuHeight(fingerPostCalculationInEventDetail) { this.#submenu.setHeight(fingerPostCalculationInEventDetail.detail); };
     #handleSubmenuDrop() { this.#submenu.setHeight(); };
+    #closeFullView() { history.back(); };
 
 }
 defineCustomElement('full-view', FullView);
