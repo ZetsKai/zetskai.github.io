@@ -129,12 +129,6 @@ export class FullView extends HTMLElement {
         this.#submenu.classList.remove('submenu--open');
         this.#submenu.style.height = '0%';
 
-        const shittySafariForceRepaint = () => {
-            this.style.display = 'none';
-            this.offsetHeight;
-            this.style.display = 'flex';
-        }
-
         // const chrome = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
         // const arc    = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36';
         // const edge   = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/139.0.0.0 Safari/537.36 Edg/139.0.0.0';
@@ -143,12 +137,20 @@ export class FullView extends HTMLElement {
 
         const isSafari = /iPhone/i.test(navigator.userAgent);
         if (isSafari)
-            requestAnimationFrame(shittySafariForceRepaint);
+            requestAnimationFrame(this.#shittySafariForceRepaint);
     }
 
-    #handleSubmemuHeight(fingerPostCalculationInEventDetail) { this.#submenu.setHeight(fingerPostCalculationInEventDetail.detail); };
+    #handleSubmemuHeight(fingerPostCalculationInEventDetail) {
+		this.classList.remove('full-view--fullscreen');
+		this.#submenu.setHeight(fingerPostCalculationInEventDetail.detail);
+	}
     #handleSubmenuDrop() { this.#submenu.setHeight(); };
     #closeFullView() { history.back(); };
 
+	#shittySafariForceRepaint() {
+        this.style.display = 'none';
+        this.offsetHeight;
+        this.style.display = 'flex';
+    };
 }
 defineCustomElement('full-view', FullView);
