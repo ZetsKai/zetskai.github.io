@@ -7,6 +7,7 @@ const style = /*css*/`
     :host {
         display: flex;
         position: absolute;
+        left: 0;
         bottom: var(--spacing-xl);
         justify-content: space-between;
         width: 100%;
@@ -76,10 +77,16 @@ export class ScoreFav extends HTMLElement {
         this.shadowRoot.append(template.content.cloneNode(true));
     }
 
-    connectedCallback() {
-        this.shadowRoot.querySelector('.score__counter').innerHTML = store.selectedPost.score.total
+    static get observedAttributes() {
+        return ['score'];
     }
 
+    connectedCallback() {}
+
     disconnectedCallback() {}
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        this.shadowRoot.querySelector('.score__counter').innerHTML = newValue;
+    }
 }
 defineCustomElement('score-fav', ScoreFav);
