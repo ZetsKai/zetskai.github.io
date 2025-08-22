@@ -7,17 +7,33 @@ const style = /*css*/`
     ${hostResets}
 
      :host {
-        display: flex;
         position: relative;
-        justify-content: center;
-        align-items: center;
         min-height: 0;
         flex-basis: 100%;
         flex-grow: 1;
         padding: var(--spacing-xl);
     }
 
-    .image {
+    .slider {
+        display: flex;
+        width: 100%;
+        height: 100%;
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory
+    }
+
+    .container {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        flex-basis: 100%;
+        flex-shrink: 0;
+        min-height: 0;
+        max-height: 100%;
+        scroll-snap-align: start;
+    }
+
+    .container__image {
         max-width: 100%;
         max-height: 100%;
         border-radius: 8px;
@@ -27,8 +43,15 @@ const style = /*css*/`
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <img class="image" src="https://static1.e926.net/data/6e/13/6e136ee7dbe6c1c15740ff4be5496c33.jpg" alt="" />
-    <score-fav class="score-fav"></score-fav>
+    <div class="slider">
+        <div class="container">
+            <img class="container__image" src="https://static1.e926.net/data/13/f3/13f3da299a8264d990e377f78af804d1.jpg" />
+        </div>
+        <div class="container">
+            <img class="container__image" src="https://static1.e926.net/data/ca/11/ca118b47423bc71db86284f0741db497.jpg" />
+        </div>
+    </div>
+    <score-fav class="score-fav" score="0"></score-fav>
 
     <style>${style}</style>
 `;
@@ -49,7 +72,8 @@ export class ImageContainer extends HTMLElement {
     }
 
     connectedCallback() {
-        this.shadowRoot.querySelector('.image').src = store.selectedPost.file.url
+        // store.loadedPosts.forEach(this.#addImg);
+        // this.shadowRoot.querySelector('.container__image').src = store.selectedPost.file.url
 
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
@@ -62,6 +86,12 @@ export class ImageContainer extends HTMLElement {
         this.removeEventListener('touchstart', this.#handleFingerStart);
 	    this.removeEventListener('touchmove', this.#handleFingerMove, { passive: true });
 	    this.removeEventListener('touchend', this.#handleFingerDrop, { passive: true });
+    }
+
+    #addImg(postData) {
+        const img = this.shadowRoot.createElement('img');
+        img.src = postData.file.url;
+        this.shadowRoot.append(img);
     }
 
     #handleFingerTap() {
