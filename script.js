@@ -20,3 +20,6 @@ window.addEventListener('popstate', (e) => {
 });
 
 document.addEventListener('switch-page', Router.getRoute);
+
+// ! - Might provoke a glitchy navbar...
+document.addEventListener('fullScreen', () => footer.veil());
