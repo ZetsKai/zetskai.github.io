@@ -105,6 +105,9 @@ template.innerHTML = /*html*/`
 
 export class Post extends HTMLElement {
     #postData;
+    #heartBtn;
+    #imageContainer;
+    #statsContainer;
 
     constructor() {
         super()
@@ -114,37 +117,38 @@ export class Post extends HTMLElement {
     }
     
     connectedCallback() {
-        const heartBtn = this.shadowRoot.querySelector('.heart-btn');
-        const imageContainer = this.shadowRoot.querySelector('.image');
-        const statsContainer = this.shadowRoot.querySelector('.stats');
+        const post = this.#postData.post;
+        this.#heartBtn = this.shadowRoot.querySelector('.heart-btn');
+        this.#imageContainer = this.shadowRoot.querySelector('.image');
+        this.#statsContainer = this.shadowRoot.querySelector('.stats');
 
-        imageContainer.src = this.#postData.preview.url;
-        statsContainer.setAttribute('data-rating', this.#postData.rating.toUpperCase());
-        statsContainer.querySelector('.stats__likes').innerHTML = this.#postData.score.total;
-        statsContainer.querySelector('.stats__comments').innerHTML = this.#postData.comment_count;
+        this.#imageContainer.src = post.preview.url;
+        this.#statsContainer.setAttribute('data-rating', post.rating.toUpperCase());
+        this.#statsContainer.querySelector('.stats__likes').innerHTML = post.score.total;
+        this.#statsContainer.querySelector('.stats__comments').innerHTML = post.comment_count;
 
-        heartBtn.addEventListener('click', this.handleFavorite);
-        this.addEventListener('click', this.openInFullView);
+        this.addEventListener('click', this.#openInFullView);
+        this.#heartBtn.addEventListener('click', this.#handleFavorite);
     }
 
-    disconnectedCallback() { this.removeEventListener('click', this.openInFullView); };
+    disconnectedCallback() {
+        this.removeEventListener('click', this.#openInFullView);
+        this.#heartBtn.addEventListener('click', this.#handleFavorite);
+    };
 
-    storePostData(postData) { this.#postData = postData; };
+    set postData(data) { this.#postData = data; };
 
-    handleFavorite(e) {
+    #handleFavorite(e) {
         console.log(e);
     }
 
-    openInFullView() {
-        const fullViewEvent = new CustomEvent('full-view', {
+    #openInFullView() {
+        const fullViewEvent = new CustomEvent('fullView', {
             bubbles: true,
             composed: true,
-            detail: this.#postData
+            detail: this.#postData.index
         })
-
         this.dispatchEvent(fullViewEvent);
-
-        store.selectedPost = this.#postData;
     }
 }
 defineCustomElement('post-image', Post);
