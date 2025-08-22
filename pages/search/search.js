@@ -14,22 +14,15 @@ function switchSubpage(subpageSwitchEvent) {
 	subpage.classList.add('search__subpage--selected');
 }
 
-function fullView(postEvent) {
-	const postData = postEvent.detail;
+const storePostsData = postsDataEvent => document.querySelector('full-view').postsData = postsDataEvent.detail;
 
-	Router.getRoute({
-		detail: {
-			btnId: 'search',
-			route: '/pages/search/subpages/FullView/full-view.html'
-		}
-	});
+function openFullView(postEvent) {
+	const postIndex = postEvent.detail;
+	const fullView = document.querySelector('full-view');
 
-	const fullViewEvent = new Event('full-view', {
-        bubbles: true,
-    })
-
-    // this.dispatchEvent(fullViewEvent);
+	fullView.openFullView(postIndex);
 }
 
-document.addEventListener('switch-subpage', switchSubpage)
-document.addEventListener('full-view', fullView);
+document.addEventListener('switch-subpage', switchSubpage);
+document.addEventListener('fullView', openFullView);
+document.addEventListener('fetchedPosts', storePostsData);
