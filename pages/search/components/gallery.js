@@ -1,8 +1,7 @@
 import { hostResets } from "../../../assets/style/hostResets.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
 import { requestPosts } from "../../../utils/requestPosts.js";
-import { store } from "../../../utils/store.js";
-import { Post } from "./post.js";
+import "./post.js";
 
 const style = /*css*/`
     ${hostResets}
@@ -36,20 +35,16 @@ template.innerHTML = /*html*/`
 `;
 
 export class Gallery extends HTMLElement {
-    #loaded
+    #postsData;
     constructor() {
         super();
 
         this.attachShadow({ mode: 'open' });
         this.shadowRoot.append(template.content.cloneNode(true));
-
-        this.#loaded = false;
     }
 
     connectedCallback() {
-        if (this.#loaded) return
         this.getImages();
-        this.#loaded = true;
     }
 
     disconnectedCallback() {}
@@ -58,21 +53,34 @@ export class Gallery extends HTMLElement {
         const columns = this.shadowRoot.querySelector('slot').assignedElements();
         if (columns.length === 0) return;
 
-        store.loadedPosts = [];
-        store.selectedPost = null;
-        const posts = await requestPosts();
+        try {
+            this.#postsData = await requestPosts();
 
-        let flag = 0;
-        posts.forEach(post => {
-            const postComp = document.createElement('post-image');
-            postComp.storePostData(post);
-            columns[flag].appendChild(postComp);
+            let flag = 0;
+            this.#postsData.forEach((post, index) => {
+                const postComponent = document.createElement('post-image');
+                postComponent.postData = { index, post };
+                columns[flag].appendChild(postComponent);
 
-            if (flag >= (columns.length - 1)) flag = 0;
-            else flag++;
+                if (flag >= (columns.length - 1)) flag = 0;
+                else flag++;
+            });
 
-            store.loadedPosts.push(post);
-        });
+            const postsFetchedEvent = new CustomEvent('fetchedPosts', {
+                bubbles: true,
+                composed: true,
+                detail: this.#postsData
+            });
+            this.dispatchEvent(postsFetchedEvent);
+        }
+        catch(e) {
+            console.error(e);
+        }
+        
+    }
+
+    get postsData() {
+        return this.#postsData;
     }
 }
 defineCustomElement('post-gallery', Gallery);
