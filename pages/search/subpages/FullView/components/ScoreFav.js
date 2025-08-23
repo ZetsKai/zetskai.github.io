@@ -70,11 +70,13 @@ template.innerHTML = /*html*/`
 `;
 
 export class ScoreFav extends HTMLElement {
+    #root;
+
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     static get observedAttributes() {
@@ -86,7 +88,7 @@ export class ScoreFav extends HTMLElement {
     disconnectedCallback() {}
 
     attributeChangedCallback(name, oldValue, newValue) {
-        this.shadowRoot.querySelector('.score__counter').innerHTML = newValue;
+        this.#root.querySelector('.score__counter').innerHTML = newValue;
     }
 }
 defineCustomElement('score-fav', ScoreFav);
