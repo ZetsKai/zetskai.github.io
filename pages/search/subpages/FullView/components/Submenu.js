@@ -77,19 +77,20 @@ template.innerHTML = /*html*/`
 `;
 
 export class Submenu extends HTMLElement {
+    #root;
     #urlButton;
     #downloadButton;
     #flagButton;
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     connectedCallback() {
-        this.#urlButton = this.shadowRoot.querySelector('.quick-actions__button--url');
-        this.#downloadButton = this.shadowRoot.querySelector('.quick-actions__button--download');
+        this.#urlButton = this.#root.querySelector('.quick-actions__button--url');
+        this.#downloadButton = this.#root.querySelector('.quick-actions__button--download');
 
         this.#downloadButton.addEventListener('click', this.#downloadImage.bind(this));
         this.#urlButton.addEventListener('click', this.#copyToClipboard.bind(this));
@@ -127,7 +128,7 @@ export class Submenu extends HTMLElement {
     }
 
     async #downloadImage() {
-        const linkDump = this.shadowRoot.querySelector('.link-dump');
+        const linkDump = this.#root.querySelector('.link-dump');
 		const src = store.selectedPost.file.url;
  		const image = await fetch(src);
  		const imageBlog = await image.blob();
