@@ -73,15 +73,16 @@ template.innerHTML = /*html*/`
 `;
 
 export class AccentButtons extends HTMLElement {
-    #buttons
+    #root;
+    #buttons;
 
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
 
-        this.#buttons = this.shadowRoot.querySelectorAll('.button');
+        this.#buttons = this.#root.querySelectorAll('.button');
     }
 
     #setAccentColor(accentButtonEvent) {
