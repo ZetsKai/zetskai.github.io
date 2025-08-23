@@ -67,18 +67,19 @@ template.innerHTML = /*html*/`
 `;
 
 export class PageSwitcherFooter extends HTMLElement {
+    #root;
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        // TODO - Currently open, but we want this closed.
+        // ? - Only open for line 11 at /script.js
+        this.#root = this.attachShadow({ mode: 'open' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     connectedCallback() {
-        this.shadowRoot.querySelectorAll('.btn')
+        this.#root.querySelectorAll('.btn')
             .forEach(btn => btn.addEventListener('click', this.handleClick.bind(this)));
-
-        this.addEventListener('full-view', this.veil.bind(this));
     }
 
     handleClick(button_event) {
@@ -101,14 +102,15 @@ export class PageSwitcherFooter extends HTMLElement {
     }
 
     selectBtn(btnId) {
-        const btn = this.shadowRoot.getElementById(btnId);
-        const selectedBtn = this.shadowRoot.querySelector('[data-selected]');
+        const btn = this.#root.getElementById(btnId);
+        const selectedBtn = this.#root.querySelector('[data-selected]');
 
         if (selectedBtn !== null) delete selectedBtn.dataset.selected
         btn.dataset.selected = '';
     }
 
     veil() {
+        // ! - Might provoke a glitchy navbar...
         this.classList.toggle('hidden')
     }
 }
