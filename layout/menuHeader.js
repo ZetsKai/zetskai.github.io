@@ -39,24 +39,26 @@ template.innerHTML = /*html*/`
 `;
 
 export class MenuHeader extends HTMLElement {
+    #root;
     constructor() {
         super();
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     connectedCallback() {
-        const button = this.shadowRoot.querySelector('.button');
+        const button = this.#root.querySelector('.button');
         button.addEventListener('click', hideSubpage);
     }
 
     disconnectedCallback() {
-        const button = this.shadowRoot.querySelector('.button');
+        const button = this.#root.querySelector('.button');
         button.removeEventListener('click', hideSubpage);
     }
 
     updateHeaderTitle() {
-        const title = this.shadowRoot.querySelector('.title');
+        const title = this.#root.querySelector('.title');
         // title.innerHTML = null;
     }
 }
