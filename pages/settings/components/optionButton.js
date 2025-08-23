@@ -61,11 +61,12 @@ template.innerHTML = /*html*/`
 `;
 
 export class OptionButton extends HTMLElement {
+    #root
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'open' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     connectedCallback() {
