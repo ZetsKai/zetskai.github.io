@@ -35,7 +35,7 @@ const style = /*css*/`
 
     .toggle:checked {
         justify-content: flex-end;
-        background-color: var(--fill-accent-brand);
+        background-color: var(--fill-accent);
     }
 
     .toggle:checked::before {
@@ -52,11 +52,12 @@ template.innerHTML = /*html*/`
 `;
 
 export class Toggle extends HTMLElement {
+    #root;
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     connectedCallback() {}
