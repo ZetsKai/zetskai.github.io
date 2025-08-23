@@ -1,6 +1,5 @@
 import { defineCustomElement } from "../../../../../utils/defineCustomElement.js";
 import { hostResets } from "../../../../../assets/style/hostResets.js";
-import './ScoreFav.js';
 import { store } from "../../../../../utils/store.js";
 
 const style = /*css*/`
@@ -19,7 +18,8 @@ const style = /*css*/`
         width: 100%;
         height: 100%;
         overflow-x: scroll;
-        scroll-snap-type: x mandatory
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
     }
 
     .container {
@@ -51,7 +51,7 @@ template.innerHTML = /*html*/`
             <img class="container__image" src="https://static1.e926.net/data/ca/11/ca118b47423bc71db86284f0741db497.jpg" />
         </div>
     </div>
-    <score-fav class="score-fav" score="0"></score-fav>
+    <slot name="score-fav"></slot>
 
     <style>${style}</style>
 `;
@@ -62,18 +62,19 @@ const cancelSelect = e => {
 }
 
 export class ImageContainer extends HTMLElement {
+    #root;
 	#oldFingerPosY;
 
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     connectedCallback() {
         // store.loadedPosts.forEach(this.#addImg);
-        // this.shadowRoot.querySelector('.container__image').src = store.selectedPost.file.url
+        // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
 
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
@@ -89,9 +90,9 @@ export class ImageContainer extends HTMLElement {
     }
 
     #addImg(postData) {
-        const img = this.shadowRoot.createElement('img');
+        const img = this.#root.createElement('img');
         img.src = postData.file.url;
-        this.shadowRoot.append(img);
+        this.#root.append(img);
     }
 
     #handleFingerTap() {
