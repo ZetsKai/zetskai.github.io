@@ -5,32 +5,26 @@ const style = /*css*/`
     ${hostResets}
 
     :host {
-        display: flex;
         overflow: hidden;
-        height: auto;
+        display: flex;
         border-radius: 100px;
         background-color: var(--inset-surface);
         border: 1px solid var(--border);
     }
 
-    .btn {
+    ::slotted(.mode-switch__button) {
         flex-basis: 100%;
         flex-grow: 1;
-        height: min-content;
+        padding: var(--spacing-md) !important;
+        border-radius: 100px;
+        border: unset;
+        background-color: unset;
     }
 
-    .btn::before {
-        display: block;
-        width: 100%;
-        min-height: 1000px;
-        padding: var(--spacing-md);
-        text-align: center;
-        background-color: var(--inset-surface);
-        content: attr(data-val);
-    }
-
-    .btn:checked::before {
-        background-color: var(--fill-accent-brand);
+    ::slotted(.mode-switch__button--selected) {
+        font-weight: bold;
+        background-color: var(--fill-accent);
+        color: white;
     }
 `;
 
@@ -42,15 +36,31 @@ template.innerHTML = /*html*/`
 `;
 
 export class ModeSwitch extends HTMLElement {
+    #root;
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
+
+        this.buttons = this.#root.querySelector('slot').assignedElements();
     }
 
-    connectedCallback() {}
+    #switchButton(buttonEvent) {
+        const SELECTED_CLASSNAME = 'mode-switch__button--selected';
+        const clickedButton = buttonEvent.currentTarget;
+        const selectedButton = this.buttons.find(btn => btn.classList.contains(SELECTED_CLASSNAME));
 
-    disconnectedCallback() {}
+        selectedButton.classList.remove(SELECTED_CLASSNAME);
+        clickedButton.classList.add(SELECTED_CLASSNAME);
+    }
+
+    connectedCallback() {
+        this.buttons.forEach(btn => btn.addEventListener('click', this.#switchButton.bind(this)));
+    }
+
+    disconnectedCallback() {
+        this.buttons.forEach(btn => btn.removeEventListener('click', this.#switchButton));
+    }
 }
 defineCustomElement('mode-switch', ModeSwitch);
