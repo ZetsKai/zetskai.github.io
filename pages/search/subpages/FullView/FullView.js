@@ -119,6 +119,7 @@ export class FullView extends HTMLElement {
         this.addEventListener('fullscreen', this.#fullscreen.bind(this));
         this.addEventListener('submenuMove', this.#handleSubmemuHeight);
         this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
+        this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
     }
 
     disconnectedCallback() {
@@ -127,6 +128,11 @@ export class FullView extends HTMLElement {
         this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
         this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
     }
+
+    set postsData(data) {
+        this.#postsData = data;
+        this.#root.querySelector('image-container').setPostsData(data);
+    };
 
     openFullView(postIndex) {
         this.classList.add('full-view--visible');
@@ -139,9 +145,12 @@ export class FullView extends HTMLElement {
     };
 
     #setUiElems(postIndex) {
+        if (postIndex == null) return;
+        
         const post = this.#postsData[postIndex];
         const scoreFav = this.#root.querySelector('.score-fav');
 
+        this.#root.querySelector('image-container').scrollToX(postIndex);
         this.#root.querySelector('.header__id-num').innerHTML = post.id;    
         scoreFav.setAttribute('score', post.score.total);
     }
@@ -173,8 +182,6 @@ export class FullView extends HTMLElement {
         });
         this.dispatchEvent(fullScreenEvent);
     }
-
-    set postsData(data) { this.#postsData = data; };
 
     #handleSubmemuHeight(fingerPostCalculationInEventDetail) { this.#submenu.setHeight(fingerPostCalculationInEventDetail.detail); };
     #handleSubmenuDrop() { this.#submenu.setHeight(); };
