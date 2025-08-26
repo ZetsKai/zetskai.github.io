@@ -43,14 +43,7 @@ const style = /*css*/`
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <div class="slider">
-        <div class="container">
-            <img class="container__image" src="https://static1.e926.net/data/13/f3/13f3da299a8264d990e377f78af804d1.jpg" />
-        </div>
-        <div class="container">
-            <img class="container__image" src="https://static1.e926.net/data/ca/11/ca118b47423bc71db86284f0741db497.jpg" />
-        </div>
-    </div>
+    <div class="slider"></div>
     <slot name="score-fav"></slot>
 
     <style>${style}</style>
@@ -64,18 +57,22 @@ const cancelSelect = e => {
 export class ImageContainer extends HTMLElement {
     #root;
 	#oldFingerPosY;
+    #sliderPostIndex;
+    #timeoutId;
 
     constructor() {
         super();
 
         this.#root = this.attachShadow({ mode: 'closed' });
         this.#root.append(template.content.cloneNode(true));
+        this.#timeoutId = null;
     }
 
     connectedCallback() {
         // store.loadedPosts.forEach(this.#addImg);
         // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
 
+        this.#root.querySelector('.slider').addEventListener('scroll', this.#handleSliderScroll.bind(this));
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
 	    this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
@@ -89,10 +86,32 @@ export class ImageContainer extends HTMLElement {
 	    this.removeEventListener('touchend', this.#handleFingerDrop, { passive: true });
     }
 
-    #addImg(postData) {
-        const img = this.#root.createElement('img');
-        img.src = postData.file.url;
-        this.#root.append(img);
+    scrollToX(postIndex) {
+        const slider = this.#root.querySelector('.slider');
+        slider.scrollLeft = slider.getBoundingClientRect().width * postIndex;
+    }
+
+     #handleSliderScroll(e) {
+        const sliderContainer = e.target;
+        this.#sliderPostIndex = sliderContainer.scrollLeft / sliderContainer.getBoundingClientRect().width;
+    }
+
+    setPostsData(data) {
+        console.log(data);
+        
+        data.forEach(post => {
+            console.log(data);
+            const slider = this.#root.querySelector('.slider');
+            const container = document.createElement('div');
+            const img = document.createElement('img');
+
+            container.classList.add('container');
+            img.classList.add('container__image');
+            img.src = post.file.url;
+
+            container.append(img);
+            slider.append(container);
+        });
     }
 
     #handleFingerTap() {
@@ -104,6 +123,8 @@ export class ImageContainer extends HTMLElement {
     }
 
     #handleFingerStart(e) {
+        clearTimeout(this.#timeoutId)
+
         document.addEventListener('selectstart', cancelSelect)
         this.#oldFingerPosY = e.touches[0].screenY;
     }
@@ -130,6 +151,15 @@ export class ImageContainer extends HTMLElement {
             composed: true
         });
         this.dispatchEvent(submenuDropEvent);
+
+        this.#timeoutId = setTimeout(() => {
+            const selectPostEvent = new CustomEvent('selectPost', {
+                bubbles: true,
+                composed: true,
+                detail: this.#sliderPostIndex
+            })
+            this.dispatchEvent(selectPostEvent);
+        }, 654);
     }
 }
 defineCustomElement('image-container', ImageContainer);
