@@ -72,7 +72,7 @@ export class ImageContainer extends HTMLElement {
         // store.loadedPosts.forEach(this.#addImg);
         // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
 
-        this.#root.querySelector('.slider').addEventListener('scroll', this.#handleSliderScroll.bind(this));
+        this.#root.querySelector('.slider').addEventListener('scroll', this.#handleSliderScroll.bind(this), { passive: true });
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
 	    this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
