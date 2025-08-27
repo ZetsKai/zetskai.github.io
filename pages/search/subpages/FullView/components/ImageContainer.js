@@ -97,10 +97,7 @@ export class ImageContainer extends HTMLElement {
     }
 
     setPostsData(data) {
-        console.log(data);
-        
         data.forEach(post => {
-            console.log(data);
             const slider = this.#root.querySelector('.slider');
             const container = document.createElement('div');
             const img = document.createElement('img');
@@ -124,6 +121,7 @@ export class ImageContainer extends HTMLElement {
 
     #handleFingerStart(e) {
         clearTimeout(this.#timeoutId)
+        this.#timeoutId = null;
 
         document.addEventListener('selectstart', cancelSelect)
         this.#oldFingerPosY = e.touches[0].screenY;
@@ -160,7 +158,7 @@ export class ImageContainer extends HTMLElement {
             });
             console.log(selectPostEvent.detail);
             this.dispatchEvent(selectPostEvent);
-        }, 777);
+        }, 1000);
     }
 }
 defineCustomElement('image-container', ImageContainer);
