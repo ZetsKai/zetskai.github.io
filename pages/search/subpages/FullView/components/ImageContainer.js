@@ -156,10 +156,10 @@ export class ImageContainer extends HTMLElement {
             const selectPostEvent = new CustomEvent('selectPost', {
                 bubbles: true,
                 composed: true,
-                detail: this.#sliderPostIndex
-            })
+                detail: Math.ceil(this.#sliderPostIndex)
+            });
             this.dispatchEvent(selectPostEvent);
-        }, 654);
+        }, 750);
     }
 }
 defineCustomElement('image-container', ImageContainer);
