@@ -136,6 +136,7 @@ export class FullView extends HTMLElement {
 
     openFullView(postIndex) {
         this.classList.add('full-view--visible');
+        this.#root.querySelector('image-container').scrollToX(postIndex);
         this.#setUiElems(postIndex);
     }
     #closeFullView() {
@@ -150,7 +151,6 @@ export class FullView extends HTMLElement {
         const post = this.#postsData[postIndex];
         const scoreFav = this.#root.querySelector('.score-fav');
 
-        this.#root.querySelector('image-container').scrollToX(postIndex);
         this.#root.querySelector('.header__id-num').innerHTML = post.id;    
         scoreFav.setAttribute('score', post.score.total);
     }
