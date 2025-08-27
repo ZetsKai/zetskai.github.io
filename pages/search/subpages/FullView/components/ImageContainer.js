@@ -158,8 +158,9 @@ export class ImageContainer extends HTMLElement {
                 composed: true,
                 detail: Math.ceil(this.#sliderPostIndex)
             });
+            console.log(selectPostEvent.detail);
             this.dispatchEvent(selectPostEvent);
-        }, 750);
+        }, 777);
     }
 }
 defineCustomElement('image-container', ImageContainer);
