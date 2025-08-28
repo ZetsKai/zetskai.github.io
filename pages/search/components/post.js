@@ -10,6 +10,7 @@ const style = /*css*/`
         position: relative;
         overflow: hidden;
         width: 100%;
+        aspect-ratio: 1/1;
         background-color: green;
         border: 1px solid var(--border);
         border-radius: 8px;
