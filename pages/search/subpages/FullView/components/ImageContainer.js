@@ -11,6 +11,7 @@ const style = /*css*/`
         flex-basis: 100%;
         flex-grow: 1;
         padding: var(--spacing-xl);
+        overflow: hidden;
     }
 
     .slider {
@@ -20,6 +21,7 @@ const style = /*css*/`
         overflow-x: scroll;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
+        background-color: red;
     }
 
     .container {
@@ -31,13 +33,13 @@ const style = /*css*/`
         min-height: 0;
         max-height: 100%;
         scroll-snap-align: start;
+        background-color: yellow;
     }
 
     .container__image {
         max-width: 100%;
         max-height: 100%;
         border-radius: 8px;
-        border: 1px solid var(--border);
     }
 `;
 
@@ -54,11 +56,16 @@ const cancelSelect = e => {
     return false;
 }
 
+let timeoutId;
+    let six;
+
+
 export class ImageContainer extends HTMLElement {
     #root;
 	#oldFingerPosY;
-    #sliderPostIndex;
     #timeoutId;
+    #observer;
+    #observerEntries;
 
     constructor() {
         super();
@@ -68,11 +75,28 @@ export class ImageContainer extends HTMLElement {
         this.#timeoutId = null;
     }
 
+
     connectedCallback() {
         // store.loadedPosts.forEach(this.#addImg);
         // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
+        this.#observer = new IntersectionObserver(entries => {
+            if (entries.length > 1) { this.#observerEntries = [...entries] }
+            const entry = entries[0];
 
-        this.#root.querySelector('.slider').addEventListener('scroll', this.#handleSliderScroll.bind(this), { passive: true });
+            if (entry.isIntersecting) {
+                this.#timeoutId = setTimeout(() => {
+                    const selectPostEvent = new CustomEvent('selectPost', {
+                        bubbles: true,
+                        composed: true,
+                        detail: this.#observerEntries.findIndex(elem => elem.target == entry.target)
+                    });
+                    this.dispatchEvent(selectPostEvent);
+                }, 255);
+            }
+            else clearTimeout(this.#timeoutId);
+
+        },{ root: this.#root.querySelector('.slider'), threshold: 1.0 });
+
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
 	    this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
@@ -91,24 +115,39 @@ export class ImageContainer extends HTMLElement {
         slider.scrollLeft = slider.getBoundingClientRect().width * postIndex;
     }
 
-     #handleSliderScroll(e) {
-        const sliderContainer = e.target;
-        this.#sliderPostIndex = sliderContainer.scrollLeft / sliderContainer.getBoundingClientRect().width;
-    }
-
     setPostsData(data) {
+        const slider = this.#root.querySelector('.slider');
+        const containerDiv = document.createElement('div');
+        const imgElem = document.createElement('img');
+        const vidElem = document.createElement('video');
+        const sourceElem = document.createElement('source');
+
+        containerDiv.classList.add('container');
+        imgElem.classList.add('container__image');
+        vidElem.classList.add('container__image');
+
         data.forEach(post => {
-            const slider = this.#root.querySelector('.slider');
-            const container = document.createElement('div');
-            const img = document.createElement('img');
+            const container = containerDiv.cloneNode(true);
+            const source = sourceElem.cloneNode(true);
+            let media;
 
-            container.classList.add('container');
-            img.classList.add('container__image');
-            img.src = post.file.url;
+            if (post.file.ext == 'webm' || post.file.ext == 'mp4') {
+                media = vidElem.cloneNode(true);
+                media.append(source);
+                source.src = post.file.url;
+                source.setAttribute('type', `video/${post.file.ext}`);
+            }
+            else {
+                media = imgElem.cloneNode(true);
+                media.src = post.file.url;
+            }
 
-            container.append(img);
+            container.append(media);
+            this.#observer.observe(container);
             slider.append(container);
         });
+
+        const containers = slider.querySelectorAll('.container__image');
     }
 
     #handleFingerTap() {
@@ -149,16 +188,6 @@ export class ImageContainer extends HTMLElement {
             composed: true
         });
         this.dispatchEvent(submenuDropEvent);
-
-        this.#timeoutId = setTimeout(() => {
-            const selectPostEvent = new CustomEvent('selectPost', {
-                bubbles: true,
-                composed: true,
-                detail: Math.ceil(this.#sliderPostIndex)
-            });
-            console.log(selectPostEvent.detail);
-            this.dispatchEvent(selectPostEvent);
-        }, 1000);
     }
 }
 defineCustomElement('image-container', ImageContainer);
