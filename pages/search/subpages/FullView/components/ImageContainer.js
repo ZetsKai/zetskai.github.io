@@ -21,7 +21,6 @@ const style = /*css*/`
         overflow-x: scroll;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
-        background-color: red;
     }
 
     .container {
@@ -33,7 +32,6 @@ const style = /*css*/`
         min-height: 0;
         max-height: 100%;
         scroll-snap-align: start;
-        background-color: yellow;
     }
 
     .container__image {
