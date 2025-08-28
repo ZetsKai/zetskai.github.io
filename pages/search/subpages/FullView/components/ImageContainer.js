@@ -56,10 +56,6 @@ const cancelSelect = e => {
     return false;
 }
 
-let timeoutId;
-    let six;
-
-
 export class ImageContainer extends HTMLElement {
     #root;
 	#oldFingerPosY;
@@ -72,7 +68,6 @@ export class ImageContainer extends HTMLElement {
 
         this.#root = this.attachShadow({ mode: 'closed' });
         this.#root.append(template.content.cloneNode(true));
-        this.#timeoutId = null;
     }
 
 
@@ -159,9 +154,6 @@ export class ImageContainer extends HTMLElement {
     }
 
     #handleFingerStart(e) {
-        clearTimeout(this.#timeoutId)
-        this.#timeoutId = null;
-
         document.addEventListener('selectstart', cancelSelect)
         this.#oldFingerPosY = e.touches[0].screenY;
     }
