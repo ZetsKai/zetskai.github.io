@@ -128,24 +128,19 @@ export class Submenu extends HTMLElement {
     }
 
     async #downloadImage() {
-        const linkDump = this.#root.querySelector('.link-dump');
-		const src = store.selectedPost.file.url;
- 		const image = await fetch(src);
- 		const imageBlog = await image.blob();
- 		const imageURL = URL.createObjectURL(imageBlog);
-
-		const link = document.createElement('a')
- 		link.href = imageURL
- 		link.download = `${store.selectedPost.id}.${store.selectedPost.file.ext}`
- 		linkDump.appendChild(link)
- 		link.click()
- 		linkDump.removeChild(link)
+        const downloadEvent = new CustomEvent('downloadEvent', {
+            bubbles: true,
+            composed: true
+        })
+        this.dispatchEvent(downloadEvent);
 	}
 
     #copyToClipboard() {
-        const urlToCopy = store.selectedPost.file.url;
-        console.log(urlToCopy);
-        navigator.clipboard.writeText(urlToCopy);
+        const copySourceEvent = new CustomEvent('copySource', {
+            bubbles: true,
+            composed: true
+        })
+        this.dispatchEvent(copySourceEvent);
     }
 }
 defineCustomElement('sub-menu', Submenu);
