@@ -20,6 +20,8 @@ const style = /*css*/`
         display: flex;
     }
 
+    .link-dump { display: none !important; }
+
     .header {
         display: flex;
         overflow: hidden;
@@ -74,6 +76,7 @@ const style = /*css*/`
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
+    <div class="link-dump"></div>
     <div class="header">
         <button class="header__exit">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
@@ -104,6 +107,7 @@ export class FullView extends HTMLElement {
     #root;
     #submenu;
     #postsData
+    #selectedPost;
 
     constructor() {
         super();
@@ -120,6 +124,8 @@ export class FullView extends HTMLElement {
         this.addEventListener('submenuMove', this.#handleSubmemuHeight);
         this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
         this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
+        this.addEventListener('downloadEvent', this.#handleDownload.bind(this));
+        this.addEventListener('copySource', () => navigator.clipboard.writeText(this.#selectedPost.file.url));
     }
 
     disconnectedCallback() {
@@ -127,6 +133,7 @@ export class FullView extends HTMLElement {
         this.removeEventListener('fullscreen', this.#fullscreen.bind(this));
         this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
         this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
+        this.removeEventListener('downloadEvent', this.#handleDownload.bind(this));
     }
 
     set postsData(data) {
@@ -140,6 +147,8 @@ export class FullView extends HTMLElement {
         this.#setUiElems(postIndex);
     }
     #closeFullView() {
+        console.log(this.classList);
+        
         this.classList.remove('full-view--fullscreen');
         this.classList.remove('full-view--visible');
         this.#submenu.tempReset();
@@ -148,6 +157,7 @@ export class FullView extends HTMLElement {
     #setUiElems(postIndex) {
         if (postIndex == null) return;
         
+        this.#selectedPost = this.#postsData[postIndex];
         const post = this.#postsData[postIndex];
         const scoreFav = this.#root.querySelector('.score-fav');
 
@@ -185,6 +195,21 @@ export class FullView extends HTMLElement {
 
     #handleSubmemuHeight(fingerPostCalculationInEventDetail) { this.#submenu.setHeight(fingerPostCalculationInEventDetail.detail); };
     #handleSubmenuDrop() { this.#submenu.setHeight(); };
+
+    async #handleDownload() {
+        const linkDump = this.#root.querySelector('.link-dump');
+		const src = this.#selectedPost.file.url;
+ 		const image = await fetch(src);
+ 		const imageBlog = await image.blob();
+ 		const imageURL = URL.createObjectURL(imageBlog);
+
+		const link = document.createElement('a')
+ 		link.href = imageURL
+ 		link.download = `${this.#selectedPost.id}.${this.#selectedPost.file.ext}`
+ 		linkDump.appendChild(link)
+ 		link.click()
+ 		linkDump.removeChild(link)
+    }
 
 }
 defineCustomElement('full-view', FullView);
