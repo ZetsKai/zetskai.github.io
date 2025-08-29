@@ -21,6 +21,7 @@ const style = /*css*/`
         overflow-x: scroll;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
+        background-color: red;
     }
 
     .container {
@@ -32,6 +33,7 @@ const style = /*css*/`
         min-height: 0;
         max-height: 100%;
         scroll-snap-align: start;
+        padding-inline: 0.4px;
     }
 
     .container__image {
@@ -56,6 +58,7 @@ const cancelSelect = e => {
 
 export class ImageContainer extends HTMLElement {
     #root;
+    #elems = {};
 	#oldFingerPosY;
     #timeoutId;
     #observer;
@@ -64,7 +67,7 @@ export class ImageContainer extends HTMLElement {
     constructor() {
         super();
 
-        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root = this.attachShadow({ mode: 'open' });
         this.#root.append(template.content.cloneNode(true));
     }
 
@@ -75,6 +78,7 @@ export class ImageContainer extends HTMLElement {
         this.#observer = new IntersectionObserver(entries => {
             if (entries.length > 1) { this.#observerEntries = [...entries] }
             const entry = entries[0];
+            console.log(entry);
 
             if (entry.isIntersecting) {
                 this.#timeoutId = setTimeout(() => {
@@ -90,6 +94,8 @@ export class ImageContainer extends HTMLElement {
 
         },{ root: this.#root.querySelector('.slider'), threshold: 1.0 });
 
+        this.#elems.slider = this.#root.querySelector('.slider');
+
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
 	    this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
@@ -104,12 +110,10 @@ export class ImageContainer extends HTMLElement {
     }
 
     scrollToX(postIndex) {
-        const slider = this.#root.querySelector('.slider');
-        slider.scrollLeft = slider.getBoundingClientRect().width * postIndex;
+        this.#elems.slider.scrollLeft = this.#elems.slider.getBoundingClientRect().width * postIndex;
     }
 
-    setPostsData(data) {
-        const slider = this.#root.querySelector('.slider');
+    setSlider(data) {
         const containerDiv = document.createElement('div');
         const imgElem = document.createElement('img');
         const vidElem = document.createElement('video');
@@ -136,11 +140,9 @@ export class ImageContainer extends HTMLElement {
             }
 
             container.append(media);
-            this.#observer.observe(container);
-            slider.append(container);
+            this.#elems.slider.append(container);
+            this.#observer.observe(media);
         });
-
-        const containers = slider.querySelectorAll('.container__image');
     }
 
     #handleFingerTap() {
