@@ -76,7 +76,6 @@ const style = /*css*/`
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <div class="link-dump"></div>
     <div class="header">
         <button class="header__exit">
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
@@ -105,8 +104,9 @@ template.innerHTML = /*html*/`
 
 export class FullView extends HTMLElement {
     #root;
-    #submenu;
-    #postsData
+    #elems = {}; // header, imageContainer, scoreFav, subMenu
+    // #state = {}; // postsData, selectedPost
+    #postsData = {};
     #selectedPost;
 
     constructor() {
@@ -117,58 +117,66 @@ export class FullView extends HTMLElement {
     }
 
     connectedCallback() {
-	    this.#submenu = this.#root.querySelector('sub-menu');
+	    {
+            this.#elems.header = this.#root.querySelector('.header');
+	        this.#elems.imageContainer = this.#root.querySelector('image-container');
+	        this.#elems.scoreFav = this.#root.querySelector('score-fav');
+	        this.#elems.submenu = this.#root.querySelector('sub-menu');
+        }
         
-	    this.#root.querySelector('.header__exit').addEventListener('click', this.#closeFullView.bind(this));
+	    this.#elems.header.querySelector('.header__exit').addEventListener('click', this.#closeFullView.bind(this));
         this.addEventListener('fullscreen', this.#fullscreen.bind(this));
-        this.addEventListener('submenuMove', this.#handleSubmemuHeight);
-        this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
+        // this.addEventListener('submenuMove', this.#handleSubmemuHeight);
+        // this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
         this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
-        this.addEventListener('downloadEvent', this.#handleDownload.bind(this));
-        this.addEventListener('copySource', () => navigator.clipboard.writeText(this.#selectedPost.file.url));
     }
 
     disconnectedCallback() {
-	    this.#root.querySelector('.header__exit').removeEventListener('click', this.#closeFullView);
+	    this.#elems.header.querySelector('.header__exit').removeEventListener('click', this.#closeFullView.bind(this));
         this.removeEventListener('fullscreen', this.#fullscreen.bind(this));
-        this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
-        this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
-        this.removeEventListener('downloadEvent', this.#handleDownload.bind(this));
+        // this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
+        // this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
+        this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
     }
 
     set postsData(data) {
         this.#postsData = data;
-        this.#root.querySelector('image-container').setPostsData(data);
     };
 
     openFullView(postIndex) {
         this.classList.add('full-view--visible');
-        this.#root.querySelector('image-container').scrollToX(postIndex);
+
+        this.#elems.imageContainer.setSlider(this.#postsData);
+        this.#elems.imageContainer.scrollToX(postIndex);
+
         this.#setUiElems(postIndex);
+        console.log(this.#elems.imageContainer.shadowRoot.querySelector('.slider'));
     }
+
     #closeFullView() {
         console.log(this.classList);
         
         this.classList.remove('full-view--fullscreen');
         this.classList.remove('full-view--visible');
-        this.#submenu.tempReset();
+        this.#elems.submenu.tempReset();
     };
 
     #setUiElems(postIndex) {
         if (postIndex == null) return;
-        
-        this.#selectedPost = this.#postsData[postIndex];
         const post = this.#postsData[postIndex];
-        const scoreFav = this.#root.querySelector('.score-fav');
-
-        this.#root.querySelector('.header__id-num').innerHTML = post.id;    
-        scoreFav.setAttribute('score', post.score.total);
+        
+        console.log('to change');
+        this.#elems.header.querySelector('.header__id').innerHTML = post.id
+        this.#elems.scoreFav.setAttribute('score', post.score.total);
+        this.#elems.submenu.setAttribute('url', post.file.url);
+        this.#elems.submenu.setAttribute('id', post.id);
+        this.#elems.submenu.setAttribute('ext', post.file.ext);
     }
 
     #fullscreen() {
         this.classList.toggle('full-view--fullscreen');
-        this.#submenu.classList.remove('submenu--open');
-        this.#submenu.style.height = '0%';
+        this.#elems.submenu.classList.remove('submenu--open');
+        this.#elems.submenu.style.height = '0%';
 
         const shittySafariForceRepaint = () => {
             this.style.display = 'none';
@@ -193,23 +201,12 @@ export class FullView extends HTMLElement {
         this.dispatchEvent(fullScreenEvent);
     }
 
-    #handleSubmemuHeight(fingerPostCalculationInEventDetail) { this.#submenu.setHeight(fingerPostCalculationInEventDetail.detail); };
-    #handleSubmenuDrop() { this.#submenu.setHeight(); };
-
-    async #handleDownload() {
-        const linkDump = this.#root.querySelector('.link-dump');
-		const src = this.#selectedPost.file.url;
- 		const image = await fetch(src);
- 		const imageBlog = await image.blob();
- 		const imageURL = URL.createObjectURL(imageBlog);
-
-		const link = document.createElement('a')
- 		link.href = imageURL
- 		link.download = `${this.#selectedPost.id}.${this.#selectedPost.file.ext}`
- 		linkDump.appendChild(link)
- 		link.click()
- 		linkDump.removeChild(link)
-    }
+    #handleSubmemuHeight(fingerPostCalculationInEventDetail) {
+        this.#elems.submenu.setHeight(fingerPostCalculationInEventDetail.detail);
+    };
+    #handleSubmenuDrop() {
+        this.#elems.submenu.setHeight();
+    };
 
 }
 defineCustomElement('full-view', FullView);
