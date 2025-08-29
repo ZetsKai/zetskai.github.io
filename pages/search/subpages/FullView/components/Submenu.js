@@ -46,7 +46,7 @@ const style = /*css*/`
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <div class="link-dump"></div>
+    <a class="link-dump" href="" download>If this is visible, there is a severe problem!</a>
     <nav class="quick-actions">
         <button class="quick-actions__button quick-actions__button--url">
             <svg  xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="currentColor" viewBox="0 0 24 24" >
@@ -78,9 +78,7 @@ template.innerHTML = /*html*/`
 
 export class Submenu extends HTMLElement {
     #root;
-    #urlButton;
-    #downloadButton;
-    #flagButton;
+    #elems = {}; // linkDump, urlButton, downloadButton, flagButton
     constructor() {
         super();
 
@@ -88,17 +86,22 @@ export class Submenu extends HTMLElement {
         this.#root.append(template.content.cloneNode(true));
     }
 
-    connectedCallback() {
-        this.#urlButton = this.#root.querySelector('.quick-actions__button--url');
-        this.#downloadButton = this.#root.querySelector('.quick-actions__button--download');
+    static get observedAttributes() {
+        return ['src', 'id', 'ext'];
+    }
 
-        this.#downloadButton.addEventListener('click', this.#downloadImage.bind(this));
-        this.#urlButton.addEventListener('click', this.#copyToClipboard.bind(this));
+    connectedCallback() {
+        this.#elems.linkDump = this.#root.querySelector('.link-dump');
+        this.#elems.urlButton = this.#root.querySelector('.quick-actions__button--url');
+        this.#elems.downloadButton = this.#root.querySelector('.quick-actions__button--download');
+
+        this.#elems.downloadButton.addEventListener('click', this.#downloadImage.bind(this));
+        this.#elems.urlButton.addEventListener('click', this.#copyToClipboard.bind(this));
     }
 
     disconnectedCallback() {
-        this.#downloadButton.removeEventListener('click', this.#downloadImage.bind(this));
-        this.#urlButton.removeEventListener('click', this.#copyToClipboard.bind(this));
+        this.#elems.downloadButton.removeEventListener('click', this.#downloadImage.bind(this));
+        this.#elems.urlButton.removeEventListener('click', this.#copyToClipboard.bind(this));
     }
 
     setHeight(fingerPosCalculation) {
@@ -128,19 +131,23 @@ export class Submenu extends HTMLElement {
     }
 
     async #downloadImage() {
-        const downloadEvent = new CustomEvent('downloadEvent', {
-            bubbles: true,
-            composed: true
-        })
-        this.dispatchEvent(downloadEvent);
+        // const downloadEvent = new CustomEvent('downloadEvent', {
+        //     bubbles: true,
+        //     composed: true
+        // });
+        // this.dispatchEvent(downloadEvent);
+
+ 		const image = await fetch(this.getAttribute('src'));
+ 		const imageBlob = await image.blob();
+ 		const imageUrl = URL.createObjectURL(imageBlob);
+
+ 		this.#elems.linkDump.href = imageUrl;
+ 		this.#elems.download = this.getAttribute('id') + '.' + this.getAttribute('ext');
+ 		this.#elems.click();
 	}
 
     #copyToClipboard() {
-        const copySourceEvent = new CustomEvent('copySource', {
-            bubbles: true,
-            composed: true
-        })
-        this.dispatchEvent(copySourceEvent);
+        navigator.clipboard.writeText(this.getAttribute('url'));
     }
 }
 defineCustomElement('sub-menu', Submenu);
