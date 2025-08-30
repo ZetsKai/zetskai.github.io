@@ -7,40 +7,30 @@ const style = /*css*/`
     ${hostResets}
 
     :host {
-        --gap: var(--spacing-lg);
-        max-width: 720px;
-
         display: none;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-lg);
+        max-width: 720px;
     }
 
     :host(.search__subpage--selected) {
-        display: flex;
-        gap: var(--gap);
-    }
-
-    ::slotted(.column) {
-        display: flex;
-        flex-direction: column;
-        flex-basis: 100%;
-        grow: 1;
-        gap: var(--gap);
+        display: grid;
     }
 `;
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <slot></slot>
-
     <style>${style}</style>
 `;
 
 export class Gallery extends HTMLElement {
+    #root;
     #postsData;
     constructor() {
         super();
 
-        this.attachShadow({ mode: 'open' });
-        this.shadowRoot.append(template.content.cloneNode(true));
+        this.#root = this.attachShadow({ mode: 'closed' });
+        this.#root.append(template.content.cloneNode(true));
     }
 
     connectedCallback() {
@@ -50,20 +40,18 @@ export class Gallery extends HTMLElement {
     disconnectedCallback() {}
 
     async getImages() {
-        const columns = this.shadowRoot.querySelector('slot').assignedElements();
-        if (columns.length === 0) return;
-
         try {
-            this.#postsData = await requestPosts();
+            this.#postsData = await requestPosts({limit: 16});
+            if (this.#postsData == undefined) throw 'Unable to get posts data.';
 
-            let flag = 0;
+            const postComponentElem = this.#root.ownerDocument.createElement('post-image');
+
             this.#postsData.forEach((post, index) => {
-                const postComponent = document.createElement('post-image');
+                if (post.file.url == null) return;
+                const postComponent = postComponentElem.cloneNode(true);
+                
                 postComponent.postData = { index, post };
-                columns[flag].appendChild(postComponent);
-
-                if (flag >= (columns.length - 1)) flag = 0;
-                else flag++;
+                this.#root.appendChild(postComponent);
             });
 
             const postsFetchedEvent = new CustomEvent('fetchedPosts', {
