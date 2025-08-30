@@ -35,13 +35,12 @@ function setPageApi(site, postId) {
 }
 
 
-export async function requestPosts() {
+export async function requestPosts(options) {
     // const user = getUserInfo();
     // const site = setPageApi
-    const limit = 8;
     // const reqUrl = `https://e926.net/posts.json?login=${username}&api_key=${apiKey}`;
 
-    const response = await fetch(`https://e926.net/posts.json?limit=${limit}`, {
+    const response = await fetch(`https://e926.net/posts.json?limit=${options.limit}`, {
         headers: {
             // 'Authorization': 'Basic ' + btoa(`${user.username}:${user.apiKey}`),
             'User-Agent': 'Foxhole/1.0 (ZetsKai)'
@@ -53,7 +52,7 @@ export async function requestPosts() {
 }
 
 export async function requestSpecificPost(postId) {
-    const user = getUserInfo();
+    // const user = getUserInfo();
 
     const response = await fetch(`https://e621.net/posts/${postId}.json`, {
         headers: {
