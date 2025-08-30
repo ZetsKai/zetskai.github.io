@@ -4,8 +4,10 @@
 }
 
 .search__gallery {
+    display: flex;
     overflow-y: scroll;
     justify-content: center;
+    align-items: start;
     padding: var(--spacing-xl);
 }
 
