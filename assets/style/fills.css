@@ -11,3 +11,27 @@
 
     --fill-heart: #DE3D3D;
 }
+
+html[data-theme="dark"] {
+    --fill-accent-neuter: #f0f0f0;
+}
+
+html[data-accent="brand"] {
+    --fill-accent: var(--fill-accent-brand);
+}
+
+html[data-accent="blue"] {
+    --fill-accent: var(--fill-accent-blue);
+}
+
+html[data-accent="orange"] {
+    --fill-accent: var(--fill-accent-orange);
+}
+
+html[data-accent="green"] {
+    --fill-accent: var(--fill-accent-green);
+}
+
+html[data-accent="neuter"] {
+    --fill-accent: var(--fill-accent-neuter);
+}
