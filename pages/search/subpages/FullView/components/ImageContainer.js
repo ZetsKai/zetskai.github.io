@@ -21,7 +21,6 @@ const style = /*css*/`
         overflow-x: scroll;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
-        background-color: red;
     }
 
     .container {
@@ -58,7 +57,7 @@ const cancelSelect = e => {
 
 export class ImageContainer extends HTMLElement {
     #root;
-    #elems = {};
+    #elems = {}; // slider
 	#oldFingerPosY;
     #timeoutId;
     #observer;
@@ -67,7 +66,7 @@ export class ImageContainer extends HTMLElement {
     constructor() {
         super();
 
-        this.#root = this.attachShadow({ mode: 'open' });
+        this.#root = this.attachShadow({ mode: 'closed' });
         this.#root.append(template.content.cloneNode(true));
     }
 
@@ -78,7 +77,6 @@ export class ImageContainer extends HTMLElement {
         this.#observer = new IntersectionObserver(entries => {
             if (entries.length > 1) { this.#observerEntries = [...entries] }
             const entry = entries[0];
-            console.log(entry);
 
             if (entry.isIntersecting) {
                 this.#timeoutId = setTimeout(() => {
@@ -110,20 +108,29 @@ export class ImageContainer extends HTMLElement {
     }
 
     scrollToX(postIndex) {
-        this.#elems.slider.scrollLeft = this.#elems.slider.getBoundingClientRect().width * postIndex;
+        const containerToScrollTo = this.#elems.slider.querySelectorAll('.container')[postIndex];
+
+        containerToScrollTo.scrollIntoView({
+            behavior: 'instant',
+            container: 'nearest',
+            block: 'nearest',
+            inline: 'start'
+        });
+
+        // this.#elems.slider.scrollLeft = containerToScrollTo.offsetLeft;
     }
 
     setSlider(data) {
-        const containerDiv = document.createElement('div');
-        const imgElem = document.createElement('img');
-        const vidElem = document.createElement('video');
-        const sourceElem = document.createElement('source');
+        const containerDiv = this.#root.ownerDocument.createElement('div');
+        const imgElem = this.#root.ownerDocument.createElement('img');
+        const vidElem = this.#root.ownerDocument.createElement('video');
+        const sourceElem = this.#root.ownerDocument.createElement('source');
 
         containerDiv.classList.add('container');
         imgElem.classList.add('container__image');
         vidElem.classList.add('container__image');
 
-        data.forEach(post => {
+        const posts = data.map(post => {
             const container = containerDiv.cloneNode(true);
             const source = sourceElem.cloneNode(true);
             let media;
@@ -140,9 +147,12 @@ export class ImageContainer extends HTMLElement {
             }
 
             container.append(media);
-            this.#elems.slider.append(container);
             this.#observer.observe(media);
+
+            return container;
         });
+        this.#elems.slider.innerHTML = null;
+        this.#elems.slider.append(...posts);
     }
 
     #handleFingerTap() {
