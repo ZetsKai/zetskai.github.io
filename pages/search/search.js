@@ -3,6 +3,9 @@ import { Post } from './components/post.js';
 import { Gallery } from "./components/gallery.js";
 import { FullView } from "./subpages/FullView/FullView.js";
 import { Router } from "../../utils/router.js";
+import { SearchComponent } from "./components/SearchComponent.js";
+import { FilterMenu } from "./components/FilterMenu.js";
+import { sanitizeTagString } from '../../utils/sanitizeTagString.js';
 
 // TODO - Contain this bitchass.
 function switchSubpage(subpageSwitchEvent) {
@@ -16,13 +19,40 @@ function switchSubpage(subpageSwitchEvent) {
 
 const storePostsData = postsDataEvent => document.querySelector('full-view').postsData = postsDataEvent.detail;
 
-function openFullView(postEvent) {
+function openInFullView(postEvent) {
 	const postIndex = postEvent.detail;
 	const fullView = document.querySelector('full-view');
 
 	fullView.openFullView(postIndex);
 }
 
-document.addEventListener('switch-subpage', switchSubpage);
-document.addEventListener('fullView', openFullView);
+function initiateSearch() {
+	const favorites = 'fav:ZetsKai';
+	const blacklist = 'cheating raceplay cub'.split(' ').map(tag => '-' + tag).join(' ');
+
+	const form = document.querySelector('.search-area');
+	const formData = new FormData(form);
+
+	let searchString = '';
+	for (const [key, value] of formData.entries()) {
+		let string;
+		if (key === 'extra-blacklist') string = blacklist;
+		else if (key === 'extra-favorites') string = favorites;
+		else string = value
+
+		console.log(`${key}: ${value}.`);
+		searchString += sanitizeTagString(string);
+	}
+
+	const gallery = document.querySelector('post-gallery');
+	gallery.getImages(searchString);
+}
+
+document.addEventListener('search-component-search', initiateSearch);
+document.addEventListener('openFilterMenu', () => {
+	document.querySelector('filter-menu').setAttribute('open', '');
+});
+
+// document.addEventListener('switch-subpage', switchSubpage);
+document.addEventListener('fullView', openInFullView);
 document.addEventListener('fetchedPosts', storePostsData);
