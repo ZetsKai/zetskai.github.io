@@ -13,8 +13,7 @@ const style = /*css*/`
         border-color: var(--border);
     }
 
-    ::slotted(input) {
-        appearance: none;
+    ::slotted(button) {
         display: flex;
         justify-content: center;
         align-items: center;
@@ -27,23 +26,18 @@ const style = /*css*/`
         background-color: unset;
     }
 
-    ::slotted(input)::before {
-        display: block;
-        content: attr(text);
-    }
-
-    ::slotted(input:checked) {
+    ::slotted(.segmented-control__button--checked) {
         font-weight: bold;
         background-color: var(--fill-accent-brand);
         color: white;
     }
 
-    ::slotted(input:disabled) {
+    ::slotted(button:disabled) {
         background-color: unset;
         color: gray;
     }
 
-    ::slotted(input:checked:disabled) {
+    ::slotted(.segmented-control__button--checked:disabled) {
         background-color: lightgray;
     }
 `;
@@ -59,17 +53,17 @@ export class SegmentedControl extends HTMLElement {
     #root;
     #elems = {};
 
-    // #internals;
-    // static formAssociated = true;
+    #internals;
+    static formAssociated = true;
 
     constructor() {
         super();
 
         this.#root = this.attachShadow({ mode: 'closed', disperseFocus: true });
         this.#root.append(template.content.cloneNode(true));
-        // this.#internals = this.attachInternals();
+        this.#internals = this.attachInternals();
 
-        this.#elems.radioButtons = this.#root.querySelector('slot').assignedElements();
+        this.#elems.buttons = this.#root.querySelector('slot').assignedElements();
     }
 
     static get observedAttributes() {
@@ -77,27 +71,38 @@ export class SegmentedControl extends HTMLElement {
     }
 
     connectedCallback() {
-        this.#elems.radioButtons[0].checked = true;
-        // this.#internals.setFormValue(this.#elems.radioButtons[0].value);
+        // this.#internals.setFormValue(this.#elems.buttons[0].value);
 
-        this.#elems.radioButtons.forEach(radioButton => radioButton.addEventListener('click', this.#setValue.bind(this)));
+        this.#elems.buttons.forEach(button => button.addEventListener('click', this.#setValue.bind(this)));
+        this.#elems.buttons.forEach(button => button.addEventListener('click', this.#switchButton.bind(this)));
+        this.#elems.buttons[1].click();
+
     }
 
     disconnectedCallback() {
-        this.#elems.radioButtons.forEach(radioButton => radioButton.removeEventListener('click', this.#setValue.bind(this)));
+        this.#elems.buttons.forEach(buttonn => buttonn.removeEventListener('click', this.#setValue.bind(this)));
     }
 
     attributeChangedCallback(name, oldValue, newValue) {
         const isDisabled = this.hasAttribute('disabled');
 
         if (isDisabled)
-            this.#elems.radioButtons.forEach(radioButton => radioButton.disabled = true);
+            this.#elems.buttons.forEach(buttonn => buttonn.disabled = true);
         else
-            this.#elems.radioButtons.forEach(radioButton => radioButton.disabled = false);
+            this.#elems.buttons.forEach(buttonn => buttonn.disabled = false);
+    }
+
+    #switchButton(buttonEvent) {
+        const CLASS_NAME ='segmented-control__button--checked';
+        const previouslySelectedButton = this.#elems.buttons.find(button => button.classList.contains(CLASS_NAME));
+        const clickedButton = buttonEvent.target;
+
+        if (previouslySelectedButton !== undefined) previouslySelectedButton.classList.remove(CLASS_NAME);
+        clickedButton.classList.add(CLASS_NAME);
     }
 
     #setValue(buttonEvent) {
-        // this.#internals.setFormValue(buttonEvent.target.value);
+        this.#internals.setFormValue(buttonEvent.target.value);
 
         const toggleEvent = new CustomEvent('segmented-control-button-click', {
             bubbles: true,
