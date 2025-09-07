@@ -40,6 +40,7 @@ const style = /*css*/`
     .searchbox__input {
         flex-basis: 100%;
         padding: var(--spacing-md);
+        font-size: 16px;
         background-color: transparent;
         border: none;
         outline: none;
