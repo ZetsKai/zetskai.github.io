@@ -8,24 +8,28 @@ const style = /*css*/`
 
     :host {
         display: none;
-        grid-template-columns: repeat(3, 1fr);
-        gap: var(--spacing-lg);
-        max-width: 720px;
     }
 
     :host(.search__subpage--selected) {
+        display: block;
+    }
+
+    .posts-tabs-container {
         display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        gap: var(--spacing-lg);
+        max-width: 720px;
     }
 `;
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
+    <div class="posts-tabs-container"></div>
     <style>${style}</style>
 `;
 
 export class Gallery extends HTMLElement {
     #root;
-    #postsData;
     constructor() {
         super();
 
@@ -39,36 +43,35 @@ export class Gallery extends HTMLElement {
 
     disconnectedCallback() {}
 
-    async getImages() {
+    async getImages(searchString = '') {
         try {
-            this.#postsData = await requestPosts({limit: 16});
-            if (this.#postsData == undefined) throw 'Unable to get posts data.';
-
+            const postsData = await requestPosts({tags: searchString, limit: 8});
+            if (postsData == undefined || postsData.length === 0) throw 'Unable to get posts data.';
+        
+            const postsTabsContainer = this.#root.querySelector('.posts-tabs-container');
             const postComponentElem = this.#root.ownerDocument.createElement('post-image');
 
-            this.#postsData.forEach((post, index) => {
+            const posts = postsData.map((post, index) => {
                 if (post.file.url == null) return;
                 const postComponent = postComponentElem.cloneNode(true);
                 
                 postComponent.postData = { index, post };
-                this.#root.appendChild(postComponent);
+                return postComponent;
             });
+
+            postsTabsContainer.innerHTML = null;
+            postsTabsContainer.append(...posts);
 
             const postsFetchedEvent = new CustomEvent('fetchedPosts', {
                 bubbles: true,
                 composed: true,
-                detail: this.#postsData
+                detail: postsData
             });
             this.dispatchEvent(postsFetchedEvent);
         }
         catch(e) {
             console.error(e);
         }
-        
-    }
-
-    get postsData() {
-        return this.#postsData;
     }
 }
 defineCustomElement('post-gallery', Gallery);
