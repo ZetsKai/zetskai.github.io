@@ -40,7 +40,7 @@
     }
 }
 
-html[data-mode="light"] {
+html[data-theme="light"] {
     --background: var(--light-background) !important;
     --surface: var(--light-surface) !important;
     --inset-surface: var(--light-inset-surface) !important;
@@ -50,7 +50,7 @@ html[data-mode="light"] {
     --inset-text: var(--light-inset-text) !important;
 }
 
-html[data-mode="dark"] {
+html[data-theme="dark"] {
     --background: var(--dark-background) !important;
     --surface: var(--dark-surface) !important;
     --inset-surface: var(--dark-inset-surface) !important;
