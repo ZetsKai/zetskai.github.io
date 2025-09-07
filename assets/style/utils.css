@@ -1,19 +1,36 @@
-.surface { background-color: var(--light-surface); }
-.inset { background-color: var(--light-inset-surface); }
-.border { border: 1px solid var(--light-border); }
 .rounded { border-radius: 8px; }
-.padding { padding: var(--spacing-lg); }
 
-.page-elem {
-    background-color: var(--light-background);
-    border: 1px solid var(--light-border);
-    border-radius: 8px;
-    padding: var(--spacing-lg);
+.card {
+    background-color: var(--surface);
+    border: 1px solid var(--border);
+}
+.card--padded { padding: var(--spacing-lg); }
+
+.card:not(:last-of-type) {
+    margin-bottom: var(--spacing-xl);
 }
 
-.page-inset {
-    background-color: var(--light-inset-surface);
-    border: 1px solid var(--light-border);
-    border-radius: 8px;
+.button {
+    box-sizing: content-box;
+    min-width: 0;
     padding: var(--spacing-md);
+    border-radius: 100px;
+    background-color: var(--inset-surface);
+    border: 1px solid var(--border);
+}
+
+.button__icon {
+    height: 24px;
+    width: auto;
+}
+
+.button--disabled {
+    color: var(--inset-text);
+}
+
+.button--highlight {
+    border: unset;
+    font-weight: bold;
+    color: white;
+    background-color: var(--fill-accent);
 }
