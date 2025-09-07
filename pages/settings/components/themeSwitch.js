@@ -1,8 +1,8 @@
-import { ModeSwitch } from "../../../components/modeSwitch.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
+import { SegmentedControl } from '../../../components/SegmentedControl.js';
 
 
-export class ThemeSwitch extends ModeSwitch {
+export class ThemeSwitch extends SegmentedControl {
     constructor() {
         super();
     }
