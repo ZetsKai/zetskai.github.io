@@ -17,7 +17,7 @@
   * it actually doesn't have more specificity than ::slotted(.button), no matter where I put it.
 ***/
 html, body, div, main, article, section, aside, footer, nav,
-h1, h2, h3, h4, h5, h6, p, a, span, button, input,
+h1, h2, h3, h4, h5, h6, p, a, span, button, input, form, select,
 img, video, svg {
     padding: 0;
     margin: 0;
@@ -53,7 +53,6 @@ body {
     display: flex;
     flex-direction: column;
     height: 100%;
-    border-bottom: 1px solid orangered;
 }
 
 .subpage {
@@ -91,4 +90,8 @@ body {
 
 body {
     position: relative;
+}
+
+.hidden {
+    display: none !important;
 }
