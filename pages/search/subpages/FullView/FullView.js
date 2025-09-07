@@ -16,7 +16,8 @@ const style = /*css*/`
         height: 100%;
         background-color: var(--background);
     }
-    :host(.full-view--visible) {
+
+    :host([open]) {
         display: flex;
     }
 
@@ -46,7 +47,7 @@ const style = /*css*/`
         flex-shrink: 1;
     }
 
-    :host(.full-view--fullscreen) {
+    :host([fullscreen]) {
         background-color: black;
 
         .header {
@@ -107,7 +108,6 @@ export class FullView extends HTMLElement {
     #elems = {}; // header, imageContainer, scoreFav, subMenu
     // #state = {}; // postsData, selectedPost
     #postsData = {};
-    #selectedPost;
 
     constructor() {
         super();
@@ -116,27 +116,33 @@ export class FullView extends HTMLElement {
         this.#root.append(template.content.cloneNode(true));
     }
 
+    static get observedAttributes() {
+        return ['open', 'fullscreen']
+    }
+
     connectedCallback() {
-	    {
-            this.#elems.header = this.#root.querySelector('.header');
-	        this.#elems.imageContainer = this.#root.querySelector('image-container');
-	        this.#elems.scoreFav = this.#root.querySelector('score-fav');
-	        this.#elems.submenu = this.#root.querySelector('sub-menu');
-        }
+        this.#elems.header = this.#root.querySelector('.header');
+	    this.#elems.imageContainer = this.#root.querySelector('image-container');
+	    this.#elems.scoreFav = this.#root.querySelector('score-fav');
+	    this.#elems.submenu = this.#root.querySelector('sub-menu');
         
-	    this.#elems.header.querySelector('.header__exit').addEventListener('click', this.#closeFullView.bind(this));
-        this.addEventListener('fullscreen', this.#fullscreen.bind(this));
+        this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
+        this.addEventListener('fullscreen', () => this.toggleAttribute('fullscreen'));
         // this.addEventListener('submenuMove', this.#handleSubmemuHeight);
         // this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
-        this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
+	    this.#elems.header.querySelector('.header__exit').addEventListener('click', this.#closeFullView.bind(this));
     }
 
     disconnectedCallback() {
-	    this.#elems.header.querySelector('.header__exit').removeEventListener('click', this.#closeFullView.bind(this));
+        this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
         this.removeEventListener('fullscreen', this.#fullscreen.bind(this));
         // this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
         // this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
-        this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
+	    this.#elems.header.querySelector('.header__exit').removeEventListener('click', this.#closeFullView.bind(this));
+    }
+
+    attributeChangedCallback(name, oldValue, newValue) {
+        if (name === 'fullscreen') this.#fullscreen();
     }
 
     set postsData(data) {
@@ -144,20 +150,18 @@ export class FullView extends HTMLElement {
     };
 
     openFullView(postIndex) {
-        this.classList.add('full-view--visible');
+        this.setAttribute('open', '');
 
         this.#elems.imageContainer.setSlider(this.#postsData);
         this.#elems.imageContainer.scrollToX(postIndex);
 
         this.#setUiElems(postIndex);
-        console.log(this.#elems.imageContainer.shadowRoot.querySelector('.slider'));
     }
 
     #closeFullView() {
-        console.log(this.classList);
-        
-        this.classList.remove('full-view--fullscreen');
-        this.classList.remove('full-view--visible');
+        this.removeAttribute('open');
+        this.removeAttribute('fullscreen');
+        this.#elems.imageContainer.scrollToX(0);
         this.#elems.submenu.tempReset();
     };
 
@@ -165,7 +169,6 @@ export class FullView extends HTMLElement {
         if (postIndex == null) return;
         const post = this.#postsData[postIndex];
         
-        console.log('to change');
         this.#elems.header.querySelector('.header__id').innerHTML = post.id
         this.#elems.scoreFav.setAttribute('score', post.score.total);
         this.#elems.submenu.setAttribute('url', post.file.url);
@@ -174,14 +177,13 @@ export class FullView extends HTMLElement {
     }
 
     #fullscreen() {
-        this.classList.toggle('full-view--fullscreen');
         this.#elems.submenu.classList.remove('submenu--open');
         this.#elems.submenu.style.height = '0%';
 
         const shittySafariForceRepaint = () => {
             this.style.display = 'none';
             this.offsetHeight;
-            this.style.display = 'flex';
+            this.style = null;
         }
 
         // const chrome = 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/141.0.0.0 Safari/537.36';
