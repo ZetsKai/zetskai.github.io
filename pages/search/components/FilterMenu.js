@@ -1,5 +1,5 @@
-import { defineCustomElement } from "../../../utils/defineCustomElement.js";
 import { hostResets } from "../../../assets/style/hostResets.js";
+import { defineCustomElement } from "../../../utils/defineCustomElement.js";
 
 const style = /*css*/`
     ${hostResets}
@@ -57,6 +57,7 @@ const style = /*css*/`
     .section__dropdown {
         padding: var(--spacing-md);
         border-radius: 100px;
+        font-size: 16px;
         background-color: var(--inset-surface);
         border: 1px solid var(--border);
     }
@@ -140,12 +141,12 @@ template.innerHTML = /*html*/`
                     <option value="score">Score</option>
                 </select>
                 <segmented-control name="date">
-                    <input type="radio" name="date" value="order:created" text="Newest">
-                    <input type="radio" name="date" value="order:created_asc" text="Oldest">
+                    <button name="date" type="button" value="order:created">Newest</button>
+                    <button name="date" type="button" value="order:created_asc">Oldest</button>
                 </segmented-control>
                 <segmented-control name="score" disabled>
-                    <input type="radio" name="score" value="order:score" text="Most Popular">
-                    <input type="radio" name="score" value="order:score_asc" text="Least Popular">
+                    <button name="score" type="button" value="order:score">Most Popular</button>
+                    <button name="score" type="button" value="order:score_asc">Least Popular</button>
                 </segmented-control>
             </div>
             <div class="section">
@@ -159,12 +160,12 @@ template.innerHTML = /*html*/`
             <div class="section">
                 <div class="section__title">Apply</div>
                 <div class="section__buttons">
-                    <input type="checkbox" name="extra-blacklist" class="section__button" value="blacklist" text="Blacklist">
-                    <input type="checkbox" name="extra-favorites" class="section__button" value="fav" text="Favorites">
+                    <input type="checkbox" name="extra-blacklist" class="section__button" value="blacklist" text="Blacklist" disabled>
+                    <input type="checkbox" name="extra-favorites" class="section__button" value="fav" text="Favorites" disabled>
                 </div>
             </div>
             <div class="confirmation">
-                <button type="button" name="cancel" class="confirmation__button">Cancel</button>
+                <button type="button" name="cancel" class="confirmation__button" disabled>Cancel</button>
                 <button type="button" name="apply" class="confirmation__button confirmation__button--apply">Apply</button>
             </div>
         </div>
