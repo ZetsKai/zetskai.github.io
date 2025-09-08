@@ -13,7 +13,9 @@ const style = /*css*/`
         border-color: var(--border);
     }
 
-    ::slotted(button) {
+    ::slotted(.segmented-control__button) {
+        position: relative;
+        overflow: none;
         display: flex;
         justify-content: center;
         align-items: center;
@@ -24,21 +26,6 @@ const style = /*css*/`
         border-radius: 100px;
         border: unset;
         background-color: unset;
-    }
-
-    ::slotted(.segmented-control__button--checked) {
-        font-weight: bold;
-        background-color: var(--fill-accent-brand);
-        color: white;
-    }
-
-    ::slotted(button:disabled) {
-        background-color: unset;
-        color: gray;
-    }
-
-    ::slotted(.segmented-control__button--checked:disabled) {
-        background-color: lightgray;
     }
 `;
 
@@ -53,35 +40,22 @@ export class SegmentedControl extends HTMLElement {
     #root;
     #elems = {};
 
-    #internals;
-    static formAssociated = true;
-
     constructor() {
         super();
 
-        this.#root = this.attachShadow({ mode: 'closed', disperseFocus: true });
+        this.#root = this.attachShadow({ mode: 'closed' });
         this.#root.append(template.content.cloneNode(true));
-        this.#internals = this.attachInternals();
 
-        this.#elems.buttons = this.#root.querySelector('slot').assignedElements();
+        this.#elems.buttons = this.#root.querySelector('slot').assignedElements().map(button => button.querySelector('.radio-button'));
     }
 
     static get observedAttributes() {
         return ['disabled'];
     }
 
-    connectedCallback() {
-        // this.#internals.setFormValue(this.#elems.buttons[0].value);
+    connectedCallback() {}
 
-        this.#elems.buttons.forEach(button => button.addEventListener('click', this.#setValue.bind(this)));
-        this.#elems.buttons.forEach(button => button.addEventListener('click', this.#switchButton.bind(this)));
-        this.#elems.buttons[1].click();
-
-    }
-
-    disconnectedCallback() {
-        this.#elems.buttons.forEach(buttonn => buttonn.removeEventListener('click', this.#setValue.bind(this)));
-    }
+    disconnectedCallback() {}
 
     attributeChangedCallback(name, oldValue, newValue) {
         const isDisabled = this.hasAttribute('disabled');
@@ -90,25 +64,6 @@ export class SegmentedControl extends HTMLElement {
             this.#elems.buttons.forEach(buttonn => buttonn.disabled = true);
         else
             this.#elems.buttons.forEach(buttonn => buttonn.disabled = false);
-    }
-
-    #switchButton(buttonEvent) {
-        const CLASS_NAME ='segmented-control__button--checked';
-        const previouslySelectedButton = this.#elems.buttons.find(button => button.classList.contains(CLASS_NAME));
-        const clickedButton = buttonEvent.target;
-
-        if (previouslySelectedButton !== undefined) previouslySelectedButton.classList.remove(CLASS_NAME);
-        clickedButton.classList.add(CLASS_NAME);
-    }
-
-    #setValue(buttonEvent) {
-        this.#internals.setFormValue(buttonEvent.target.value);
-
-        const toggleEvent = new CustomEvent('segmented-control-button-click', {
-            bubbles: true,
-            composed: true
-        });
-        buttonEvent.target.dispatchEvent(toggleEvent);
     }
 }
 defineCustomElement('segmented-control', SegmentedControl);
