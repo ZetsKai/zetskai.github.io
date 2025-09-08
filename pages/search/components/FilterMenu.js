@@ -105,6 +105,10 @@ const style = /*css*/`
         border: none;
     }
 
+    .section__button:has(.section__checkbox:disabled) {
+        color: gray;
+    }
+
     .section__button--safe:has(.section__checkbox:checked) {
         background-color: var(--fill-safe);
     }
@@ -170,11 +174,11 @@ template.innerHTML = /*html*/`
                         <span class="section__text">Safe</span>
                     </div>
                     <div class="section__button section__button--questionable" role="button">
-                        <input type="checkbox" class="section__checkbox" name="rating-questionable" value="rating:questionable">
+                        <input type="checkbox" class="section__checkbox" name="rating-questionable" value="rating:questionable" disabled>
                         <span class="section__text">Questionable</span>
                     </div>
                     <div class="section__button section__button--explicit" role="button">
-                        <input type="checkbox" class="section__checkbox" name="rating-explicit" value="rating:explicit">
+                        <input type="checkbox" class="section__checkbox" name="rating-explicit" value="rating:explicit" disabled>
                         <span class="section__text">Explicit</span>
                     </div>
                 </div>
@@ -182,8 +186,14 @@ template.innerHTML = /*html*/`
             <div class="section">
                 <div class="section__title">Apply</div>
                 <div class="section__buttons">
-                    <input type="checkbox" name="extra-blacklist" class="section__button" value="blacklist" text="Blacklist" disabled>
-                    <input type="checkbox" name="extra-favorites" class="section__button" value="fav" text="Favorites" disabled>
+                    <div class="section__button" role="button">
+                        <input type="checkbox" class="section__checkbox" name="extra-favorites" value="favorites" disabled>
+                        <span class="section__text">Favorites</span>
+                    </div>
+                    <div class="section__button" role="button">
+                        <input type="checkbox" class="section__checkbox" name="extra-blacklist" value="rating:explicit" disabled>
+                        <span class="section__text">Blacklist</span>
+                    </div>
                 </div>
             </div>
             <div class="confirmation">
