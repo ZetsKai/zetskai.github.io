@@ -97,7 +97,7 @@ export class SearchComponent extends HTMLElement {
     constructor() {
         super();
 
-        this.#root = this.attachShadow({ mode: 'closed', delegatesFocus: true });
+        this.#root = this.attachShadow({ mode: 'closed'});
         this.#root.append(template.content.cloneNode(true));
         this.#internals = this.attachInternals();
     }
