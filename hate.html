@@ -5,23 +5,43 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Hate</title>
     <style>
-        input {
-            appearance: none;
-            display: block;
-            background-color: lightblue;
-            border-radius: 0;
-            padding: 8px;
+        *, *::before, *::after {
             box-sizing: border-box;
         }
+        .cock {
+            display: flex;
+            background-color: blue;
+        }
 
-        input::before {
-            display: block;
-            content: attr(name);
-            box-sizing: border-box;
+        .pingo {
+            position: relative;
+            background-color: #d3d3d3;
+            height: 100%;
+            padding: 8px;
+            overflow: hidden;
+        }
+
+        .pingo__button {
+            appearance: none;
+            /* opacity: 0; */
+            left: 0;
+            top: 0;
+            position: absolute;
+            width: 100%;
+            height: 100%;
+        }
+
+        .pingo:has(.pingo__button:checked) {
+            background-color: red;
         }
     </style>
 </head>
 <body>
-    <input type="radio" name="pingo" id="">
+    <div class="cock">
+        <div class="pingo">
+            <input type="checkbox" class="pingo__button" name="" id="">
+            <span>pingo</span>
+        </div>
+    </div>
 </body>
 </html>
