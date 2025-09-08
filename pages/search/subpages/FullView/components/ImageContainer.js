@@ -18,9 +18,9 @@ const style = /*css*/`
         display: flex;
         width: 100%;
         height: 100%;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: none;
+        /* overflow-x: scroll; */
+        /* scroll-snap-type: x mandatory; */
+        /* scrollbar-width: none; */
     }
 
     .container {
@@ -31,7 +31,7 @@ const style = /*css*/`
         flex-shrink: 0;
         min-height: 0;
         max-height: 100%;
-        scroll-snap-align: start;
+        /* scroll-snap-align: start; */
         padding-inline: 0.4px;
     }
 
@@ -74,6 +74,8 @@ export class ImageContainer extends HTMLElement {
     connectedCallback() {
         // store.loadedPosts.forEach(this.#addImg);
         // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
+        this.#elems.slider = this.#root.querySelector('.slider');
+        
         this.#observer = new IntersectionObserver(entries => {
             if (entries.length > 1) { this.#observerEntries = [...entries] }
             const entry = entries[0];
@@ -90,13 +92,11 @@ export class ImageContainer extends HTMLElement {
             }
             else clearTimeout(this.#timeoutId);
 
-        },{ root: this.#root.querySelector('.slider'), threshold: 1.0 });
-
-        this.#elems.slider = this.#root.querySelector('.slider');
+        },{ root: this.#elems.slider, threshold: 1.0 });
 
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
-	    this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
+	    // this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
 	    this.addEventListener('touchend', this.#handleFingerDrop, { passive: true });
     }
 
