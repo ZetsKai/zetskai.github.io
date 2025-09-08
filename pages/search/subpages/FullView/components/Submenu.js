@@ -142,8 +142,8 @@ export class Submenu extends HTMLElement {
  		const imageUrl = URL.createObjectURL(imageBlob);
 
  		this.#elems.linkDump.href = imageUrl;
- 		this.#elems.download = this.getAttribute('id') + '.' + this.getAttribute('ext');
- 		this.#elems.click();
+ 		this.#elems.linkDump.download = this.getAttribute('id') + '.' + this.getAttribute('ext');
+ 		this.#elems.linkDump.click();
 	}
 
     #copyToClipboard() {
