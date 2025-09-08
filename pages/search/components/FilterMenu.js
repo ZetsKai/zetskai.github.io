@@ -73,7 +73,7 @@ const style = /*css*/`
     }
 
     .section__button {
-        appearance: none;
+        position: relative;
         padding: var(--spacing-md);
         border-radius: 100px;
         background-color: var(--inset-surface);
@@ -84,25 +84,34 @@ const style = /*css*/`
             content: attr(text);
         }
 
-        &:checked {
-            font-weight: bolder;
-            color: white;
-            background-color: var(--fill-accent);
-            border: none;
-        }
-
         &:disabled {
             color: gray;
         }
     }
 
-    .section__button--safe:checked {
+    .section__checkbox {
+        appearance: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
+    .section__button:has(.section__checkbox:checked) {
+        font-weight: bolder;
+        color: white;
+        background-color: var(--fill-accent);
+        border: none;
+    }
+
+    .section__button--safe:has(.section__checkbox:checked) {
         background-color: var(--fill-safe);
     }
-    .section__button--questionable:checked {
+    .section__button--questionable:has(.section__checkbox:checked) {
         background-color: var(--fill-questionable);
     }
-    .section__button--explicit:checked {
+    .section__button--explicit:has(.section__checkbox:checked) {
         background-color: var(--fill-explicit);
     }
 
@@ -126,6 +135,10 @@ const style = /*css*/`
         color: white;
         background-color: var(--fill-accent);
         border: none;
+    }
+
+    .chicken {
+        background-color: lightgray;
     }
 `;
 
@@ -152,9 +165,18 @@ template.innerHTML = /*html*/`
             <div class="section">
                 <div class="section__title">Ratings</div>
                 <div class="section__buttons">
-                    <input type="checkbox" name="rating-safe" class="section__button section__button--safe" value="rating:safe" text="Safe">
-                    <input type="checkbox" name="rating-questionable" class="section__button section__button--questionable" value="rating:questionable" text="Questionable" disabled>
-                    <input type="checkbox" name="rating-explicit" class="section__button section__button--explicit" value="rating:explicit" text="Explicit" disabled>
+                    <div class="section__button section__button--safe" role="button">
+                        <input type="checkbox" class="section__checkbox" name="rating-safe" value="rating:safe">
+                        <span class="section__text">Safe</span>
+                    </div>
+                    <div class="section__button section__button--questionable" role="button">
+                        <input type="checkbox" class="section__checkbox" name="rating-questionable" value="rating:questionable">
+                        <span class="section__text">Questionable</span>
+                    </div>
+                    <div class="section__button section__button--explicit" role="button">
+                        <input type="checkbox" class="section__checkbox" name="rating-explicit" value="rating:explicit">
+                        <span class="section__text">Explicit</span>
+                    </div>
                 </div>
             </div>
             <div class="section">
@@ -167,6 +189,9 @@ template.innerHTML = /*html*/`
             <div class="confirmation">
                 <button type="button" name="cancel" class="confirmation__button" disabled>Cancel</button>
                 <button type="button" name="apply" class="confirmation__button confirmation__button--apply">Apply</button>
+                <div class="chicken">
+                    <input type="radio" class="chicken__button" name="">
+                </div>
             </div>
         </div>
     </form>
