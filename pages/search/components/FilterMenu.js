@@ -191,7 +191,7 @@ template.innerHTML = /*html*/`
                         <span class="section__text">Favorites</span>
                     </div>
                     <div class="section__button" role="button">
-                        <input type="checkbox" class="section__checkbox" name="extra-blacklist" value="rating:explicit" disabled>
+                        <input type="checkbox" class="section__checkbox" name="extra-blacklist" value="blacklist" disabled>
                         <span class="section__text">Blacklist</span>
                     </div>
                 </div>
