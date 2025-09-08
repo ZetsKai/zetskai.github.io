@@ -196,7 +196,7 @@ export class FullView extends HTMLElement {
         if (isSafari)
             requestAnimationFrame(shittySafariForceRepaint);
 
-        const fullScreenEvent = new CustomEvent('fullScreen', {
+        const fullScreenEvent = new CustomEvent('full-view-fullScreen', {
             bubbles: true,
             composed: true
         });
