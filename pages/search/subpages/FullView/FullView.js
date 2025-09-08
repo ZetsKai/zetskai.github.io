@@ -168,6 +168,7 @@ export class FullView extends HTMLElement {
     #setUiElems(postIndex) {
         if (postIndex == null) return;
         const post = this.#postsData[postIndex];
+        console.log(post)
         
         this.#elems.header.querySelector('.header__id').innerHTML = post.id
         this.#elems.scoreFav.setAttribute('score', post.score.total);
