@@ -106,7 +106,6 @@ template.innerHTML = /*html*/`
 export class FullView extends HTMLElement {
     #root;
     #elems = {}; // header, imageContainer, scoreFav, subMenu
-    // #state = {}; // postsData, selectedPost
     #postsData = {};
 
     constructor() {
@@ -126,10 +125,10 @@ export class FullView extends HTMLElement {
 	    this.#elems.scoreFav = this.#root.querySelector('score-fav');
 	    this.#elems.submenu = this.#root.querySelector('sub-menu');
         
-        this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
-        this.addEventListener('fullscreen', () => this.toggleAttribute('fullscreen'));
-        this.addEventListener('submenuMove', this.#handleSubmemuHeight);
-        this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
+        this.addEventListener('image-container-select-post', (e) => this.#setUiElems(e.detail));
+        this.addEventListener('image-container-fullscreen', () => this.toggleAttribute('fullscreen'));
+        this.addEventListener('image-container-move-submenu', this.#handleSubmemuHeight);
+        this.addEventListener('image-container-submenu-drop', this.#handleSubmenuDrop);
 	    this.#elems.header.querySelector('.header__exit').addEventListener('click', this.#closeFullView.bind(this));
     }
 
