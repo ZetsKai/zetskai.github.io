@@ -128,16 +128,16 @@ export class FullView extends HTMLElement {
         
         this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
         this.addEventListener('fullscreen', () => this.toggleAttribute('fullscreen'));
-        // this.addEventListener('submenuMove', this.#handleSubmemuHeight);
-        // this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
+        this.addEventListener('submenuMove', this.#handleSubmemuHeight);
+        this.addEventListener('submenuDrop', this.#handleSubmenuDrop);
 	    this.#elems.header.querySelector('.header__exit').addEventListener('click', this.#closeFullView.bind(this));
     }
 
     disconnectedCallback() {
         this.addEventListener('selectPost', (e) => this.#setUiElems(e.detail));
         this.removeEventListener('fullscreen', this.#fullscreen.bind(this));
-        // this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
-        // this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
+        this.removeEventListener('submenuMove', this.#handleSubmemuHeight);
+        this.removeEventListener('submenuDrop', this.#handleSubmenuDrop);
 	    this.#elems.header.querySelector('.header__exit').removeEventListener('click', this.#closeFullView.bind(this));
     }
 
