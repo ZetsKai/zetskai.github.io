@@ -45,7 +45,7 @@ export class Gallery extends HTMLElement {
 
     async getImages(searchString = '') {
         try {
-            const postsData = await requestPosts({tags: searchString, limit: 8});
+            const postsData = await requestPosts({tags: searchString, limit: 16});
             if (postsData == undefined || postsData.length === 0) throw 'Unable to get posts data.';
         
             const postsTabsContainer = this.#root.querySelector('.posts-tabs-container');
