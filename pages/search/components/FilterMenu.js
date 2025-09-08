@@ -140,10 +140,6 @@ const style = /*css*/`
         background-color: var(--fill-accent);
         border: none;
     }
-
-    .chicken {
-        background-color: lightgray;
-    }
 `;
 
 const template = document.createElement('template');
@@ -199,9 +195,6 @@ template.innerHTML = /*html*/`
             <div class="confirmation">
                 <button type="button" name="cancel" class="confirmation__button" disabled>Cancel</button>
                 <button type="button" name="apply" class="confirmation__button confirmation__button--apply">Apply</button>
-                <div class="chicken">
-                    <input type="radio" class="chicken__button" name="">
-                </div>
             </div>
         </div>
     </form>
