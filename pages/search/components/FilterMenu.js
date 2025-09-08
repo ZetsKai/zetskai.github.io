@@ -29,6 +29,15 @@ const style = /*css*/`
         z-index: 255;
     }
 
+    .radio-button {
+        appearance: none;
+        position: absolute;
+        left: 0;
+        top: 0;
+        width: 100%;
+        height: 100%;
+    }
+
     .scrollable-container {
         display: flex;
         flex-direction: column;
@@ -89,34 +98,39 @@ const style = /*css*/`
         }
     }
 
-    .section__checkbox {
-        appearance: none;
-        position: absolute;
-        left: 0;
-        top: 0;
-        width: 100%;
-        height: 100%;
-    }
-
-    .section__button:has(.section__checkbox:checked) {
+    .section__button:has(.radio-button:checked) {
         font-weight: bolder;
         color: white;
         background-color: var(--fill-accent);
         border: none;
     }
 
-    .section__button:has(.section__checkbox:disabled) {
+    .section__button:has(.radio-button:disabled) {
         color: gray;
     }
 
-    .section__button--safe:has(.section__checkbox:checked) {
+    .section__button--safe:has(.radio-button:checked) {
         background-color: var(--fill-safe);
     }
-    .section__button--questionable:has(.section__checkbox:checked) {
+    .section__button--questionable:has(.radio-button:checked) {
         background-color: var(--fill-questionable);
     }
-    .section__button--explicit:has(.section__checkbox:checked) {
+    .section__button--explicit:has(.radio-button:checked) {
         background-color: var(--fill-explicit);
+    }
+
+    .segmented-control__button:has(.radio-button:checked) {
+        font-weight: bold;
+        color: white;
+        background-color: var(--fill-accent-brand);
+    }
+
+    .segmented-control__button:has(.radio-button:disabled) {
+        color: gray;
+    }
+
+    .segmented-control__button:has(.radio-button:checked:disabled) {
+        background-color: lightgray;
     }
 
     .confirmation {
@@ -154,27 +168,39 @@ template.innerHTML = /*html*/`
                     <option value="score">Score</option>
                 </select>
                 <segmented-control name="date">
-                    <button name="date" type="button" value="order:created">Newest</button>
-                    <button name="date" type="button" value="order:created_asc">Oldest</button>
+                    <div class="segmented-control__button" role="button">
+                        <input type="radio" class="radio-button" name="date" value="order:created" checked>
+                        <span class="section__text">Newest</span>
+                    </div>
+                    <div class="segmented-control__button" role="button">
+                        <input type="radio" class="radio-button" name="date" value="order:created_asc">
+                        <span class="section__text">Oldest</span>
+                    </div>
                 </segmented-control>
                 <segmented-control name="score" disabled>
-                    <button name="score" type="button" value="order:score">Most Popular</button>
-                    <button name="score" type="button" value="order:score_asc">Least Popular</button>
+                    <div class="segmented-control__button" role="button">
+                        <input type="radio" class="radio-button" name="score" value="order:score" checked>
+                        <span class="section__text">Most Popular</span>
+                    </div>
+                    <div class="segmented-control__button" role="button">
+                        <input type="radio" class="radio-button" name="score" value="order:score_asc">
+                        <span class="section__text">Least Popular</span>
+                    </div>
                 </segmented-control>
             </div>
             <div class="section">
                 <div class="section__title">Ratings</div>
                 <div class="section__buttons">
                     <div class="section__button section__button--safe" role="button">
-                        <input type="checkbox" class="section__checkbox" name="rating-safe" value="rating:safe">
+                        <input type="checkbox" class="radio-button" name="rating-safe" value="rating:safe">
                         <span class="section__text">Safe</span>
                     </div>
                     <div class="section__button section__button--questionable" role="button">
-                        <input type="checkbox" class="section__checkbox" name="rating-questionable" value="rating:questionable" disabled>
+                        <input type="checkbox" class="radio-button" name="rating-questionable" value="rating:questionable" disabled>
                         <span class="section__text">Questionable</span>
                     </div>
                     <div class="section__button section__button--explicit" role="button">
-                        <input type="checkbox" class="section__checkbox" name="rating-explicit" value="rating:explicit" disabled>
+                        <input type="checkbox" class="radio-button" name="rating-explicit" value="rating:explicit" disabled>
                         <span class="section__text">Explicit</span>
                     </div>
                 </div>
@@ -183,11 +209,11 @@ template.innerHTML = /*html*/`
                 <div class="section__title">Apply</div>
                 <div class="section__buttons">
                     <div class="section__button" role="button">
-                        <input type="checkbox" class="section__checkbox" name="extra-favorites" value="favorites" disabled>
+                        <input type="checkbox" class="radio-button" name="extra-favorites" value="favorites" disabled>
                         <span class="section__text">Favorites</span>
                     </div>
                     <div class="section__button" role="button">
-                        <input type="checkbox" class="section__checkbox" name="extra-blacklist" value="blacklist" disabled>
+                        <input type="checkbox" class="radio-button" name="extra-blacklist" value="blacklist" disabled>
                         <span class="section__text">Blacklist</span>
                     </div>
                 </div>
