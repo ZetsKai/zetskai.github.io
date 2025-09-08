@@ -87,7 +87,7 @@ export class Submenu extends HTMLElement {
     }
 
     static get observedAttributes() {
-        return ['src', 'id', 'ext'];
+        return ['url', 'id', 'ext'];
     }
 
     connectedCallback() {
@@ -131,18 +131,13 @@ export class Submenu extends HTMLElement {
     }
 
     async #downloadImage() {
-        // const downloadEvent = new CustomEvent('downloadEvent', {
-        //     bubbles: true,
-        //     composed: true
-        // });
-        // this.dispatchEvent(downloadEvent);
-
- 		const image = await fetch(this.getAttribute('src'));
+        console.log(this.getAttribute('url'));
+ 		const image = await fetch(this.getAttribute('url'));
  		const imageBlob = await image.blob();
  		const imageUrl = URL.createObjectURL(imageBlob);
 
  		this.#elems.linkDump.href = imageUrl;
- 		this.#elems.linkDump.download = this.getAttribute('id') + '.' + this.getAttribute('ext');
+ 		this.#elems.linkDump.download = `foxhole-e621-post_${this.getAttribute('id')}.${this.getAttribute('ext')}`;
  		this.#elems.linkDump.click();
 	}
 
