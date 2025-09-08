@@ -82,7 +82,7 @@ export class ImageContainer extends HTMLElement {
 
             if (entry.isIntersecting) {
                 this.#timeoutId = setTimeout(() => {
-                    const selectPostEvent = new CustomEvent('selectPost', {
+                    const selectPostEvent = new CustomEvent('image-container-select-post', {
                         bubbles: true,
                         composed: true,
                         detail: this.#observerEntries.findIndex(elem => elem.target == entry.target)
@@ -156,7 +156,7 @@ export class ImageContainer extends HTMLElement {
     }
 
     #handleFingerTap() {
-        const fullscreenEvent = new CustomEvent('fullscreen', {
+        const fullscreenEvent = new CustomEvent('image-container-fullscreen', {
             bubbles: true,
             composed: true
         });
@@ -174,7 +174,7 @@ export class ImageContainer extends HTMLElement {
 
 	    this.#oldFingerPosY = currentFingerPosY;
 
-        const submenuMoveEvent = new CustomEvent('submenuMove', {
+        const submenuMoveEvent = new CustomEvent('image-container-move-submenu', {
             bubbles: true,
             composed: true,
             detail: fingerPosCalculation
@@ -185,7 +185,7 @@ export class ImageContainer extends HTMLElement {
     #handleFingerDrop() {
         document.removeEventListener('selectstart', cancelSelect);
 
-        const submenuDropEvent = new CustomEvent('submenuDrop', {
+        const submenuDropEvent = new CustomEvent('image-container-submenu-drop', {
             bubbles: true,
             composed: true
         });
