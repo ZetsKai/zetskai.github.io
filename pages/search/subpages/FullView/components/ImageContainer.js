@@ -87,27 +87,10 @@ export class ImageContainer extends HTMLElement {
 
 
     connectedCallback() {
-        // store.loadedPosts.forEach(this.#addImg);
         // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
         this.#elems.slider = this.#root.querySelector('.slider');
         
-        // this.#observer = new IntersectionObserver(entries => {
-        //     if (entries.length > 1) { this.#observerEntries = [...entries] }
-        //     const entry = entries[0];
-
-        //     if (entry.isIntersecting) {
-        //         this.#timeoutId = setTimeout(() => {
-        //             const selectPostEvent = new CustomEvent('image-container-select-post', {
-        //                 bubbles: true,
-        //                 composed: true,
-        //                 detail: this.#observerEntries.findIndex(elem => elem.target == entry.target)
-        //             });
-        //             this.dispatchEvent(selectPostEvent);
-        //         }, 255);
-        //     }
-        //     else clearTimeout(this.#timeoutId);
-
-        // },{ root: this.#elems.slider, threshold: 1.0 });
+        this.#observer = new IntersectionObserver(this.#containerObserver.bind(this), { root: this.#elems.slider, threshold: 1.0 });
 
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
@@ -162,12 +145,30 @@ export class ImageContainer extends HTMLElement {
             }
 
             container.append(media);
-            // this.#observer.observe(media);
+            this.#observer.observe(media);
 
             return container;
         });
         this.#elems.slider.innerHTML = null;
         this.#elems.slider.append(...posts);
+    }
+
+    #containerObserver(entries) {
+        console.log(this)
+        if (entries.length > 1) { this.#observerEntries = [...entries] }
+            const entry = entries[0];
+
+        if (entry.isIntersecting) {
+            this.#timeoutId = setTimeout(() => {
+                const selectPostEvent = new CustomEvent('image-container-select-post', {
+                    bubbles: true,
+                    composed: true,
+                    detail: this.#observerEntries.findIndex(elem => elem.target == entry.target)
+                });
+                this.dispatchEvent(selectPostEvent);
+            }, 255);
+        }
+        else clearTimeout(this.#timeoutId);
     }
 
     #handleFingerTap() {
