@@ -7,18 +7,25 @@ const style = /*css*/`
 
      :host {
         position: relative;
+        display: flex;
+        justify-content: center;
+        align-items: stretch;
         min-height: 0;
         flex-basis: 100%;
-        flex-grow: 1;
-        padding: var(--spacing-xl);
-        overflow: hidden;
+        width: 100%;
+        /* padding: var(--spacing-xl); */
+        box-sizing: border-box;
+        /* background-color: blue; */
     }
 
     .slider {
         display: flex;
         width: 100%;
+        max-width: 100%;
         height: 100%;
+        box-sizing: border-box;
         /* overflow-x: scroll; */
+        overflow: hidden;
         /* scroll-snap-type: x mandatory; */
         /* scrollbar-width: none; */
     }
@@ -27,18 +34,24 @@ const style = /*css*/`
         display: flex;
         justify-content: center;
         align-items: center;
-        flex-basis: 100%;
         flex-shrink: 0;
+        flex-basis: 100%;
+        min-width: 100%;
+        width: 100%;
         min-height: 0;
         max-height: 100%;
         /* scroll-snap-align: start; */
         padding-inline: 0.4px;
+        /* background-color: green; */
+        /* border-inline: 1px solid orange; */
+        box-sizing: border-box;
     }
 
     .container__image {
         max-width: 100%;
         max-height: 100%;
         border-radius: 8px;
+        box-sizing: border-box;
     }
 `;
 
@@ -76,23 +89,23 @@ export class ImageContainer extends HTMLElement {
         // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
         this.#elems.slider = this.#root.querySelector('.slider');
         
-        this.#observer = new IntersectionObserver(entries => {
-            if (entries.length > 1) { this.#observerEntries = [...entries] }
-            const entry = entries[0];
+        // this.#observer = new IntersectionObserver(entries => {
+        //     if (entries.length > 1) { this.#observerEntries = [...entries] }
+        //     const entry = entries[0];
 
-            if (entry.isIntersecting) {
-                this.#timeoutId = setTimeout(() => {
-                    const selectPostEvent = new CustomEvent('image-container-select-post', {
-                        bubbles: true,
-                        composed: true,
-                        detail: this.#observerEntries.findIndex(elem => elem.target == entry.target)
-                    });
-                    this.dispatchEvent(selectPostEvent);
-                }, 255);
-            }
-            else clearTimeout(this.#timeoutId);
+        //     if (entry.isIntersecting) {
+        //         this.#timeoutId = setTimeout(() => {
+        //             const selectPostEvent = new CustomEvent('image-container-select-post', {
+        //                 bubbles: true,
+        //                 composed: true,
+        //                 detail: this.#observerEntries.findIndex(elem => elem.target == entry.target)
+        //             });
+        //             this.dispatchEvent(selectPostEvent);
+        //         }, 255);
+        //     }
+        //     else clearTimeout(this.#timeoutId);
 
-        },{ root: this.#elems.slider, threshold: 1.0 });
+        // },{ root: this.#elems.slider, threshold: 1.0 });
 
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
@@ -147,7 +160,7 @@ export class ImageContainer extends HTMLElement {
             }
 
             container.append(media);
-            this.#observer.observe(media);
+            // this.#observer.observe(media);
 
             return container;
         });
