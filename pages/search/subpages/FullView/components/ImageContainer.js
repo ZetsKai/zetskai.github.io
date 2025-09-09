@@ -13,7 +13,13 @@ const style = /*css*/`
         min-height: 0;
         flex-basis: 100%;
         width: 100%;
-        padding: var(--spacing-xl);
+		/**
+  		 * ! - For some reason this breaks the scrolling in iOS.
+  		 *	Also, when setting the padding to 0 from "FullView.js".
+	 	 *	it makes this move to the left.
+	 	**/
+   		/* TODO - Fix this so we can have padding when not in fullscren mode. */
+        /* padding: var(--spacing-xl); */
         box-sizing: border-box;
     }
 
