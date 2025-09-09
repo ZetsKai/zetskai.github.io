@@ -13,9 +13,8 @@ const style = /*css*/`
         min-height: 0;
         flex-basis: 100%;
         width: 100%;
-        /* padding: var(--spacing-xl); */
+        padding: var(--spacing-xl);
         box-sizing: border-box;
-        /* background-color: blue; */
     }
 
     .slider {
@@ -41,8 +40,6 @@ const style = /*css*/`
         max-height: 100%;
         scroll-snap-align: start;
         padding-inline: 0.4px;
-        /* background-color: green; */
-        /* border-inline: 1px solid orange; */
         box-sizing: border-box;
     }
 
