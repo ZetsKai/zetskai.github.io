@@ -24,10 +24,9 @@ const style = /*css*/`
         max-width: 100%;
         height: 100%;
         box-sizing: border-box;
-        /* overflow-x: scroll; */
-        overflow: hidden;
-        /* scroll-snap-type: x mandatory; */
-        /* scrollbar-width: none; */
+        overflow-x: scroll;
+        scroll-snap-type: x mandatory;
+        scrollbar-width: none;
     }
 
     .container {
@@ -40,7 +39,7 @@ const style = /*css*/`
         width: 100%;
         min-height: 0;
         max-height: 100%;
-        /* scroll-snap-align: start; */
+        scroll-snap-align: start;
         padding-inline: 0.4px;
         /* background-color: green; */
         /* border-inline: 1px solid orange; */
