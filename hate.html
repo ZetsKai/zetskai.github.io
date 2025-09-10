@@ -8,40 +8,46 @@
         *, *::before, *::after {
             box-sizing: border-box;
         }
-        .cock {
-            display: flex;
-            background-color: blue;
-        }
 
-        .pingo {
-            position: relative;
-            background-color: #d3d3d3;
-            height: 100%;
-            padding: 8px;
+        html, body {
             overflow: hidden;
         }
-
-        .pingo__button {
-            appearance: none;
-            /* opacity: 0; */
-            left: 0;
-            top: 0;
-            position: absolute;
-            width: 100%;
-            height: 100%;
-        }
-
-        .pingo:has(.pingo__button:checked) {
-            background-color: red;
+        
+        .square {
+            background-color: blue;
+            border: qpx solid orange;
+            height: 100px;
         }
     </style>
 </head>
 <body>
-    <div class="cock">
-        <div class="pingo">
-            <input type="checkbox" class="pingo__button" name="" id="">
-            <span>pingo</span>
-        </div>
-    </div>
+    <div class="square"></div>
+    <h1 class="initial">Initial: <span class="initial__x"></span>x, <span class="initial__y"></span>y</h1>
+    <h1 class="move">Move: <span class="move__x"></span>x, <span class="move__y"></span>y</h1>
+    <h1 class="last">Last: <span class="last__x"></span>x, <span class="last__y"></span>y</h1>
+    <script>
+        const initial = document.querySelector('.initial');
+        const move = document.querySelector('.move');
+        const last = document.querySelector('.last');
+        const square = document.querySelector('.square');
+        
+        square.addEventListener('touchstart', touchEvent => {
+            const touchData = touchEvent.touches[0];
+            initial.querySelector('.initial__x').innerHTML = touchData.screenX;
+            initial.querySelector('.initial__y').innerHTML = touchData.screenY;
+        });
+
+        square.addEventListener('touchmove', touchEvent => {
+            const touchData = touchEvent.touches[0];
+            move.querySelector('.move__x').innerHTML = touchData.screenX;
+            move.querySelector('.move__y').innerHTML = touchData.screenY;
+        })
+
+        square.addEventListener('touchend', touchEvent => {
+            const touchData = touchEvent.changedTouches[0];
+            last.querySelector('.last__x').innerHTML = touchData.screenX;
+            last.querySelector('.last__y').innerHTML = touchData.screenY;
+        })
+    </script>
 </body>
 </html>
