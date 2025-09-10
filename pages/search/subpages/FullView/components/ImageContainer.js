@@ -77,6 +77,7 @@ const cancelSelect = e => {
 export class ImageContainer extends HTMLElement {
     #root;
     #elems = {}; // slider
+
     #initialFingerPosition;
 	#storedFingerPositionY;
 
@@ -95,7 +96,6 @@ export class ImageContainer extends HTMLElement {
 
 
     connectedCallback() {
-        // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
         this.#elems.slider = this.#root.querySelector('.slider');
         
         this.#observer.intersectionObserver = new IntersectionObserver(entries => {
@@ -116,15 +116,13 @@ export class ImageContainer extends HTMLElement {
         }, { root: this.#elems.slider, threshold: 1.0 });
 
         this.addEventListener('click', this.#handleFingerTap);
-        this.addEventListener('touchstart', this.#handleFingerStart);
-	    this.addEventListener('touchmove', this.#checkForFingerDirection);
+        this.addEventListener('touchstart', this.#handleFingerStart);    
 	    this.addEventListener('touchend', this.#handleFingerDrop);
     }
 
     disconnectedCallback() {
         this.removeEventListener('click', this.#handleFingerTap);
         this.removeEventListener('touchstart', this.#handleFingerStart);
-	    this.removeEventListener('touchmove', this.#checkForFingerDirection.bind(this));
 	    this.removeEventListener('touchend', this.#handleFingerDrop);
     }
 
@@ -186,8 +184,9 @@ export class ImageContainer extends HTMLElement {
 
     #handleFingerStart(touchEvent) {
         this.#root.ownerDocument.addEventListener('selectstart', cancelSelect)
-
         this.#initialFingerPosition = touchEvent.touches[0];
+        this.#storedFingerPositionY = this.#initialFingerPosition.screenY;
+        this.addEventListener('touchmove', this.#checkForFingerDirection);
     }
 
     #checkForFingerDirection(touchEvent) {
@@ -202,19 +201,23 @@ export class ImageContainer extends HTMLElement {
         const fingerMovingUp = calculatedPos.y > 0;
 
         if (fingerMovingHorizontally);
-        else if (fingerMovingUp) {
+        else {
             this.#elems.slider.setAttribute('scroll-disabled', '');
-            this.addEventListener('touchmove', this.#moveSubmenu);
+            this.addEventListener('touchmove', this.#moveSubmenu, { passive: true })
         }
+        // else if (fingerMovingUp) {
+        //     this.#elems.slider.setAttribute('scroll-disabled', '');
+        //     this.addEventListener('touchmove', this.#moveSubmenu, { passive: true });
+        // }
 
 	    this.removeEventListener('touchmove', this.#checkForFingerDirection);
     }
 
-    #moveSubmenu(touchmoveEvent) {
-        const currentFingerPosY = touchmoveEvent.touches[0].screenY;
-	    const fingerPosCalculation = this.#initialFingerPosition.screenY - (currentFingerPosY);
+    #moveSubmenu(touchEvent) {
+        const currentFingerPosY = touchEvent.touches[0].screenY;
+	    const fingerPosCalculation = this.#storedFingerPositionY - (currentFingerPosY);
 
-	    this.#storedFingerPositionY = currentFingerPosY;
+        this.#storedFingerPositionY = currentFingerPosY;
 
         const submenuMoveEvent = new CustomEvent('image-container-move-submenu', {
             bubbles: true,
@@ -228,7 +231,6 @@ export class ImageContainer extends HTMLElement {
         this.#root.ownerDocument.removeEventListener('selectstart', cancelSelect);
         this.#elems.slider.removeAttribute('scroll-disabled');
         this.removeEventListener('touchmove', this.#moveSubmenu);
-	    this.addEventListener('touchmove', this.#checkForFingerDirection);
 
         const submenuDropEvent = new CustomEvent('image-container-submenu-drop', {
             bubbles: true,
