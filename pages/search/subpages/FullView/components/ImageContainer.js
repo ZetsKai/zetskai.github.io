@@ -32,6 +32,10 @@ const style = /*css*/`
         overflow-x: scroll;
         scroll-snap-type: x mandatory;
         scrollbar-width: none;
+
+        &[scroll-disabled] {
+            overflow-x: hidden;
+        }
     }
 
     .container {
@@ -73,10 +77,14 @@ const cancelSelect = e => {
 export class ImageContainer extends HTMLElement {
     #root;
     #elems = {}; // slider
-	#oldFingerPosY;
-    #timeoutId;
-    #observer;
-    #observerEntries;
+    #initialFingerPosition;
+	#storedFingerPositionY;
+
+    #observer = {
+        timeoutId: null,
+        intersectionObserver: null,
+        entries: null
+    }
 
     constructor() {
         super();
@@ -90,19 +98,34 @@ export class ImageContainer extends HTMLElement {
         // this.#root.querySelector('.container__image').src = store.selectedPost.file.url
         this.#elems.slider = this.#root.querySelector('.slider');
         
-        this.#observer = new IntersectionObserver(this.#containerObserver.bind(this), { root: this.#elems.slider, threshold: 1.0 });
+        this.#observer.intersectionObserver = new IntersectionObserver(entries => {
+            if (entries.length > 1) { this.#observer.entries = [...entries] }
+            const entry = entries[0];
+
+            if (entry.isIntersecting) {
+                this.#observer.timeoutId = setTimeout(() => {
+                    const selectPostEvent = new CustomEvent('image-container-select-post', {
+                        bubbles: true,
+                        composed: true,
+                        detail: this.#observer.entries.findIndex(elem => elem.target == entry.target)
+                    });
+                    this.dispatchEvent(selectPostEvent);
+                }, 255);
+            }
+            else clearTimeout(this.#observer.timeoutId);
+        }, { root: this.#elems.slider, threshold: 1.0 });
 
         this.addEventListener('click', this.#handleFingerTap);
         this.addEventListener('touchstart', this.#handleFingerStart);
-	    // this.addEventListener('touchmove', this.#handleFingerMove, { passive: true });
-	    this.addEventListener('touchend', this.#handleFingerDrop, { passive: true });
+	    this.addEventListener('touchmove', this.#checkForFingerDirection);
+	    this.addEventListener('touchend', this.#handleFingerDrop);
     }
 
     disconnectedCallback() {
         this.removeEventListener('click', this.#handleFingerTap);
         this.removeEventListener('touchstart', this.#handleFingerStart);
-	    this.removeEventListener('touchmove', this.#handleFingerMove, { passive: true });
-	    this.removeEventListener('touchend', this.#handleFingerDrop, { passive: true });
+	    this.removeEventListener('touchmove', this.#checkForFingerDirection.bind(this));
+	    this.removeEventListener('touchend', this.#handleFingerDrop);
     }
 
     scrollToX(postIndex) {
@@ -145,30 +168,12 @@ export class ImageContainer extends HTMLElement {
             }
 
             container.append(media);
-            this.#observer.observe(media);
+            this.#observer.intersectionObserver.observe(media);
 
             return container;
         });
         this.#elems.slider.innerHTML = null;
         this.#elems.slider.append(...posts);
-    }
-
-    #containerObserver(entries) {
-        console.log(this)
-        if (entries.length > 1) { this.#observerEntries = [...entries] }
-            const entry = entries[0];
-
-        if (entry.isIntersecting) {
-            this.#timeoutId = setTimeout(() => {
-                const selectPostEvent = new CustomEvent('image-container-select-post', {
-                    bubbles: true,
-                    composed: true,
-                    detail: this.#observerEntries.findIndex(elem => elem.target == entry.target)
-                });
-                this.dispatchEvent(selectPostEvent);
-            }, 255);
-        }
-        else clearTimeout(this.#timeoutId);
     }
 
     #handleFingerTap() {
@@ -179,16 +184,37 @@ export class ImageContainer extends HTMLElement {
         this.dispatchEvent(fullscreenEvent);
     }
 
-    #handleFingerStart(e) {
-        document.addEventListener('selectstart', cancelSelect)
-        this.#oldFingerPosY = e.touches[0].screenY;
+    #handleFingerStart(touchEvent) {
+        this.#root.ownerDocument.addEventListener('selectstart', cancelSelect)
+
+        this.#initialFingerPosition = touchEvent.touches[0];
     }
 
-    #handleFingerMove(e) {
-        const currentFingerPosY = e.touches[0].screenY;
-	    const fingerPosCalculation = this.#oldFingerPosY - (currentFingerPosY);
+    #checkForFingerDirection(touchEvent) {
+        const firstMovePosData = touchEvent.touches[0];
 
-	    this.#oldFingerPosY = currentFingerPosY;
+        const calculatedPos = {
+            x: Math.abs(this.#initialFingerPosition.screenX - firstMovePosData.screenX),
+            y: this.#initialFingerPosition.screenY - firstMovePosData.screenY
+        }
+
+        const fingerMovingHorizontally = calculatedPos.x > Math.abs(calculatedPos.y);
+        const fingerMovingUp = calculatedPos.y > 0;
+
+        if (fingerMovingHorizontally);
+        else if (fingerMovingUp) {
+            this.#elems.slider.setAttribute('scroll-disabled', '');
+            this.addEventListener('touchmove', this.#moveSubmenu);
+        }
+
+	    this.removeEventListener('touchmove', this.#checkForFingerDirection);
+    }
+
+    #moveSubmenu(touchmoveEvent) {
+        const currentFingerPosY = touchmoveEvent.touches[0].screenY;
+	    const fingerPosCalculation = this.#initialFingerPosition.screenY - (currentFingerPosY);
+
+	    this.#storedFingerPositionY = currentFingerPosY;
 
         const submenuMoveEvent = new CustomEvent('image-container-move-submenu', {
             bubbles: true,
@@ -199,7 +225,10 @@ export class ImageContainer extends HTMLElement {
     }
 
     #handleFingerDrop() {
-        document.removeEventListener('selectstart', cancelSelect);
+        this.#root.ownerDocument.removeEventListener('selectstart', cancelSelect);
+        this.#elems.slider.removeAttribute('scroll-disabled');
+        this.removeEventListener('touchmove', this.#moveSubmenu);
+	    this.addEventListener('touchmove', this.#checkForFingerDirection);
 
         const submenuDropEvent = new CustomEvent('image-container-submenu-drop', {
             bubbles: true,
