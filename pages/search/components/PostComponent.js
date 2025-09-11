@@ -6,27 +6,26 @@ const style = /*css*/`
     ${hostResets}
 
     :host {
-        display: block;
         position: relative;
         overflow: hidden;
+        display: flex;
+        justify-content: center;
+        align-items: center;
         width: 100%;
         aspect-ratio: 1/1;
-        background-color: green;
+        background-color: var(--inset-surface);
         border: 1px solid var(--border);
         border-radius: 8px;
     }
 
-    :host-context(.column) {
-        width: 100%;
-    }
-
     .image {
-        display: block;
         width: 100%;
         height: auto;
+        object-size: cover;
     }
 
     .stats, .heart-btn {
+        display: none !important;
         position: absolute;
     }
 
@@ -51,15 +50,7 @@ const style = /*css*/`
         font-weight: bolder;
     }
 
-    .stats[data-rating="S"]::after {
-        color: var(--fill-safe);
-    }
-    .stats[data-rating="Q"]::after {
-        color: var(--fill-questionable);
-    }
-    .stats[data-rating="E"]::after {
-        color: var(--fill-explicit);
-    }
+    
 
     .stats__icon {
         height: 12px;
@@ -104,7 +95,7 @@ template.innerHTML = /*html*/`
     <style>${style}</style>
 `;
 
-export class Post extends HTMLElement {
+export class PostComponent extends HTMLElement {
     #postData;
     #elems = {};
 
@@ -130,7 +121,7 @@ export class Post extends HTMLElement {
         this.addEventListener('click', this.#openInFullView);
         this.#elems.heartBtn.addEventListener('click', this.#handleFavorite);
         this.#elems.image.addEventListener('load', (e) => {
-            console.log(this);
+            // console.log(this);
         });
     }
 
@@ -153,5 +144,9 @@ export class Post extends HTMLElement {
         })
         this.dispatchEvent(fullViewEvent);
     }
+
+    get id() {
+        return this.#postData
+    }
 }
-defineCustomElement('post-image', Post);
+defineCustomElement('post-component', PostComponent);
