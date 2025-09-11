@@ -92,6 +92,50 @@ body {
     position: relative;
 }
 
+.warning {
+    z-index: 255;
+    position: absolute;
+    display: none;
+    flex-direction: column;
+    gap: var(--spacing-xl);
+    text-align: center;
+    width: 100vw;
+    height: 100vh;
+    padding: var(--spacing-xl);
+    padding-block: calc(var(--spacing-xl) * 8);
+    color: white;
+    background-color: black;
+}
+
+.warning--visible {
+    display: flex;
+}
+
+.warning__paragraph {
+    margin-top: auto;
+}
+
+.warning__buttons {
+    display: flex;
+    gap: var(--spacing-xl);
+    /* margin-top: auto; */
+}
+
+.warning__button {
+    flex-basis: 100%;
+    padding: var(--spacing-md);
+    border-radius: 100px;
+    background-color: var(--inset-surface);
+    border: 1px solid var(--border);
+}
+
+.warning__button--highlight {
+    font-weight: bolder;
+    color: white;
+    background-color: var(--fill-accent);
+    border: none;
+}
+
 .hidden {
     display: none !important;
 }
