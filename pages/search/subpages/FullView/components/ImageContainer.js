@@ -163,10 +163,11 @@ export class ImageContainer extends HTMLElement {
             else {
                 media = imgElem.cloneNode(true);
                 media.src = post.file.url;
+                media.setAttribute('loading', 'lazy');
             }
-
             container.append(media);
             this.#observer.intersectionObserver.observe(media);
+            media.addEventListener('load', () => console.log(container));
 
             return container;
         });
