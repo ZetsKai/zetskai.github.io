@@ -111,6 +111,11 @@ body {
     display: flex;
 }
 
+.warning__sign {
+    font-size: 64px;
+    font-weight: bolder;
+}
+
 .warning__paragraph {
     margin-top: auto;
 }
