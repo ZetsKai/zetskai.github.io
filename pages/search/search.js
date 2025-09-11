@@ -1,6 +1,6 @@
 import { PostsTabs } from "./components/posts-tabs.js";
-import { Post } from './components/post.js';
-import { Gallery } from "./components/gallery.js";
+import { PostComponent } from './components/PostComponent.js';
+import { PostGallery } from "./components/PostGallery.js";
 import { FullView } from "./subpages/FullView/FullView.js";
 import { Router } from "../../utils/router.js";
 import { SearchComponent } from "./components/SearchComponent.js";
@@ -45,6 +45,7 @@ function initiateSearch() {
 	}
 
 	const gallery = document.querySelector('post-gallery');
+	console.log(searchString);
 	gallery.getImages(searchString);
 }
 
