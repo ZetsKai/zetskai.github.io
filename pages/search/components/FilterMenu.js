@@ -216,11 +216,11 @@ template.innerHTML = /*html*/`
                         <span class="section__text">Safe</span>
                     </div>
                     <div class="ratings__button ratings__button--questionable section__button" role="button">
-                        <input type="checkbox" class="radio-button" name="rating-questionable" value="rating:questionable" disabled>
+                        <input type="checkbox" class="radio-button" name="rating-questionable" value="rating:questionable">
                         <span class="section__text">Questionable</span>
                     </div>
                     <div class="ratings__button ratings__button--explicit section__button" role="button">
-                        <input type="checkbox" class="radio-button" name="rating-explicit" value="rating:explicit" disabled>
+                        <input type="checkbox" class="radio-button" name="rating-explicit" value="rating:explicit">
                         <span class="section__text">Explicit</span>
                     </div>
                 </div>
