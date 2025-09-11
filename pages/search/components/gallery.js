@@ -1,13 +1,16 @@
 import { hostResets } from "../../../assets/style/hostResets.js";
 import { defineCustomElement } from "../../../utils/defineCustomElement.js";
 import { requestPosts } from "../../../utils/requestPosts.js";
-import "./post.js";
+import "./PostComponent.js";
 
 const style = /*css*/`
     ${hostResets}
 
     :host {
         display: none;
+        max-width: 760px;
+        width: 100%;
+        /* width: minmax(760px, 100%); */
     }
 
     :host(.search__subpage--selected) {
@@ -18,7 +21,6 @@ const style = /*css*/`
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: var(--spacing-lg);
-        max-width: 720px;
     }
 `;
 
@@ -28,7 +30,7 @@ template.innerHTML = /*html*/`
     <style>${style}</style>
 `;
 
-export class Gallery extends HTMLElement {
+export class PostGallery extends HTMLElement {
     #root;
     constructor() {
         super();
@@ -43,24 +45,26 @@ export class Gallery extends HTMLElement {
 
     disconnectedCallback() {}
 
-    async getImages(searchString = 'rating:safe') {
+    async getImages(searchString = 'rating:explicit') {
         try {
-            const postsData = await requestPosts({tags: searchString, limit: 100});
+            const postsData = await requestPosts({tags: searchString, limit: 70});
             if (postsData == undefined || postsData.length === 0) throw 'Unable to get posts data.';
         
             const postsTabsContainer = this.#root.querySelector('.posts-container');
-            const postComponentElem = this.#root.ownerDocument.createElement('post-image');
-
-            const posts = postsData.map((post, index) => {
-                if (post.file.url == null) return;
-                const postComponent = postComponentElem.cloneNode(true);
-                
-                postComponent.postData = { index, post };
-                return postComponent;
-            });
+            const postComponentElem = this.#root.ownerDocument.createElement('post-component');            
 
             postsTabsContainer.innerHTML = null;
-            postsTabsContainer.append(...posts);
+
+            let index = 0;
+            for (const post of postsData) {
+                if (post == undefined || post == null || post == '') continue;
+                if (post.file.url == null) continue;
+
+                const postComponent = postComponentElem.cloneNode(true);
+                postComponent.postData = { index, post };
+                postsTabsContainer.append(postComponent);
+                index++;
+            }
 
             const postsFetchedEvent = new CustomEvent('fetchedPosts', {
                 bubbles: true,
@@ -74,4 +78,4 @@ export class Gallery extends HTMLElement {
         }
     }
 }
-defineCustomElement('post-gallery', Gallery);
+defineCustomElement('post-gallery', PostGallery);
