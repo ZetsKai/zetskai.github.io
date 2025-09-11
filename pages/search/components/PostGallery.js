@@ -45,9 +45,9 @@ export class PostGallery extends HTMLElement {
 
     disconnectedCallback() {}
 
-    async getImages(searchString = 'rating:explicit') {
+    async getImages(searchString = 'rating:safe') {
         try {
-            const postsData = await requestPosts({tags: searchString, limit: 70});
+            const postsData = await requestPosts({tags: searchString, limit: 100});
             if (postsData == undefined || postsData.length === 0) throw 'Unable to get posts data.';
         
             const postsTabsContainer = this.#root.querySelector('.posts-container');
