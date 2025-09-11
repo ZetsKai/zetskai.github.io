@@ -106,9 +106,7 @@ template.innerHTML = /*html*/`
 
 export class Post extends HTMLElement {
     #postData;
-    #heartBtn;
-    #imageContainer;
-    #statsContainer;
+    #elems = {};
 
     constructor() {
         super()
@@ -119,22 +117,26 @@ export class Post extends HTMLElement {
     
     connectedCallback() {
         const post = this.#postData.post;
-        this.#heartBtn = this.shadowRoot.querySelector('.heart-btn');
-        this.#imageContainer = this.shadowRoot.querySelector('.image');
-        this.#statsContainer = this.shadowRoot.querySelector('.stats');
+        this.#elems.heartBtn = this.shadowRoot.querySelector('.heart-btn');
+        this.#elems.image = this.shadowRoot.querySelector('.image');
+        this.#elems.statsContainer = this.shadowRoot.querySelector('.stats');
 
-        this.#imageContainer.src = post.preview.url;
-        this.#statsContainer.setAttribute('data-rating', post.rating.toUpperCase());
-        this.#statsContainer.querySelector('.stats__likes').innerHTML = post.score.total;
-        this.#statsContainer.querySelector('.stats__comments').innerHTML = post.comment_count;
+        this.#elems.image.src = post.preview.url;
+        this.#elems.image.setAttribute('loading', 'lazy');
+        this.#elems.statsContainer.setAttribute('data-rating', post.rating.toUpperCase());
+        this.#elems.statsContainer.querySelector('.stats__likes').innerHTML = post.score.total;
+        this.#elems.statsContainer.querySelector('.stats__comments').innerHTML = post.comment_count;
 
         this.addEventListener('click', this.#openInFullView);
-        this.#heartBtn.addEventListener('click', this.#handleFavorite);
+        this.#elems.heartBtn.addEventListener('click', this.#handleFavorite);
+        this.#elems.image.addEventListener('load', (e) => {
+            console.log(this);
+        });
     }
 
     disconnectedCallback() {
         this.removeEventListener('click', this.#openInFullView);
-        this.#heartBtn.addEventListener('click', this.#handleFavorite);
+        this.#elems.heartBtn.addEventListener('click', this.#handleFavorite);
     };
 
     set postData(data) { this.#postData = data; };
