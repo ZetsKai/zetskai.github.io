@@ -38,12 +38,19 @@ const style = /*css*/`
         height: 100%;
     }
 
+    .filter-form {
+        display: flex;
+        flex-direction: column;
+        padding: var(--spacing-lg);
+        height: 100%;
+    }
+
     .scrollable-container {
         display: flex;
         flex-direction: column;
         gap: var(--spacing-lg);
-        padding: var(--spacing-lg);
-        height: 100%;
+        flex-basis: 100%;
+        flex-grow: 1;
         overflow-y: scroll;
     }
 
@@ -107,16 +114,27 @@ const style = /*css*/`
 
     .section__button:has(.radio-button:disabled) {
         color: gray;
+        border-color: var(--border);
     }
 
-    .section__button--safe:has(.radio-button:checked) {
-        background-color: var(--fill-safe);
+    .ratings__button {
+        --ratings-color: #000;
+        
+        border-color: var(--ratings-color);
     }
-    .section__button--questionable:has(.radio-button:checked) {
-        background-color: var(--fill-questionable);
+
+    .ratings__button--safe {
+        --ratings-color: var(--fill-safe);
     }
-    .section__button--explicit:has(.radio-button:checked) {
-        background-color: var(--fill-explicit);
+    .ratings__button--questionable {
+        --ratings-color: var(--fill-questionable);
+    }
+    .ratings__button--explicit {
+        --ratings-color: var(--fill-explicit);
+    }
+
+    .ratings__button:has(.radio-button:checked) {
+        background-color: var(--ratings-color);
     }
 
     .segmented-control__button:has(.radio-button:checked) {
@@ -136,7 +154,9 @@ const style = /*css*/`
     .confirmation {
         display: flex;
         justify-content: flex-end;
+        flex-shrink: 0;
         gap: var(--spacing-md);
+        padding-top: var(--spacing-lg);
         margin-top: auto;
     }
 
@@ -188,18 +208,18 @@ template.innerHTML = /*html*/`
                     </div>
                 </segmented-control>
             </div>
-            <div class="section">
+            <div class="ratings section">
                 <div class="section__title">Ratings</div>
                 <div class="section__buttons">
-                    <div class="section__button section__button--safe" role="button">
+                    <div class="ratings__button ratings__button--safe section__button" role="button">
                         <input type="checkbox" class="radio-button" name="rating-safe" value="rating:safe">
                         <span class="section__text">Safe</span>
                     </div>
-                    <div class="section__button section__button--questionable" role="button">
+                    <div class="ratings__button ratings__button--questionable section__button" role="button">
                         <input type="checkbox" class="radio-button" name="rating-questionable" value="rating:questionable" disabled>
                         <span class="section__text">Questionable</span>
                     </div>
-                    <div class="section__button section__button--explicit" role="button">
+                    <div class="ratings__button ratings__button--explicit section__button" role="button">
                         <input type="checkbox" class="radio-button" name="rating-explicit" value="rating:explicit" disabled>
                         <span class="section__text">Explicit</span>
                     </div>
@@ -218,10 +238,10 @@ template.innerHTML = /*html*/`
                     </div>
                 </div>
             </div>
-            <div class="confirmation">
-                <button type="button" name="cancel" class="confirmation__button" disabled>Cancel</button>
-                <button type="button" name="apply" class="confirmation__button confirmation__button--apply">Apply</button>
             </div>
+        <div class="confirmation">
+            <!-- <button type="button" name="cancel" class="confirmation__button" disabled>Cancel</button> -->
+            <button type="button" name="apply" class="confirmation__button confirmation__button--apply">Done</button>
         </div>
     </form>
 
@@ -256,7 +276,6 @@ export class FilterMenu extends HTMLElement {
 
         this.#root.querySelector('.confirmation__button[name="apply"]').addEventListener('click', this.#saveOptions.bind(this));
         this.#root.querySelector('.confirmation__button[name="apply"]').addEventListener('click', this.#closeFilterMenu.bind(this));
-        this.#root.querySelector('.confirmation__button[name="cancel"]').addEventListener('click', this.#closeFilterMenu.bind(this));
         this.#elems.dropdown.addEventListener('change', this.#handleDropdownChange.bind(this));
     }
 
