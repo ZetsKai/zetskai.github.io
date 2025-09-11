@@ -14,7 +14,7 @@ const style = /*css*/`
         display: block;
     }
 
-    .posts-tabs-container {
+    .posts-container {
         display: grid;
         grid-template-columns: repeat(3, 1fr);
         gap: var(--spacing-lg);
@@ -24,7 +24,7 @@ const style = /*css*/`
 
 const template = document.createElement('template');
 template.innerHTML = /*html*/`
-    <div class="posts-tabs-container"></div>
+    <div class="posts-container"></div>
     <style>${style}</style>
 `;
 
@@ -43,12 +43,12 @@ export class Gallery extends HTMLElement {
 
     disconnectedCallback() {}
 
-    async getImages(searchString = '') {
+    async getImages(searchString = 'rating:safe') {
         try {
             const postsData = await requestPosts({tags: searchString, limit: 100});
             if (postsData == undefined || postsData.length === 0) throw 'Unable to get posts data.';
         
-            const postsTabsContainer = this.#root.querySelector('.posts-tabs-container');
+            const postsTabsContainer = this.#root.querySelector('.posts-container');
             const postComponentElem = this.#root.ownerDocument.createElement('post-image');
 
             const posts = postsData.map((post, index) => {
