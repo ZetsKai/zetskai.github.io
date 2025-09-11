@@ -40,7 +40,7 @@ export async function requestPosts(options) {
     // const site = setPageApi
     // const reqUrl = `https://e926.net/posts.json?login=${username}&api_key=${apiKey}`;
 
-    const response = await fetch(`https://e926.net/posts.json?tags=${options.tags}&limit=${options.limit}`, {
+    const response = await fetch(`https://e621.net/posts.json?tags=${options.tags}&limit=${options.limit}`, {
         headers: {
             // 'Authorization': 'Basic ' + btoa(`${user.username}:${user.apiKey}`),
             'User-Agent': 'Foxhole/1.0 (ZetsKai)'
@@ -48,8 +48,6 @@ export async function requestPosts(options) {
     })
     .then(res => res.json())
     
-    console.log(response);
-
     return response.posts;
 }
 
