@@ -25,5 +25,7 @@ document.addEventListener('switch-page', Router.getRoute);
 document.addEventListener('full-view-fullScreen', () => footer.veil());
 
 const warningJumpscare = document.querySelector('.warning--visible');
-const warningButton = warningJumpscare.querySelector('.warning__button--highlight');
-warningButton.addEventListener('click', () => warningJumpscare.classList.remove('warning--visible'))
+const warningButton = warningJumpscare.querySelector('.warning__button:not(.warning__button--highlight)');
+const warningButtonHighlight = warningJumpscare.querySelector('.warning__button--highlight');
+warningButton.addEventListener('click', () => window.location.href = 'https://google.com');
+warningButtonHighlight.addEventListener('click', () => warningJumpscare.classList.remove('warning--visible'))
