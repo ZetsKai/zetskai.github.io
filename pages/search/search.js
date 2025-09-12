@@ -1,7 +1,7 @@
 import { PostsTabs } from "./components/posts-tabs.js";
 import { PostComponent } from './components/PostComponent.js';
 import { PostGallery } from "./components/PostGallery.js";
-import { FullView } from "./subpages/FullView/FullView.js";
+import { FullView } from "./components/FullView/FullView.js";
 import { Router } from "../../utils/router.js";
 import { SearchComponent } from "./components/SearchComponent.js";
 import { FilterMenu } from "./components/FilterMenu.js";
