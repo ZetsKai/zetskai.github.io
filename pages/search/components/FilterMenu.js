@@ -212,15 +212,15 @@ template.innerHTML = /*html*/`
                 <div class="section__title">Ratings</div>
                 <div class="section__buttons">
                     <div class="ratings__button ratings__button--safe section__button" role="button">
-                        <input type="checkbox" class="radio-button" name="rating-safe" value="rating:safe" checked>
+                        <input type="checkbox" class="radio-button" name="rating-safe" value="~rating:safe" checked>
                         <span class="section__text">Safe</span>
                     </div>
                     <div class="ratings__button ratings__button--questionable section__button" role="button">
-                        <input type="checkbox" class="radio-button" name="rating-questionable" value="rating:questionable">
+                        <input type="checkbox" class="radio-button" name="rating-questionable" value="~rating:questionable">
                         <span class="section__text">Questionable</span>
                     </div>
                     <div class="ratings__button ratings__button--explicit section__button" role="button">
-                        <input type="checkbox" class="radio-button" name="rating-explicit" value="rating:explicit">
+                        <input type="checkbox" class="radio-button" name="rating-explicit" value="~rating:explicit">
                         <span class="section__text">Explicit</span>
                     </div>
                 </div>
@@ -238,7 +238,11 @@ template.innerHTML = /*html*/`
                     </div>
                 </div>
             </div>
+            <div class="section">
+                <label class="section__title" for="limit-range">Quantity</label>
+                <input type="range" name="limit-range" id="limit-range" min="1" max="10" value="1">
             </div>
+        </div>
         <div class="confirmation">
             <!-- <button type="button" name="cancel" class="confirmation__button" disabled>Cancel</button> -->
             <button type="button" name="apply" class="confirmation__button confirmation__button--apply">Done</button>
