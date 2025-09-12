@@ -92,7 +92,10 @@ export class ImageContainer extends HTMLElement {
         this.#root = this.attachShadow({ mode: 'closed' });
         this.#root.append(template.content.cloneNode(true));
     }
-
+    
+    static get observedAttributes() {
+        return ['submenu-open']
+    }
 
     connectedCallback() {
         this.#elems.slider = this.#root.querySelector('.slider');
@@ -201,10 +204,11 @@ export class ImageContainer extends HTMLElement {
         
         if (!isFingerMovingHorizontally) {
             const isFingerMovingDown = calculatedPos.y < 0;
+            const isSubmenuOpen = this.hasAttribute('submenu-open');
 
             this.#elems.slider.setAttribute('scroll-disabled', '');
 
-            if (isFingerMovingDown)
+            if (isFingerMovingDown && !isSubmenuOpen)
                 this.addEventListener('touchmove', this.#moveFullviewMenu, { passive: true });
             else
                 this.addEventListener('touchmove', this.#moveSubmenu, { passive: true })
