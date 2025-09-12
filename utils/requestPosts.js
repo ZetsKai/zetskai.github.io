@@ -35,12 +35,12 @@ function setPageApi(site, postId) {
 }
 
 
-export async function requestPosts(options) {
+export async function requestPosts(searchOptions) {
     // const user = getUserInfo();
     // const site = setPageApi
     // const reqUrl = `https://e926.net/posts.json?login=${username}&api_key=${apiKey}`;
 
-    const response = await fetch(`https://e621.net/posts.json?tags=${options.tags}&limit=${options.limit}`, {
+    const response = await fetch(`https://e621.net/posts.json?tags=${searchOptions.searchString}&limit=${searchOptions.limit}`, {
         headers: {
             // 'Authorization': 'Basic ' + btoa(`${user.username}:${user.apiKey}`),
             'User-Agent': 'Foxhole/1.0 (ZetsKai)'
