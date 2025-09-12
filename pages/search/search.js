@@ -33,20 +33,29 @@ function initiateSearch() {
 	const form = document.querySelector('.search-area');
 	const formData = new FormData(form);
 
-	let searchString = '';
+	const searchOptions = { searchString: '', limit: null };
 	for (const [key, value] of formData.entries()) {
 		let string;
-		if (key === 'extra-blacklist') string = blacklist;
-		else if (key === 'extra-favorites') string = favorites;
-		else string = value
+		switch (key) {
+			case 'extra-blaclist':
+				string = blacklist;
+				break;
+			case 'extra-favorites':
+				string = favorites;
+				break;
+			case 'limit-range':
+				searchOptions.limit = value * 25;
+				continue;
+			default:
+				string = value;
+				break;
+		}
 
-		console.log(`${key}: ${value}.`);
-		searchString += sanitizeTagString(string);
+		searchOptions.searchString += sanitizeTagString(string);
 	}
 
 	const gallery = document.querySelector('post-gallery');
-	console.log(searchString);
-	gallery.getImages(searchString);
+	gallery.getImages(searchOptions);
 }
 
 document.addEventListener('search-component-search', initiateSearch);
