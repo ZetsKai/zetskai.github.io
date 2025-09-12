@@ -132,6 +132,8 @@ export class FullView extends HTMLElement {
         this.addEventListener('image-container-fullscreen', () => this.toggleAttribute('fullscreen'));
         this.addEventListener('image-container-move-full-view', this.#moveMenuDown, { passive: true });
         this.addEventListener('image-container-move-submenu', this.#handleSubmemuHeight, { passive: true });
+        this.addEventListener('submenu-open', () => this.#elems.imageContainer.setAttribute('submenu-open', ''));
+        this.addEventListener('submenu-closed', () => this.#elems.imageContainer.removeAttribute('submenu-open'));
         this.addEventListener('image-container-finger-drop', this.#handleFingerDrop);
 	    this.#elems.header.querySelector('.header__exit').addEventListener('click', this.#closeFullView.bind(this));
     }
