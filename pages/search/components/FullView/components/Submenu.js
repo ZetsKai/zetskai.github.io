@@ -129,10 +129,22 @@ export class Submenu extends HTMLElement {
             if (currentSubmenuHeight > halfHeight) {
                 newHeight = '44%';
                 this.classList.add('submenu--open')
+
+                const submenuOpenEvent = new CustomEvent('submenu-open', {
+                    bubbles: true,
+                    composed: true
+                })
+                this.dispatchEvent(submenuOpenEvent);
             }
 		    else if (currentSubmenuHeight <= halfHeight) {
                 newHeight = '0%';
                 this.classList.remove('submenu--open');
+
+                const submenuClosedEvent = new CustomEvent('submenu-closed', {
+                    bubbles: true,
+                    composed: true
+                })
+                this.dispatchEvent(submenuClosedEvent);
             }
         }
         else newHeight = `${currentSubmenuHeight + fingerPosCalculation}px`;
