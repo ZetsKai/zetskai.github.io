@@ -198,17 +198,16 @@ export class ImageContainer extends HTMLElement {
         }
 
         const isFingerMovingHorizontally = calculatedPos.x > Math.abs(calculatedPos.y);
-        const isFingerMovingDown = calculatedPos.y < 0;
+        
+        if (!isFingerMovingHorizontally) {
+            const isFingerMovingDown = calculatedPos.y < 0;
 
-        if (isFingerMovingHorizontally);
-        else if (isFingerMovingDown) {
-            this.addEventListener('touchmove', this.#moveFullviewMenu, { passive: true });
-            console.log('down');
-        }
-        else {
-            console.log('up');
             this.#elems.slider.setAttribute('scroll-disabled', '');
-            this.addEventListener('touchmove', this.#moveSubmenu, { passive: true })
+
+            if (isFingerMovingDown)
+                this.addEventListener('touchmove', this.#moveFullviewMenu, { passive: true });
+            else
+                this.addEventListener('touchmove', this.#moveSubmenu, { passive: true })
         }
 
 	    this.removeEventListener('touchmove', this.#checkForFingerDirection);
