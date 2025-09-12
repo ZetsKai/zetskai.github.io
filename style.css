@@ -40,9 +40,9 @@ body {
 }
 
 #root {
+    position: relative;
     overflow: hidden;
     flex-basis: 100%;
-    flex-grow: 1;
 }
 
 .page, main {
