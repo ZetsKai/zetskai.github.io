@@ -174,7 +174,6 @@ export class FullView extends HTMLElement {
 
         if (moveMenuDownEvent == undefined) {
             const almostOutOfViewTop = window.innerHeight * 0.32;
-            console.log(almostOutOfViewTop);
 
             if (currentMenuPosition >= almostOutOfViewTop)
                 this.#closeFullView();
@@ -189,13 +188,12 @@ export class FullView extends HTMLElement {
         if (calculatedPosition <= 0 ) return;
 
         requestAnimationFrame(() => this.style.top = `${calculatedPosition}px`);
-        // this.#closeFullView();
     }
 
     #setUiElems(postIndex) {
         if (postIndex == null) return;
         const post = this.#postsData[postIndex];
-        console.log(post)
+        console.log(postIndex)
         
         this.#elems.header.querySelector('.header__id').innerHTML = post.id
         this.#elems.scoreFav.setAttribute('score', post.score.total);
