@@ -25,7 +25,6 @@ const style = /*css*/`
     }
 
     .stats, .heart-btn {
-        display: none !important;
         position: absolute;
     }
 
