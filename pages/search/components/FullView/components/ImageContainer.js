@@ -12,14 +12,6 @@ const style = /*css*/`
         min-height: 0;
         flex-basis: 100%;
         width: 100%;
-		/**
-  		 * ! - For some reason this breaks the scrolling in iOS.
-  		 *	Also, when setting the padding to 0 from "FullView.js".
-	 	 *	it makes this move to the left.
-	 	**/
-   		/* TODO - Fix this so we can have padding when not in fullscren mode. */
-        /* padding: var(--spacing-xl); */
-        box-sizing: border-box;
     }
 
     .slider {
@@ -48,7 +40,7 @@ const style = /*css*/`
         min-height: 0;
         max-height: 100%;
         scroll-snap-align: start;
-        padding-inline: 0.4px;
+        padding: var(--spacing-xl);
         box-sizing: border-box;
     }
 
@@ -57,6 +49,17 @@ const style = /*css*/`
         max-height: 100%;
         border-radius: 8px;
         box-sizing: border-box;
+    }
+
+    :host([fullscreen-mode]) {
+        .container {
+            padding: unset;
+            padding-inline: 0.4px;
+        }
+
+        .container__image {
+            border-radius: unset;
+        }
     }
 `;
 
@@ -178,6 +181,8 @@ export class ImageContainer extends HTMLElement {
     }
 
     #handleFingerTap() {
+        this.toggleAttribute('fullscreen-mode');
+
         const fullscreenEvent = new CustomEvent('image-container-fullscreen', {
             bubbles: true,
             composed: true
