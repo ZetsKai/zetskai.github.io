@@ -19,6 +19,15 @@ window.addEventListener('popstate', (e) => {
     footer.selectBtn(e.state.btn);
 });
 
+document.addEventListener('scroll', e => {
+    e.preventDefault()
+    window.scrollTo(0, 0);
+})
+document.body.addEventListener('scroll', e => {
+    e.preventDefault();
+    window.scrollTo(0, 0);
+})
+
 document.addEventListener('switch-page', Router.getRoute);
 
 // ! - Might provoke a glitchy navbar...
