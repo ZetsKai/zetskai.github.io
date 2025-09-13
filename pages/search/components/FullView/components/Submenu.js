@@ -163,15 +163,16 @@ export class Submenu extends HTMLElement {
         // const imageUrl = URL.createObjectURL(imageBlob);
         const imageUrl = this.getAttribute('url');
 
-        const isSafari = /iPhone/i.test(navigator.userAgent);
+        // const isSafari = /iPhone/i.test(navigator.userAgent);
         // if (isSafari)
-            navigator.share({ url: imageUrl });
-        return;
+            // navigator.share({ url: imageUrl });
+        // return;
 
         this.#elems.linkDump.href = imageUrl;
+        this.#elems.linkDump.target = '_blank';
+        this.#elems.linkDump.click();
         // this.#elems.linkDump.download = `foxhole-e621-post_${this.getAttribute('id')}.${this.getAttribute('ext')}`;
-        this.#elems.linkDump.download = 'DO-NOT-URL.jpg';
- 		this.#elems.linkDump.click();
+        // this.#elems.linkDump.download = 'DO-NOT-URL.jpg';
 	}
 
     #copyToClipboard() {
