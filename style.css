@@ -25,8 +25,8 @@ img, video, svg {
 
 html, body {
     height: 100%;
-    padding: 0;
     overflow: hidden;
+    touch-action: none;
 }
 
 html {
