@@ -22,9 +22,10 @@ const style = /*css*/`
         max-width: 100%;
         height: 100%;
         box-sizing: border-box;
-        overflow-x: scroll;
-        scroll-snap-type: x mandatory;
-        scrollbar-width: none;
+		overflow: hidden;
+        /* overflow-x: scroll; */
+        /* scroll-snap-type: x mandatory; */
+        /* scrollbar-width: none; */
 
         &[scroll-disabled] {
             overflow-x: hidden;
