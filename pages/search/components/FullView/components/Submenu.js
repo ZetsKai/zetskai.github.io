@@ -164,9 +164,8 @@ export class Submenu extends HTMLElement {
         const imageUrl = this.getAttribute('url');
 
         const isSafari = /iPhone/i.test(navigator.userAgent);
-        if (isSafari) {
+        // if (isSafari)
             navigator.share({ url: imageUrl });
-        }
         return;
 
         this.#elems.linkDump.href = imageUrl;
