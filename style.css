@@ -36,8 +36,12 @@ html {
 }
 
 body {
+    position: fixed;
+    top: 0;
+    left: 0;
     display: flex;
     flex-direction: column;
+    width: 100dvw;
 }
 
 #root {
@@ -87,10 +91,6 @@ body {
     border: 1px solid black;
     aspect-ratio: 1/1;
     background: gray url("https://static1.e621.net/data/7b/b1/7bb152e233fe534a6a15b47e49507d32.jpg") center/contain no-repeat;
-}
-
-body {
-    position: relative;
 }
 
 .warning {
