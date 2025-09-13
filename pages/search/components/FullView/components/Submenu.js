@@ -169,7 +169,7 @@ export class Submenu extends HTMLElement {
         // return;
 
         this.#elems.linkDump.href = imageUrl;
-        this.#elems.linkDump.target = '_blank';
+        this.#elems.linkDump.target = '_self';
         this.#elems.linkDump.click();
         // this.#elems.linkDump.download = `foxhole-e621-post_${this.getAttribute('id')}.${this.getAttribute('ext')}`;
         // this.#elems.linkDump.download = 'DO-NOT-URL.jpg';
