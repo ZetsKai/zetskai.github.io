@@ -24,7 +24,7 @@ img, video, svg {
 }
 
 html, body {
-    height: 100svh;
+    height: 100lvh;
     overflow: hidden;
     touch-action: none;
     /* -webkit-overflow-scrolling: touch; */
@@ -109,7 +109,7 @@ body {
 }
 
 .warning--visible {
-    display: none;
+    display: flex;
 }
 
 .warning__sign {
