@@ -24,7 +24,8 @@ img, video, svg {
 }
 
 html, body {
-    height: 100dvh;
+    /* height: 100dvh; */
+    height: 100%;
     overflow: hidden;
     overscroll-behavior: none;
     /* -webkit-overflow-scrolling: touch; */
