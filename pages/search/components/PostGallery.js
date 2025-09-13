@@ -45,7 +45,7 @@ export class PostGallery extends HTMLElement {
 
     disconnectedCallback() {}
 
-    async getImages(searchOptions = { searchString:'rating:safe', limit: 3 }) {
+    async getImages(searchOptions = { searchString:'rating:safe', limit: 1 }) {
         try {
             const postsData = await requestPosts(searchOptions);
             if (postsData == undefined || postsData.length === 0) throw 'Unable to get posts data.';
