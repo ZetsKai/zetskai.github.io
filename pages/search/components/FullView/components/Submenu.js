@@ -163,6 +163,12 @@ export class Submenu extends HTMLElement {
         // const imageUrl = URL.createObjectURL(imageBlob);
         const imageUrl = this.getAttribute('url');
 
+        const isSafari = /iPhone/i.test(navigator.userAgent);
+        if (isSafari) {
+            navigator.share({ url: imageUrl });
+        }
+        return;
+
         this.#elems.linkDump.href = imageUrl;
         // this.#elems.linkDump.download = `foxhole-e621-post_${this.getAttribute('id')}.${this.getAttribute('ext')}`;
         this.#elems.linkDump.download = 'DO-NOT-URL.jpg';
