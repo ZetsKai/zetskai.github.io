@@ -12,6 +12,8 @@ const style = /*css*/`
         min-height: 0;
         flex-basis: 100%;
         width: 100%;
+        -webkit-user-select: none;
+        user-select: none;
     }
 
     .slider {
@@ -70,11 +72,6 @@ template.innerHTML = /*html*/`
 
     <style>${style}</style>
 `;
-
-const cancelSelect = e => {
-    e.preventDefault();
-    return false;
-}
 
 export class ImageContainer extends HTMLElement {
     #root;
@@ -191,7 +188,6 @@ export class ImageContainer extends HTMLElement {
     }
 
     #handleFingerStart(touchEvent) {
-        this.#root.ownerDocument.addEventListener('selectstart', cancelSelect)
         this.#initialFingerPosition = touchEvent.touches[0];
         this.#storedFingerPositionY = this.#initialFingerPosition.screenY;
         this.addEventListener('touchmove', this.#checkForFingerDirection);
@@ -251,7 +247,6 @@ export class ImageContainer extends HTMLElement {
     }
 
     #handleFingerDrop() {
-        this.#root.ownerDocument.removeEventListener('selectstart', cancelSelect);
         this.#elems.slider.removeAttribute('scroll-disabled');
         this.removeEventListener('touchmove', this.#moveFullviewMenu, { passive: true });
         this.removeEventListener('touchmove', this.#moveSubmenu);
