@@ -109,7 +109,7 @@ body {
 }
 
 .warning--visible {
-    display: flex;
+    display: none;
 }
 
 .warning__sign {
